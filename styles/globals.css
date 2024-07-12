@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.carousel{
+
+}
+
+
+.carousel-item{
+    padding: 0 50px;
+}
