@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import {Card, CardHeader, CardBody, CardFooter, Image, Button} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, Chip, Image, Button} from "@nextui-org/react";
 import YouTubeEmbed from "@/components/youtube-embed";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -64,43 +64,51 @@ const YouTubeList = ({  }) => {
         swipeable
       >
         <Card className="pt-4 pb-0">
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <p className="text-tiny uppercase font-bold">Daily Mix</p>
-            <small className="text-default-500">12 Tracks</small>
-            <h4 className="font-bold text-large">Frontend Radio</h4>
+          <CardHeader className="py-2 px-4 justify-between">
+            <div className="flex-col items-start">
+              <h4 className="font-bold text-large">Shu Crypto</h4>
+              <small className="text-default-500">3.02 million subscribers</small>
+            </div>
+            <Chip size="lg" className="px-4 font-bold" color="success">Bullish</Chip>
           </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <YouTubeEmbed height={200} width={360} videoId="SSq0jCYGRnU" />
+          <CardBody className="overflow-visible !p-0">
+            <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
         <Card className="pt-4 pb-0">
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <p className="text-tiny uppercase font-bold">Daily Mix</p>
-            <small className="text-default-500">12 Tracks</small>
-            <h4 className="font-bold text-large">Frontend Radio</h4>
+          <CardHeader className="py-2 px-4 justify-between">
+            <div className="flex-col items-start">
+              <h4 className="font-bold text-large">Shu Crypto</h4>
+              <small className="text-default-500">3.02 million subscribers</small>
+            </div>
+            <Chip size="lg" className="px-4 font-bold" color="danger">Bearish</Chip>
           </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <YouTubeEmbed height={200} width={360} videoId="SSq0jCYGRnU" />
+          <CardBody className="overflow-visible !p-0">
+            <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
         <Card className="pt-4 pb-0">
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <p className="text-tiny uppercase font-bold">Daily Mix</p>
-            <small className="text-default-500">12 Tracks</small>
-            <h4 className="font-bold text-large">Frontend Radio</h4>
+          <CardHeader className="py-2 px-4 justify-between">
+            <div className="flex-col items-start">
+              <h4 className="font-bold text-large">Shu Crypto</h4>
+              <small className="text-default-500">3.02 million subscribers</small>
+            </div>
+            <Chip size="lg" className="px-4 font-bold" color="success">Bullish</Chip>
           </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <YouTubeEmbed height={200} width={360} videoId="SSq0jCYGRnU" />
+          <CardBody className="overflow-visible !p-0">
+            <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
         <Card className="pt-4 pb-0">
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-            <p className="text-tiny uppercase font-bold">Daily Mix</p>
-            <small className="text-default-500">12 Tracks</small>
-            <h4 className="font-bold text-large">Frontend Radio</h4>
+          <CardHeader className="py-2 px-4 justify-between">
+            <div className="flex-col items-start">
+              <h4 className="font-bold text-large">Shu Crypto</h4>
+              <small className="text-default-500">1.02 million subscribers</small>
+            </div>
+            <Chip size="lg" className="px-4 font-bold" color="danger">Bearish</Chip>
           </CardHeader>
-          <CardBody className="overflow-visible py-2">
-            <YouTubeEmbed height={200} width={360} videoId="SSq0jCYGRnU" />
+          <CardBody className="overflow-visible !p-0">
+            <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
       </Carousel>
