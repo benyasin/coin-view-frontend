@@ -13,3 +13,12 @@
     -webkit-transition: opacity .25s cubic-bezier(0,0,.2,1);
     transition: opacity .25s cubic-bezier(0,0,.2,1);
 }
+
+.accordion-item button span.text-foreground{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 305px;
+    color: darkgrey;
+}

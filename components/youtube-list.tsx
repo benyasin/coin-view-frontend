@@ -9,10 +9,13 @@ import {
   Image,
   Button,
   Avatar,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import YouTubeEmbed from "@/components/youtube-embed";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { Idea } from "@/components/icons";
 
 const YouTubeList = ({}) => {
   return (
@@ -89,14 +92,31 @@ const YouTubeList = ({}) => {
                 </h5>
               </div>
             </div>
-            <Chip size="lg" className="px-4 font-bold" color="success">
+            <Button radius="full" className="text-xl -mt-2" color="success">
               Bullish
-            </Chip>
+            </Button>
           </CardHeader>
+
+          <Accordion>
+            <AccordionItem
+              className="accordion-item"
+              key="1"
+              aria-label="Theme"
+              title="TubeBuddy 怎么用 ？| 最新 最全 TubeBuddy 教程 教学 | 功能 解析"
+            >
+              TubeBuddy 最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。
+            </AccordionItem>
+          </Accordion>
           <CardBody className="overflow-visible !p-0">
             <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
+
         <Card className="pt-4 pb-0">
           <CardHeader className="py-2 px-4 justify-between">
             <div className="flex gap-5 h-[45px]">
@@ -115,14 +135,32 @@ const YouTubeList = ({}) => {
                 </h5>
               </div>
             </div>
-            <Chip size="lg" className="px-4 font-bold" color="success">
-              Bullish
-            </Chip>
+            <Button radius="full" className="text-xl -mt-2" color="danger">
+              Bearish
+            </Button>
           </CardHeader>
+
+          <Accordion>
+            <AccordionItem
+              className="accordion-item"
+              key="1"
+              aria-label="Theme"
+              title="TubeBuddy 怎么用 ？| 最新 最全 TubeBuddy 教程 教学 | 功能 解析"
+            >
+              TubeBuddy 最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。
+            </AccordionItem>
+          </Accordion>
+
           <CardBody className="overflow-visible !p-0">
             <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
+
         <Card className="pt-4 pb-0">
           <CardHeader className="py-2 px-4 justify-between">
             <div className="flex gap-5 h-[45px]">
@@ -141,14 +179,31 @@ const YouTubeList = ({}) => {
                 </h5>
               </div>
             </div>
-            <Chip size="lg" className="px-4 font-bold" color="success">
+            <Button radius="full" className="text-xl -mt-2" color="success">
               Bullish
-            </Chip>
+            </Button>
           </CardHeader>
+
+          <Accordion>
+            <AccordionItem
+              className="accordion-item"
+              key="1"
+              aria-label="Theme"
+              title="TubeBuddy 怎么用 ？| 最新 最全 TubeBuddy 教程 教学 | 功能 解析"
+            >
+              TubeBuddy 最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。
+            </AccordionItem>
+          </Accordion>
           <CardBody className="overflow-visible !p-0">
             <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
         </Card>
+
         <Card className="pt-4 pb-0">
           <CardHeader className="py-2 px-4 justify-between">
             <div className="flex gap-5 h-[45px]">
@@ -167,10 +222,27 @@ const YouTubeList = ({}) => {
                 </h5>
               </div>
             </div>
-            <Chip size="lg" className="px-4 font-bold" color="success">
-              Bullish
-            </Chip>
+            <Button radius="full" className="text-xl -mt-2" color="danger">
+              Bearish
+            </Button>
           </CardHeader>
+
+          <Accordion>
+            <AccordionItem
+              className="accordion-item"
+              key="1"
+              aria-label="Theme"
+              title="TubeBuddy 怎么用 ？| 最新 最全 TubeBuddy 教程 教学 | 功能 解析"
+            >
+              TubeBuddy 最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。TubeBuddy
+              最新最全教程教学,这是全网最全的视频教程了。
+            </AccordionItem>
+          </Accordion>
+
           <CardBody className="overflow-visible !p-0">
             <YouTubeEmbed height={230} width={410} videoId="SSq0jCYGRnU" />
           </CardBody>
