@@ -44,7 +44,7 @@ export const TimeSelect = () => {
       <Tabs aria-label="tabs" items={tabs}>
         {(item) => (
           <Tab key={item.id} title={item.label}>
-            <Card className="bg-transparent">
+            <Card className="bg-transparent shadow-none">
               <CardBody className="text-default-500 gap-2 !px-0">
                 <div className="flex justify-between">
                   <span>看涨</span>

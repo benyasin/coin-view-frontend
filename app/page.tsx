@@ -1,6 +1,6 @@
 import { title, subtitle } from "@/components/primitives";
 import YouTubeList from "@/components/youtube-list";
-import { PieLine } from "@/components/pie-line";
+import { PieKline } from "@/components/pie-kline";
 import { TimeSelect } from "@/components/time-select";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
       </section>*/}
       <section>
         <div className="mt-8 relative">
-          <PieLine/>
+          <PieKline/>
           <div className="absolute top-20 right-16">
             <TimeSelect />
           </div>
