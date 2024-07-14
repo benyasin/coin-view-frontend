@@ -1,0 +1,15 @@
+.ytp-cued-thumbnail-overlay-image{
+    background-size: cover;
+}
+
+.ytp-large-play-button{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 68px;
+    height: 48px;
+    margin-left: -34px;
+    margin-top: -24px;
+    -webkit-transition: opacity .25s cubic-bezier(0,0,.2,1);
+    transition: opacity .25s cubic-bezier(0,0,.2,1);
+}

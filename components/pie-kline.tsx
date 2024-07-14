@@ -221,7 +221,7 @@ export const PieKline = () => {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '900px', position: 'relative' }}>
+    <div style={{ width: '100%', height: '600px', position: 'relative' }}>
       <div ref={chartRef} style={{ width: '100%', height: '600px' }}></div>
       <div ref={pieChartRef} style={{ position: 'absolute', top: '10px', left: '50px', width: '300px', height: '300px' }}></div>
     </div>

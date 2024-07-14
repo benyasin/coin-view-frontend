@@ -6,7 +6,7 @@ import { TimeSelect } from "@/components/time-select";
 export default function Home() {
   return (
     <>
-      <section className="text-2xl ml-16">Bullish & Bearish Index</section>
+      <section className="text-2xl ml-20">Bullish & Bearish Probability</section>
       {/*<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center justify-center">
           <h1 className={title()}>Predictive&nbsp;</h1>
@@ -20,17 +20,18 @@ export default function Home() {
       </section>*/}
       <section>
         <div className="mt-8 relative">
-          <PieKline/>
+          <PieKline />
           <div className="absolute top-20 right-16">
             <TimeSelect />
           </div>
         </div>
       </section>
-      {/*<section>
-        <div className="mt-8">
+      <section className="text-2xl ml-20 my-16">YouTube Analysis Results</section>
+      <section>
+        <div className="mt-8 px-16">
           <YouTubeList />
         </div>
-      </section>*/}
+      </section>
     </>
   );
 }
