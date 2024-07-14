@@ -16,6 +16,7 @@ export const PieKline = () => {
 
     const dataCount = 60;
     const data = generateData(dataCount);
+    console.log(data)
 
     const lastIndex = dataCount - 1;
     const initialPieData = [
@@ -177,8 +178,7 @@ export const PieKline = () => {
           name: 'Bitcoin Price',
           type: 'line',
           yAxisIndex: 1,
-          // @ts-ignore
-          data: data.prices.map(item => item[1]), // 取收盘价
+          data: data.prices, // 取收盘价
           itemStyle: {
             color: '#FFD700' // 深黄色
           },
