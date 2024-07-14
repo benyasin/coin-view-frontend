@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
-import * as echarts from 'echarts';
-import { generateData } from './generate-data';
+import React, { useEffect, useRef } from "react";
+import * as echarts from "echarts";
+import { generateData } from "./generate-data";
 
 export const PieKline = () => {
   const chartRef = useRef(null);
@@ -19,61 +19,88 @@ export const PieKline = () => {
 
     const lastIndex = dataCount - 1;
     const initialPieData = [
-      { value: data.bullish[lastIndex].value, name: 'Bullish', itemStyle: { color: 'rgb(25,166,4)' } },
-      { value: data.neutral[lastIndex].value, name: 'Neutral', itemStyle: { color: 'rgb(215,227,253)' } },
-      { value: data.bearish[lastIndex].value, name: 'Bearish', itemStyle: { color: 'rgb(244,39,103)' } }
+      {
+        value: data.bullish[lastIndex].value,
+        name: "Bullish",
+        itemStyle: { color: "rgb(25,166,4)" },
+      },
+      {
+        value: data.neutral[lastIndex].value,
+        name: "Neutral",
+        itemStyle: { color: "rgb(215,227,253)" },
+      },
+      {
+        value: data.bearish[lastIndex].value,
+        name: "Bearish",
+        itemStyle: { color: "rgb(244,39,103)" },
+      },
     ];
 
     const pieOption = {
       tooltip: {
-        trigger: 'item'
+        trigger: "item",
+      },
+      graphic: {
+        type: "text",
+        left: "center",
+        top: "middle",
+        style: {
+          text: `${Math.round(data.sentimentIndices[lastIndex])}`,
+          fontSize: 24,
+          fontWeight: "bold",
+          fill: "#333",
+        },
       },
       series: [
         {
-          type: 'pie',
-          radius: ['40%', '70%'],
+          type: "pie",
+          radius: ["40%", "70%"],
           avoidLabelOverlap: false,
           itemStyle: {
             borderRadius: 10,
-            borderColor: '#fff',
-            borderWidth: 2
+            borderColor: "#fff",
+            borderWidth: 2,
           },
           label: {
             show: true,
-            position: 'inside'
+            position: "inside",
           },
           emphasis: {
             label: {
               show: true,
-              fontSize: '20',
-              fontWeight: 'bold'
-            }
+              fontSize: "20",
+              fontWeight: "bold",
+            },
           },
           labelLine: {
-            show: false
+            show: false,
           },
-          data: initialPieData
-        }
-      ]
+          data: initialPieData,
+        },
+      ],
     };
 
     const lineOption = {
       tooltip: {
-        trigger: 'axis',
+        trigger: "axis",
         axisPointer: {
-          type: 'cross',
+          type: "cross",
           label: {
-            backgroundColor: '#6a7985'
-          }
+            backgroundColor: "#6a7985",
+          },
         },
-        backgroundColor: '#1F1F1F', // 暗黑模式下背景色
+        backgroundColor: "#1F1F1F", // 暗黑模式下背景色
         textStyle: {
-          color: '#FFF'
+          color: "#FFF",
         },
         formatter: (params: any[]) => {
           const date = params[0].axisValue;
-          const price = params.find(param => param.seriesName === 'Bitcoin Price')?.data ?? 0;
-          const bullishData = params.find(param => param.seriesName === 'Sentiment Index');
+          const price =
+            params.find((param) => param.seriesName === "Bitcoin Price")
+              ?.data ?? 0;
+          const bullishData = params.find(
+            (param) => param.seriesName === "Sentiment Index"
+          );
           const index = bullishData?.dataIndex;
           const bullish = index !== undefined ? data.bullish[index].value : 0;
           const neutral = index !== undefined ? data.neutral[index].value : 0;
@@ -82,134 +109,166 @@ export const PieKline = () => {
           return `
             <div>
               <p>Date: ${date}</p>
-              <p>Bitcoin Price: $${price.toFixed(2)}</p>
-              <p>Bullish: ${bullish.toFixed(2)}(${(bullish).toFixed(2)}%)</p>
-              <p>Neutral: ${neutral.toFixed(2)}(${(neutral).toFixed(2)}%)</p>
-              <p>Bearish: ${bearish.toFixed(2)}(${(bearish).toFixed(2)}%)</p>
-              <p>Sentiment Index: ${sentimentIndex.toFixed(2)}</p>
+              <p>Bitcoin Price: $${Math.round(price)}</p>
+              <p>Bullish: ${Math.round(bullish)}(${Math.round(bullish)}%)</p>
+              <p>Neutral: ${Math.round(neutral)}(${Math.round(neutral)}%)</p>
+              <p>Bearish: ${Math.round(bearish)}(${Math.round(bearish)}%)</p>
+              <p>Sentiment Index: ${Math.round(sentimentIndex)}</p>
             </div>
           `;
-        }
+        },
       },
       legend: {
-        data: ['Sentiment Index', 'Bitcoin Price'],
-        top: '40%'
+        data: ["Sentiment Index", "Bitcoin Price"],
+        top: "40%",
       },
       grid: {
-        left: '10%',
-        right: '10%',
-        top: '50%',
-        bottom: '15%'
+        left: "10%",
+        right: "10%",
+        top: "50%",
+        bottom: "15%",
       },
       xAxis: {
-        type: 'category',
+        type: "category",
         data: data.dates,
         boundaryGap: true,
         axisLine: { onZero: false },
         splitLine: { show: false },
-        min: 'dataMin',
-        max: 'dataMax'
+        min: "dataMin",
+        max: "dataMax",
       },
       yAxis: [
         {
-          name: 'Sentiment Index',
-          type: 'value',
+          name: "Sentiment Index",
+          type: "value",
           min: 0,
           max: 100,
           splitLine: {
             lineStyle: {
-              color: 'rgba(115,112,112,0.27)',
-              type: 'dashed'
-            }
-          }
+              color: "rgba(115,112,112,0.27)",
+              type: "dashed",
+            },
+          },
         },
         {
-          name: 'Bitcoin Price',
-          type: 'value',
+          name: "Bitcoin Price",
+          type: "value",
           min: 0,
           max: 100000,
-          position: 'right',
+          position: "right",
           axisLine: {
             lineStyle: {
-              color: '#737070' // 调整为与左边一样的颜色值
-            }
+              color: "#737070", // 调整为与左边一样的颜色值
+            },
           },
           splitLine: {
             lineStyle: {
-              color: 'rgba(115,112,112,0.27)',
-              type: 'dashed'
-            }
-          }
-        }
+              color: "rgba(115,112,112,0.27)",
+              type: "dashed",
+            },
+          },
+        },
       ],
       dataZoom: [
         {
-          type: 'inside',
+          type: "inside",
           xAxisIndex: [0],
           start: 10,
-          end: 100
+          end: 100,
         },
         {
           show: true,
           xAxisIndex: [0],
-          type: 'slider',
+          type: "slider",
           bottom: 0,
           height: 45,
           start: 10,
-          end: 100
-        }
+          end: 100,
+        },
       ],
       series: [
         {
-          name: 'Sentiment Index',
-          type: 'bar',
+          name: "Sentiment Index",
+          type: "bar",
           yAxisIndex: 0, // 使用左侧的y轴
           data: data.sentimentIndices,
           itemStyle: {
-            color: 'rgb(215,227,253)' // 浅蓝色
+            color: "rgb(215,227,253)", // 浅蓝色
           },
           lineStyle: {
-            color: 'rgb(215,227,253)', // 浅蓝色
-            width: 2 // 增加折线宽度
-          }
+            color: "rgb(215,227,253)", // 浅蓝色
+            width: 2, // 增加折线宽度
+          },
         },
         {
-          name: 'Bitcoin Price',
-          type: 'line',
+          name: "Bitcoin Price",
+          type: "line",
           yAxisIndex: 1,
           data: data.prices, // 取收盘价
           itemStyle: {
-            color: '#FFD700' // 深黄色
+            color: "#FFD700", // 深黄色
+            opacity: 0, // 默认不显示圆圈
           },
           lineStyle: {
-            color: '#FFD700', // 深黄色
-            width: 4 // 增加折线宽度
-          }
-        }
-      ]
+            color: "#FFD700", // 深黄色
+            width: 3, // 增加折线宽度
+          },
+          emphasis: {
+            itemStyle: {
+              opacity: 1, // 鼠标移上去时显示圆圈
+            },
+          },
+        },
+      ],
     };
 
     myChart.setOption(lineOption);
     pieChart.setOption(pieOption); // 设置环形图表的初始配置
 
     // 添加鼠标事件
-    myChart.on('mouseover', params => {
-      if (params.componentType === 'series') {
+    myChart.on("mouseover", (params) => {
+      if (params.componentType === "series") {
         const index = params.dataIndex;
         const bullish = data.bullish[index].value;
         const neutral = data.neutral[index].value;
         const bearish = data.bearish[index].value;
+        const sentimentIndex = data.sentimentIndices[index];
 
         pieChart.setOption({
+          graphic: [
+            {
+              type: "text",
+              left: "center",
+              top: "middle",
+              style: {
+                text: `${Math.round(sentimentIndex)}`,
+                fontSize: 24,
+                fontWeight: "bold",
+                fill: "#333",
+              },
+            },
+          ],
           series: [
             {
               data: [
-                { value: bullish, name: 'Bullish', itemStyle: { color: 'rgb(25,166,4)' } },
-                { value: neutral, name: 'Neutral', itemStyle: { color: 'rgb(215,227,253)' } },
-                { value: bearish, name: 'Bearish', itemStyle: { color: 'rgb(244,39,103)' } }
-              ]
-            }
-          ]
+                {
+                  value: bullish,
+                  name: "Bullish",
+                  itemStyle: { color: "rgb(25,166,4)" },
+                },
+                {
+                  value: neutral,
+                  name: "Neutral",
+                  itemStyle: { color: "rgb(215,227,253)" },
+                },
+                {
+                  value: bearish,
+                  name: "Bearish",
+                  itemStyle: { color: "rgb(244,39,103)" },
+                },
+              ],
+            },
+          ],
         });
       }
     });
@@ -221,9 +280,18 @@ export const PieKline = () => {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-      <div ref={chartRef} style={{ width: '100%', height: '600px' }}></div>
-      <div ref={pieChartRef} style={{ position: 'absolute', top: '10px', left: '50px', width: '300px', height: '300px' }}></div>
+    <div style={{ width: "100%", height: "600px", position: "relative" }}>
+      <div ref={chartRef} style={{ width: "100%", height: "600px" }}></div>
+      <div
+        ref={pieChartRef}
+        style={{
+          position: "absolute",
+          top: "10px",
+          left: "50px",
+          width: "300px",
+          height: "300px",
+        }}
+      ></div>
     </div>
   );
 };
