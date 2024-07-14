@@ -16,7 +16,6 @@ export const PieKline = () => {
 
     const dataCount = 60;
     const data = generateData(dataCount);
-    console.log(data)
 
     const lastIndex = dataCount - 1;
     const initialPieData = [
