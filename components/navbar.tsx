@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -7,116 +9,151 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  DiscordIcon,
-  SearchIcon,
-} from "@/components/icons";
+import { TwitterIcon, DiscordIcon, SearchIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { AvatarDropdown } from "@/components/avatar-dropdown";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+import { Login } from "@/components/login";
+import { useState } from "react";
+import { Register } from "@/components/register";
 
 export const Navbar = () => {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
-
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [showRegister, setShowRegister] = useState(false);
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo/>
-          </NextLink>
-        </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+    <>
+      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                {showRegister
+                  ? "Sign up with a new account"
+                  : "Sign in with your email and password"}
+              </ModalHeader>
+              <ModalBody>{showRegister ? <Register /> : <Login />}</ModalBody>
+              <ModalFooter>
+                {showRegister ? (
+                  <div className="font-light text-slate-400 mt-4 text-sm">
+                    Already have an account ?{" "}
+                    <span
+                      onClick={() => setShowRegister(false)}
+                      className="font-bold text-primary-500 cursor-pointer"
+                    >
+                      Login here
+                    </span>
+                  </div>
+                ) : (
+                  <div className="font-light text-slate-400 mt-4 text-sm">
+                    Don&apos;t have an account ?{" "}
+                    <span
+                      className="font-bold text-primary-500 cursor-pointer"
+                      onClick={() => setShowRegister(true)}
+                    >
+                      Register here
+                    </span>
+                  </div>
                 )}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
-        </ul>
-      </NavbarContent>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <NextUINavbar maxWidth="xl" position="sticky">
+        <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
+          <NavbarBrand as="li" className="gap-3 max-w-fit">
+            <NextLink
+              className="flex justify-start items-center gap-1"
+              href="/"
+            >
+              <Logo />
+            </NextLink>
+          </NavbarBrand>
+          <ul className="hidden lg:flex gap-4 justify-start ml-2">
+            {siteConfig.navItems.map((item) => (
+              <NavbarItem key={item.href}>
+                <NextLink
+                  className={clsx(
+                    linkStyles({ color: "foreground" }),
+                    "data-[active=true]:text-primary data-[active=true]:font-medium"
+                  )}
+                  color="foreground"
+                  href={item.href}
+                >
+                  {item.label}
+                </NextLink>
+              </NavbarItem>
+            ))}
+          </ul>
+        </NavbarContent>
 
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
-            <DiscordIcon className="text-default-500" />
-          </Link>
+        <NavbarContent
+          className="hidden sm:flex basis-1/5 sm:basis-full"
+          justify="end"
+        >
+          <NavbarItem className="hidden sm:flex gap-2">
+            <Link
+              isExternal
+              aria-label="Twitter"
+              href={siteConfig.links.twitter}
+            >
+              <TwitterIcon className="text-default-500" />
+            </Link>
+            <Link
+              isExternal
+              aria-label="Discord"
+              href={siteConfig.links.discord}
+            >
+              <DiscordIcon className="text-default-500" />
+            </Link>
+            <ThemeSwitch />
+          </NavbarItem>
+          <NavbarItem className="md:flex cursor-pointer" onClick={onOpen}>
+            Login
+            {/*<AvatarDropdown/>*/}
+          </NavbarItem>
+        </NavbarContent>
+
+        <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
           <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <AvatarDropdown/>
-        </NavbarItem>
-      </NavbarContent>
+          <NavbarMenuToggle />
+        </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <ThemeSwitch />
-        <NavbarMenuToggle />
-      </NavbarContent>
-
-      <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
+        <NavbarMenu>
+          <div className="mx-4 mt-2 flex flex-col gap-2">
+            {siteConfig.navMenuItems.map((item, index) => (
+              <NavbarMenuItem key={`${item}-${index}`}>
+                <Link
+                  color={
+                    index === 2
+                      ? "primary"
+                      : index === siteConfig.navMenuItems.length - 1
                       ? "danger"
                       : "foreground"
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </div>
-      </NavbarMenu>
-    </NextUINavbar>
+                  }
+                  href="#"
+                  size="lg"
+                >
+                  {item.label}
+                </Link>
+              </NavbarMenuItem>
+            ))}
+          </div>
+        </NavbarMenu>
+      </NextUINavbar>
+    </>
   );
 };

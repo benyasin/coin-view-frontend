@@ -18,6 +18,7 @@
 		"@nextui-org/listbox": "2.1.22",
 		"@nextui-org/navbar": "2.0.33",
 		"@nextui-org/react": "^2.0.24",
+		"@nextui-org/shared-icons": "^2.0.8",
 		"@nextui-org/snippet": "2.0.38",
 		"@nextui-org/switch": "2.0.31",
 		"@nextui-org/system": "2.2.2",
@@ -27,6 +28,7 @@
 		"clsx": "2.1.1",
 		"echarts": "^5.5.1",
 		"echarts-for-react": "^3.0.2",
+		"formik": "^2.4.6",
 		"framer-motion": "~11.3.0",
 		"intl-messageformat": "^10.5.14",
 		"next": "^14.2.5",
@@ -36,7 +38,8 @@
 		"react-dom": "18.3.1",
 		"react-lazyload": "^3.2.1",
 		"react-multi-carousel": "^2.8.5",
-		"react-youtube": "^10.1.0"
+		"react-youtube": "^10.1.0",
+		"yup": "^1.4.0"
 	},
 	"devDependencies": {
 		"@types/node": "20.14.10",
