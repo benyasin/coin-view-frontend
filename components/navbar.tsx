@@ -27,12 +27,21 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Login } from "@/components/login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Register } from "@/components/register";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [showRegister, setShowRegister] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("coinViewUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   return (
     <>
       <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -121,10 +130,15 @@ export const Navbar = () => {
             </Link>
             <ThemeSwitch />
           </NavbarItem>
-          <NavbarItem className="md:flex cursor-pointer" onClick={onOpen}>
-            Login
-            {/*<AvatarDropdown/>*/}
-          </NavbarItem>
+          {user ? (
+            <NavbarItem className="md:flex cursor-pointer">
+              <AvatarDropdown />
+            </NavbarItem>
+          ) : (
+            <NavbarItem className="md:flex cursor-pointer" onClick={onOpen}>
+              Login
+            </NavbarItem>
+          )}
         </NavbarContent>
 
         <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">

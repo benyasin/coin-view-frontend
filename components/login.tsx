@@ -1,6 +1,10 @@
 "use client";
 
-import { createAuthCookie } from "@/actions/auth.action";
+import {
+  createAuthCookie,
+  loginUser,
+  registerUser,
+} from "@/actions/auth.action";
 import { LoginSchema } from "@/helpers/schemas";
 import { LoginFormType } from "@/helpers/types";
 import { Button, Input } from "@nextui-org/react";
@@ -23,10 +27,24 @@ export const Login = () => {
 
   const handleLogin = useCallback(
     async (values: LoginFormType) => {
-      // `values` contains email & password. You can use provider to connect user
-
-      await createAuthCookie();
-      router.replace("/");
+      try {
+        const response = await loginUser(values);
+        if (response) {
+          const token = response.token;
+          const user = response.user;
+          await createAuthCookie(token.access_token);
+          if (user) {
+            localStorage.setItem("coinViewUser", JSON.stringify(user));
+            setTimeout(() => {
+              location.reload();
+            }, 300);
+          } else {
+            console.error("User data is missing in the response");
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
     },
     [router]
   );

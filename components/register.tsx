@@ -1,19 +1,24 @@
 "use client";
 
-import { createAuthCookie } from "@/actions/auth.action";
+import {
+  createAuthCookie,
+  loginUser,
+  registerUser,
+} from "@/actions/auth.action";
 import { RegisterSchema } from "@/helpers/schemas";
 import { RegisterFormType } from "@/helpers/types";
 import { Button, Input } from "@nextui-org/react";
 import { Formik } from "formik";
-import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 export const Register = () => {
   const router = useRouter();
+  const notify = () => toast.success("Register successfully.");
 
   const initialValues: RegisterFormType = {
-    name: "Acme",
+    username: "Acme",
     email: "admin@acme.com",
     password: "admin",
     confirmPassword: "admin",
@@ -21,10 +26,25 @@ export const Register = () => {
 
   const handleRegister = useCallback(
     async (values: RegisterFormType) => {
-      // `values` contains name, email & password. You can use provider to register user
-
-      await createAuthCookie();
-      router.replace("/");
+      try {
+        const response = await registerUser(values);
+        if (response) {
+          const token = response.token;
+          const user = response.user;
+          await createAuthCookie(token.access_token);
+          if (user) {
+            localStorage.setItem("coinViewUser", JSON.stringify(user));
+            notify();
+            setTimeout(() => {
+              location.reload();
+            }, 300);
+          } else {
+            console.error("User data is missing in the response");
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
     },
     [router]
   );
@@ -39,6 +59,15 @@ export const Register = () => {
         {({ values, errors, touched, handleChange, handleSubmit }) => (
           <>
             <div className="flex flex-col gap-4 mb-4">
+              <Input
+                variant="bordered"
+                label="Username"
+                type="text"
+                value={values.username}
+                isInvalid={!!errors.username && !!touched.username}
+                errorMessage={errors.username}
+                onChange={handleChange("username")}
+              />
               <Input
                 variant="bordered"
                 label="Email"
@@ -80,6 +109,7 @@ export const Register = () => {
           </>
         )}
       </Formik>
+      <Toaster />
     </>
   );
 };

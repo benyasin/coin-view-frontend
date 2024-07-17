@@ -1,9 +1,42 @@
 "use client";
 
-import React from "react";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, User} from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Avatar,
+  User,
+} from "@nextui-org/react";
+import { deleteAuthCookie } from "@/actions/auth.action";
 
-export const AvatarDropdown = () =>  {
+type User = {
+  username: string;
+  email: string;
+};
+export const AvatarDropdown = () => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const logout = async () => {
+    await deleteAuthCookie();
+    localStorage.removeItem("coinViewUser");
+    setTimeout(() => {
+      location.reload();
+    }, 300);
+  };
+
+  useEffect(() => {
+    const storedUser: string | null = localStorage.getItem("coinViewUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-end">
@@ -18,19 +51,15 @@ export const AvatarDropdown = () =>  {
         <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-semibold">Signed in as</p>
-            <p className="font-semibold">zoey@example.com</p>
+            <p className="font-semibold">{user.email}</p>
           </DropdownItem>
-          <DropdownItem key="settings">
-            My Settings
-          </DropdownItem>
-          <DropdownItem key="help_and_feedback">
-            Help & Feedback
-          </DropdownItem>
-          <DropdownItem key="logout" color="danger">
+          <DropdownItem key="settings">My Settings</DropdownItem>
+          <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+          <DropdownItem key="logout" color="danger" onClick={logout}>
             Log Out
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </div>
   );
-}
+};
