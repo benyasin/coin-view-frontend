@@ -120,7 +120,7 @@ export const PieKline = () => {
       },
       legend: {
         data: ["Sentiment Index", "Bitcoin Price"],
-        top: "40%",
+        top: "42%",
       },
       grid: {
         left: "10%",
