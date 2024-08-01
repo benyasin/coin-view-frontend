@@ -13,8 +13,15 @@ import {
   Link,
   Accordion,
   AccordionItem,
+  Chip,
 } from "@nextui-org/react";
 import YouTubeEmbed from "@/components/youtube-embed";
+import {
+  BullishIcon,
+  BearishIcon,
+  NeutralIcon,
+  SummaryIcon,
+} from "@/components/icons";
 import "../styles/youtube-tab.css";
 
 // 示例数据
@@ -107,7 +114,7 @@ const YouTubeTab = ({}) => {
         {tabs.map((item) => (
           <Tab key={item.id} title={item.label} value={item.id}>
             {filterVideos(selectedTab).map((video) => (
-              <div className="flex mt-2 mb-6 gap-4 justify-between w-full">
+              <div className="flex mt-2 mb-10 gap-3 justify-between w-full">
                 <Card key={video.id} className="w-1/2">
                   <CardHeader className="pt-4 px-4 justify-between items-center">
                     <div className="flex items-center gap-5 h-[45px]">
@@ -126,19 +133,20 @@ const YouTubeTab = ({}) => {
                         </h5>
                       </div>
                     </div>
-                    <Button
-                      radius="full"
+
+                    <Chip
+                      size="lg"
                       className={`text-xl -mt-2 ${
                         video.sentiment === "bullish"
                           ? "bg-green-500"
                           : video.sentiment === "bearish"
                           ? "bg-red-500"
-                          : "bg-gray-500"
+                          : "bg-primary-500"
                       }`}
                     >
                       {video.sentiment.charAt(0).toUpperCase() +
                         video.sentiment.slice(1)}
-                    </Button>
+                    </Chip>
                   </CardHeader>
                   <CardBody className="overflow-visible !p-0">
                     <YouTubeEmbed
@@ -151,7 +159,7 @@ const YouTubeTab = ({}) => {
                 <div className="w-1/2 h-[275px]">
                   <Link
                     className={subtitle({
-                      className: "text-primary line-clamp-2 pl-4",
+                      className: "text-primary line-clamp-2 pl-4 mb-0",
                     })}
                     href="#"
                   >
@@ -160,11 +168,11 @@ const YouTubeTab = ({}) => {
                   <Accordion
                     isCompact
                     itemClasses={{
-                      base: "py-0 w-full",
-                      title: "font-normal text-lg",
+                      base: "py-2 w-full",
+                      title: "font-normal text-lg pt-1",
                       trigger: "px-2 py-0 rounded-lg h-10 flex items-center",
                       indicator: "text-medium",
-                      content: "px-2 text-default-500",
+                      content: "px-2 pb-2 text-default-500",
                     }}
                     defaultExpandedKeys={["1"]}
                   >
@@ -173,6 +181,7 @@ const YouTubeTab = ({}) => {
                       key="1"
                       aria-label="Theme"
                       title="核心观点"
+                      startContent={<SummaryIcon size={18} />}
                     >
                       比特币近期受到特朗普演讲的影响，市场反应热烈。支持者相信比特币的潜力，并强调在历史上，任何草根项目的持续性都有限，暗示比特币会获得更多机构的认可和购买。许多分析师提到，通过历史数据和技术指标，如Hashley日本指标，预示比特币即将迎来上涨走势。该指标历史上曾显示高精确度的信号，即将出现的蓝色反转信号被视为重要趋势的开始。
                       分析师还指出，未来可能与美国总统选举相关的事件将推动比特币价格上行，可能出现类似于2016年和2020年的大幅上涨。同时，建议投资者关注短期买点，例如在价格回调时的关键支撑位。总体来看，分析师对当前比特币市场局势持乐观态度，认为未来的获利空间非常可观，并呼吁投资者保持关注和参与。
@@ -182,6 +191,15 @@ const YouTubeTab = ({}) => {
                       key="2"
                       aria-label="Theme"
                       title="看涨理由"
+                      startContent={
+                        video.sentiment === "bullish" ? (
+                          <BullishIcon size={18} />
+                        ) : video.sentiment === "bearish" ? (
+                          <BearishIcon size={18} />
+                        ) : (
+                          <NeutralIcon size={18} />
+                        )
+                      }
                     >
                       这段文字表达了对比特币未来价值的极大信心，作者提到由于特朗普的演讲具有历史意义，比特币的前景看好。此外，文中使用了“我相信肯定还会继续大涨”、“空间是非常的给力”等积极的措辞，显示出对比特币价格上涨的强烈期待。作者提到的各种技术指标和历史案例也支持了他们对比特币看涨的观点，因此整体
                       sentiment 明显表现出看涨的情绪。
