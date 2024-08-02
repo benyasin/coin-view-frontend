@@ -1,7 +1,7 @@
 "use client";
 
 import { subtitle } from "@/components/primitives";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Tabs,
   Tab,
@@ -9,7 +9,6 @@ import {
   Avatar,
   CardBody,
   CardHeader,
-  Button,
   Link,
   Accordion,
   AccordionItem,
@@ -23,52 +22,31 @@ import {
   SummaryIcon,
 } from "@/components/icons";
 import "../styles/youtube-tab.css";
-
-// 示例数据
-const videos = [
-  {
-    id: 1,
-    videoId: "SSq0jCYGRnU",
-    analyst: "Shu Crypto",
-    subscribers: "3.02 million",
-    title: "TubeBuddy 怎么用？| 最新 TubeBuddy 教程",
-    summary: "视频摘要...",
-    sentiment: "bullish",
-    reason: "分析理由...",
-    uploadedAt: "3 hours ago",
-    avatar: "avatar.jpg",
-  },
-  {
-    id: 2,
-    videoId: "SSq0jCYGRnU",
-    analyst: "Shu Crypto",
-    subscribers: "3.02 million",
-    title: "TubeBuddy 怎么用？| 最新 TubeBuddy 教程",
-    summary: "视频摘要...",
-    sentiment: "bearish",
-    reason: "分析理由...",
-    uploadedAt: "5 hours ago",
-    avatar: "avatar.jpg",
-  },
-  {
-    id: 3,
-    videoId: "SSq0jCYGRnU",
-    analyst: "Shu Crypto",
-    subscribers: "3.02 million",
-    title: "TubeBuddy 怎么用？| 最新 TubeBuddy 教程",
-    summary: "视频摘要...",
-    sentiment: "neutral",
-    reason: "分析理由...",
-    uploadedAt: "5 hours ago",
-    avatar: "avatar.jpg",
-  },
-  // 其他视频数据...
-];
+import { Video } from "@/types";
 
 const YouTubeTab = ({}) => {
-  const [selectedTab, setSelectedTab] = useState("all");
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [selectedTab, setSelectedTab] = useState<string>("all");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  let tabs = [
+  // 从后端 API 获取视频数据
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/video/list`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setVideos(data.data);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+    };
+    fetchVideos();
+  }, []);
+
+  const tabs = [
     {
       id: "all",
       label: "All",
@@ -114,8 +92,11 @@ const YouTubeTab = ({}) => {
         {tabs.map((item) => (
           <Tab key={item.id} title={item.label} value={item.id}>
             {filterVideos(selectedTab).map((video) => (
-              <div className="flex mt-2 mb-10 gap-3 justify-between w-full">
-                <Card key={video.id} className="w-1/2">
+              <div
+                key={video.video_id}
+                className="flex mt-2 mb-10 gap-3 justify-between w-full"
+              >
+                <Card key={video.video_id} className="w-1/2">
                   <CardHeader className="pt-4 px-4 justify-between items-center">
                     <div className="flex items-center gap-5 h-[45px]">
                       <Avatar
@@ -152,7 +133,7 @@ const YouTubeTab = ({}) => {
                     <YouTubeEmbed
                       height={275}
                       width={440}
-                      videoId="SSq0jCYGRnU"
+                      videoId={video.video_id}
                     />
                   </CardBody>
                 </Card>
@@ -183,8 +164,7 @@ const YouTubeTab = ({}) => {
                       title="核心观点"
                       startContent={<SummaryIcon size={18} />}
                     >
-                      比特币近期受到特朗普演讲的影响，市场反应热烈。支持者相信比特币的潜力，并强调在历史上，任何草根项目的持续性都有限，暗示比特币会获得更多机构的认可和购买。许多分析师提到，通过历史数据和技术指标，如Hashley日本指标，预示比特币即将迎来上涨走势。该指标历史上曾显示高精确度的信号，即将出现的蓝色反转信号被视为重要趋势的开始。
-                      分析师还指出，未来可能与美国总统选举相关的事件将推动比特币价格上行，可能出现类似于2016年和2020年的大幅上涨。同时，建议投资者关注短期买点，例如在价格回调时的关键支撑位。总体来看，分析师对当前比特币市场局势持乐观态度，认为未来的获利空间非常可观，并呼吁投资者保持关注和参与。
+                      {video.summary}
                     </AccordionItem>
                     <AccordionItem
                       className="accordion-item"
@@ -201,8 +181,7 @@ const YouTubeTab = ({}) => {
                         )
                       }
                     >
-                      这段文字表达了对比特币未来价值的极大信心，作者提到由于特朗普的演讲具有历史意义，比特币的前景看好。此外，文中使用了“我相信肯定还会继续大涨”、“空间是非常的给力”等积极的措辞，显示出对比特币价格上涨的强烈期待。作者提到的各种技术指标和历史案例也支持了他们对比特币看涨的观点，因此整体
-                      sentiment 明显表现出看涨的情绪。
+                      {video.sentiment_explanation}
                     </AccordionItem>
                   </Accordion>
                 </div>
