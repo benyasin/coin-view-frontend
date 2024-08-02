@@ -2,6 +2,7 @@ import { title, subtitle } from "@/components/primitives";
 import { PieKline } from "@/components/pie-kline";
 import { TimeSelect } from "@/components/time-select";
 import YoutubeTab from "@/components/youtube-tab";
+import { Background } from "@/components/background";
 
 export default function Home() {
   return (

@@ -48,7 +48,7 @@ export const PieKline = () => {
           text: `${Math.round(data.sentimentIndices[lastIndex])}`,
           fontSize: 24,
           fontWeight: "bold",
-          fill: "#333",
+          fill: "rgba(30,129,255,0.5)", // 浅蓝色
         },
       },
       series: [
@@ -99,7 +99,7 @@ export const PieKline = () => {
             params.find((param) => param.seriesName === "Bitcoin Price")
               ?.data ?? 0;
           const bullishData = params.find(
-            (param) => param.seriesName === "Sentiment Index"
+            (param) => param.seriesName === "Bullish Index"
           );
           const index = bullishData?.dataIndex;
           const bullish = index !== undefined ? data.bullish[index].value : 0;
@@ -193,10 +193,10 @@ export const PieKline = () => {
           yAxisIndex: 0, // 使用左侧的y轴
           data: data.sentimentIndices,
           itemStyle: {
-            color: "rgb(215,227,253)", // 浅蓝色
+            color: "rgba(30,129,255,0.3)", // 设置为 primary 蓝色
           },
           lineStyle: {
-            color: "rgb(215,227,253)", // 浅蓝色
+            color: "rgba(30,129,255,0.3)", // 设置为 primary 蓝色
             width: 2, // 增加折线宽度
           },
         },
@@ -244,7 +244,7 @@ export const PieKline = () => {
                 text: `${Math.round(sentimentIndex)}`,
                 fontSize: 24,
                 fontWeight: "bold",
-                fill: "#333",
+                fill: "#87CEEB", // 浅蓝色
               },
             },
           ],
@@ -269,6 +269,28 @@ export const PieKline = () => {
               ],
             },
           ],
+        });
+      }
+    });
+
+    myChart.on("legendselectchanged", (params) => {
+      if (!params.selected["Bullish Index"]) {
+        pieChart.setOption({
+          graphic: {
+            style: {
+              text: "",
+            },
+          },
+        });
+      } else {
+        const index = myChart.getOption().xAxis[0].data.length - 1;
+        const sentimentIndex = data.sentimentIndices[index];
+        pieChart.setOption({
+          graphic: {
+            style: {
+              text: `${Math.round(sentimentIndex)}`,
+            },
+          },
         });
       }
     });

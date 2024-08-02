@@ -121,13 +121,6 @@ export const Navbar = () => {
             >
               <TwitterIcon className="text-default-500" />
             </Link>
-            <Link
-              isExternal
-              aria-label="Discord"
-              href={siteConfig.links.discord}
-            >
-              <DiscordIcon className="text-default-500" />
-            </Link>
             <ThemeSwitch />
           </NavbarItem>
           {user ? (
