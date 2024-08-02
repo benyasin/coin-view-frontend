@@ -2,6 +2,8 @@
 
 import { subtitle } from "@/components/primitives";
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import {
   Tabs,
   Tab,
@@ -23,6 +25,8 @@ import {
 } from "@/components/icons";
 import "../styles/youtube-tab.css";
 import { Video } from "@/types";
+
+dayjs.extend(relativeTime);
 
 const YouTubeTab = ({}) => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -99,35 +103,41 @@ const YouTubeTab = ({}) => {
                 <Card key={video.video_id} className="w-1/2">
                   <CardHeader className="pt-4 px-4 justify-between items-center">
                     <div className="flex items-center gap-5 h-[45px]">
-                      <Avatar
-                        isBordered
-                        radius="full"
-                        size="md"
-                        src={video.avatar}
-                      />
+                      <Link href={video.channel_url} target="_blank">
+                        <Avatar
+                          isBordered
+                          radius="full"
+                          size="md"
+                          src={video.avatar}
+                        />
+                      </Link>
                       <div className="flex flex-col h-[35px] items-start justify-between">
                         <h4 className="font-semibold leading-none text-large">
-                          {video.analyst}
+                          {video.channel_title}
                         </h4>
                         <h5 className="text-small tracking-tight text-default-400">
                           {video.subscribers} subscribers
                         </h5>
                       </div>
                     </div>
-
-                    <Chip
-                      size="lg"
-                      className={`text-xl -mt-2 ${
-                        video.sentiment === "bullish"
-                          ? "bg-green-500"
-                          : video.sentiment === "bearish"
-                          ? "bg-red-500"
-                          : "bg-primary-500"
-                      }`}
-                    >
-                      {video.sentiment.charAt(0).toUpperCase() +
-                        video.sentiment.slice(1)}
-                    </Chip>
+                    <div className="flex flex-col items-center">
+                      <Chip
+                        size="md"
+                        className={`text-medium ${
+                          video.sentiment === "bullish"
+                            ? "bg-green-500"
+                            : video.sentiment === "bearish"
+                            ? "bg-red-500"
+                            : "bg-primary-500"
+                        }`}
+                      >
+                        {video.sentiment.charAt(0).toUpperCase() +
+                          video.sentiment.slice(1)}
+                      </Chip>
+                      <div className="text-small tracking-tight text-default-500">
+                        {dayjs(video.created_at).fromNow()}
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardBody className="overflow-visible !p-0">
                     <YouTubeEmbed
@@ -142,7 +152,8 @@ const YouTubeTab = ({}) => {
                     className={subtitle({
                       className: "text-primary line-clamp-2 pl-4 mb-0",
                     })}
-                    href="#"
+                    href={video.url}
+                    target="_blank"
                   >
                     {video.title}
                   </Link>

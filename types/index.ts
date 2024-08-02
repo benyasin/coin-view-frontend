@@ -7,12 +7,17 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 // 类型定义
 export interface Video {
   video_id: string;
-  analyst: string;
-  subscribers: string;
   title: string;
   summary: string;
   sentiment: string;
   sentiment_explanation: string;
-  uploadedAt: string;
+  url: string;
+  translated_text: string;
+  created_at: string;
+  updated_at: string;
+  channel_id: string;
   avatar: string;
+  channel_title: string;
+  subscribers: string;
+  channel_url: string;
 }
