@@ -12,6 +12,10 @@ export const siteConfig = {
       label: "Pricing",
       href: "/pricing",
     },
+    {
+      label: "Support",
+      href: "/support",
+    },
   ],
   navMenuItems: [
     {
@@ -47,9 +51,9 @@ export const siteConfig = {
       href: "/logout",
     },
   ],
-  weightBullish : 0.4,
-  weightBearish : 0.4,
-  weightNeutral : 0.2,
+  weightBullish: 0.4,
+  weightBearish: 0.4,
+  weightNeutral: 0.2,
   links: {
     github: "https://github.com/nextui-org/nextui",
     twitter: "https://twitter.com/getnextui",

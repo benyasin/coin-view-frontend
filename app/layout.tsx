@@ -61,7 +61,7 @@ export default function RootLayout({
                 title="nextui.org homepage"
               >
                 <span className="text-default-600">Powered by</span>
-                <p className="text-primary">@Code View</p>
+                <p className="text-primary">@CoinView</p>
               </Link>
             </footer>
           </div>

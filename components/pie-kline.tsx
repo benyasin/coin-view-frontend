@@ -57,9 +57,9 @@ export const PieKline = () => {
           radius: ["40%", "70%"],
           avoidLabelOverlap: false,
           itemStyle: {
-            borderRadius: 10,
-            borderColor: "#fff",
-            borderWidth: 2,
+            borderRadius: 5,
+            borderColor: "rgba(215,227,253,0.5)",
+            borderWidth: 1,
           },
           label: {
             show: true,
@@ -119,11 +119,11 @@ export const PieKline = () => {
         },
       },
       legend: {
-        data: ["Sentiment Index", "Bitcoin Price"],
+        data: ["Bullish Index", "Bitcoin Price"],
         top: "42%",
       },
       grid: {
-        left: "10%",
+        left: "8%",
         right: "10%",
         top: "50%",
         bottom: "15%",
@@ -139,7 +139,7 @@ export const PieKline = () => {
       },
       yAxis: [
         {
-          name: "Sentiment Index",
+          name: "Bullish Index",
           type: "value",
           min: 0,
           max: 100,
@@ -188,7 +188,7 @@ export const PieKline = () => {
       ],
       series: [
         {
-          name: "Sentiment Index",
+          name: "Bullish Index",
           type: "bar",
           yAxisIndex: 0, // 使用左侧的y轴
           data: data.sentimentIndices,

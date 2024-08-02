@@ -91,12 +91,12 @@ export const Navbar = () => {
               <Logo />
             </NextLink>
           </NavbarBrand>
-          <ul className="hidden lg:flex gap-4 justify-start ml-2">
+          <ul className="hidden lg:flex gap-6 justify-start ml-12">
             {siteConfig.navItems.map((item) => (
-              <NavbarItem key={item.href}>
+              <NavbarItem key={item.href} className="font-semibold">
                 <NextLink
                   className={clsx(
-                    linkStyles({ color: "foreground" }),
+                    linkStyles({ size: "lg", color: "foreground" }),
                     "data-[active=true]:text-primary data-[active=true]:font-medium"
                   )}
                   color="foreground"
@@ -135,7 +135,10 @@ export const Navbar = () => {
               <AvatarDropdown />
             </NavbarItem>
           ) : (
-            <NavbarItem className="md:flex cursor-pointer" onClick={onOpen}>
+            <NavbarItem
+              className="md:flex font-semibold text-xl cursor-pointer"
+              onClick={onOpen}
+            >
               Login
             </NavbarItem>
           )}
