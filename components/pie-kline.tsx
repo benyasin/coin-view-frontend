@@ -1,36 +1,67 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
-import { generateData } from "./generate-data";
+
+type TrendData = {
+  date: string;
+  price: number;
+  bullish: number;
+  bearish: number;
+  neutral: number;
+  sentimentIndices: number;
+};
 
 export const PieKline = () => {
   const chartRef = useRef(null);
-  const pieChartRef = useRef(null); // 新增环形图表的引用
+  const pieChartRef = useRef(null);
+  const [data, setData] = useState<TrendData[]>([]);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/index/trends`);
+        const result = await response.json();
+        const dataArray: TrendData[] = result.data.map((d: any) => ({
+          date: d.dates,
+          price: parseFloat(d.price).toFixed(0),
+          bullish: d.bullish || 0,
+          bearish: d.bearish || 0,
+          neutral: d.neutral || 0,
+          sentimentIndices: d.sentimentIndices || 0,
+        }));
+        setData(dataArray);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!data || !data.length) return;
+
     const chartDom = chartRef.current;
-    const pieChartDom = pieChartRef.current; // 获取环形图表的 DOM 元素
+    const pieChartDom = pieChartRef.current;
     const myChart = echarts.init(chartDom);
-    const pieChart = echarts.init(pieChartDom); // 初始化环形图表
+    const pieChart = echarts.init(pieChartDom);
 
-    const dataCount = 60;
-    const data = generateData(dataCount);
-
-    const lastIndex = dataCount - 1;
+    const lastIndex = data.length - 1;
     const initialPieData = [
       {
-        value: data.bullish[lastIndex].value,
+        value: data[lastIndex].bullish,
         name: "Bullish",
         itemStyle: { color: "rgb(25,166,4)" },
       },
       {
-        value: data.neutral[lastIndex].value,
+        value: data[lastIndex].neutral,
         name: "Neutral",
         itemStyle: { color: "rgb(215,227,253)" },
       },
       {
-        value: data.bearish[lastIndex].value,
+        value: data[lastIndex].bearish,
         name: "Bearish",
         itemStyle: { color: "rgb(244,39,103)" },
       },
@@ -45,10 +76,10 @@ export const PieKline = () => {
         left: "center",
         top: "middle",
         style: {
-          text: `${Math.round(data.sentimentIndices[lastIndex])}`,
+          text: `${Math.round(data[lastIndex].sentimentIndices)}`,
           fontSize: 24,
           fontWeight: "bold",
-          fill: "rgba(30,129,255,0.5)", // 浅蓝色
+          fill: "rgba(30,129,255,0.5)",
         },
       },
       series: [
@@ -89,7 +120,7 @@ export const PieKline = () => {
             backgroundColor: "#6a7985",
           },
         },
-        backgroundColor: "#1F1F1F", // 暗黑模式下背景色
+        backgroundColor: "#1F1F1F",
         textStyle: {
           color: "#FFF",
         },
@@ -102,9 +133,9 @@ export const PieKline = () => {
             (param) => param.seriesName === "Bullish Index"
           );
           const index = bullishData?.dataIndex;
-          const bullish = index !== undefined ? data.bullish[index].value : 0;
-          const neutral = index !== undefined ? data.neutral[index].value : 0;
-          const bearish = index !== undefined ? data.bearish[index].value : 0;
+          const bullish = index !== undefined ? data[index].bullish : 0;
+          const neutral = index !== undefined ? data[index].neutral : 0;
+          const bearish = index !== undefined ? data[index].bearish : 0;
           const sentimentIndex = bullishData?.data ?? 0;
           return `
             <div>
@@ -130,7 +161,7 @@ export const PieKline = () => {
       },
       xAxis: {
         type: "category",
-        data: data.dates,
+        data: data.map((item) => item.date),
         boundaryGap: true,
         axisLine: { onZero: false },
         splitLine: { show: false },
@@ -158,7 +189,7 @@ export const PieKline = () => {
           position: "right",
           axisLine: {
             lineStyle: {
-              color: "#737070", // 调整为与左边一样的颜色值
+              color: "#737070",
             },
           },
           splitLine: {
@@ -190,32 +221,32 @@ export const PieKline = () => {
         {
           name: "Bullish Index",
           type: "bar",
-          yAxisIndex: 0, // 使用左侧的y轴
-          data: data.sentimentIndices,
+          yAxisIndex: 0,
+          data: data.map((item) => item.sentimentIndices),
           itemStyle: {
-            color: "rgba(30,129,255,0.3)", // 设置为 primary 蓝色
+            color: "rgba(30,129,255,0.3)",
           },
           lineStyle: {
-            color: "rgba(30,129,255,0.3)", // 设置为 primary 蓝色
-            width: 2, // 增加折线宽度
+            color: "rgba(30,129,255,0.3)",
+            width: 2,
           },
         },
         {
           name: "Bitcoin Price",
           type: "line",
           yAxisIndex: 1,
-          data: data.prices, // 取收盘价
+          data: data.map((item) => item.price),
           itemStyle: {
-            color: "#FFD700", // 深黄色
-            opacity: 0, // 默认不显示圆圈
+            color: "#FFD700",
+            opacity: 0,
           },
           lineStyle: {
-            color: "#FFD700", // 深黄色
-            width: 3, // 增加折线宽度
+            color: "#FFD700",
+            width: 3,
           },
           emphasis: {
             itemStyle: {
-              opacity: 1, // 鼠标移上去时显示圆圈
+              opacity: 1,
             },
           },
         },
@@ -223,16 +254,15 @@ export const PieKline = () => {
     };
 
     myChart.setOption(lineOption);
-    pieChart.setOption(pieOption); // 设置环形图表的初始配置
+    pieChart.setOption(pieOption);
 
-    // 添加鼠标事件
     myChart.on("mouseover", (params) => {
       if (params.componentType === "series") {
         const index = params.dataIndex;
-        const bullish = data.bullish[index].value;
-        const neutral = data.neutral[index].value;
-        const bearish = data.bearish[index].value;
-        const sentimentIndex = data.sentimentIndices[index];
+        const bullish = data[index].bullish;
+        const neutral = data[index].neutral;
+        const bearish = data[index].bearish;
+        const sentimentIndex = data[index].sentimentIndices;
 
         pieChart.setOption({
           graphic: [
@@ -244,7 +274,7 @@ export const PieKline = () => {
                 text: `${Math.round(sentimentIndex)}`,
                 fontSize: 24,
                 fontWeight: "bold",
-                fill: "#87CEEB", // 浅蓝色
+                fill: "#87CEEB",
               },
             },
           ],
@@ -274,6 +304,7 @@ export const PieKline = () => {
     });
 
     myChart.on("legendselectchanged", (params) => {
+      // @ts-ignore
       if (!params.selected["Bullish Index"]) {
         pieChart.setOption({
           graphic: {
@@ -283,8 +314,9 @@ export const PieKline = () => {
           },
         });
       } else {
+        // @ts-ignore
         const index = myChart.getOption().xAxis[0].data.length - 1;
-        const sentimentIndex = data.sentimentIndices[index];
+        const sentimentIndex = data[index].sentimentIndices;
         pieChart.setOption({
           graphic: {
             style: {
@@ -297,9 +329,9 @@ export const PieKline = () => {
 
     return () => {
       myChart.dispose();
-      pieChart.dispose(); // 组件卸载时销毁环形图表实例
+      pieChart.dispose();
     };
-  }, []);
+  }, [data]);
 
   return (
     <div style={{ width: "100%", height: "600px", position: "relative" }}>

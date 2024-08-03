@@ -1,7 +1,10 @@
-import * as echarts from 'echarts';
+import * as echarts from "echarts";
 import { siteConfig } from "@/config/site";
 
-const totalWeight = siteConfig.weightBullish + siteConfig.weightBearish + siteConfig.weightNeutral;
+const totalWeight =
+  siteConfig.weightBullish +
+  siteConfig.weightBearish +
+  siteConfig.weightNeutral;
 
 export const generateData = (count: number) => {
   let dates = [];
@@ -17,7 +20,7 @@ export const generateData = (count: number) => {
   let priceRange = 21500; // 在50500到72000之间波动
 
   for (let i = 0; i < count; i++) {
-    let date = echarts.format.formatTime('yyyy-MM-dd', (baseDate += day));
+    let date = echarts.format.formatTime("yyyy-MM-dd", (baseDate += day));
     let price = parseFloat((basePrice + Math.random() * priceRange).toFixed(2));
 
     let bull = parseFloat((Math.random() * 100).toFixed(2));
@@ -30,11 +33,15 @@ export const generateData = (count: number) => {
     neutral.push({ value: neut, price });
 
     // 计算情绪指数
-    const sentimentIndex = (bull * siteConfig.weightBullish + bear * siteConfig.weightBearish + neut * siteConfig.weightNeutral) / totalWeight;
+    const sentimentIndex =
+      (bull * siteConfig.weightBullish +
+        bear * siteConfig.weightBearish +
+        neut * siteConfig.weightNeutral) /
+      totalWeight;
     sentimentIndices.push(sentimentIndex);
 
     prices.push(price);
   }
 
   return { dates, bullish, bearish, neutral, prices, sentimentIndices };
-}
+};
