@@ -15,7 +15,12 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { TwitterIcon, DiscordIcon, SearchIcon } from "@/components/icons";
+import {
+  TwitterIcon,
+  DiscordIcon,
+  SearchIcon,
+  LanguageIcon,
+} from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { AvatarDropdown } from "@/components/avatar-dropdown";
 import {
@@ -24,10 +29,15 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
   useDisclosure,
+  Button,
 } from "@nextui-org/react";
 import { Login } from "@/components/login";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Register } from "@/components/register";
 
 export const Navbar = () => {
@@ -41,6 +51,14 @@ export const Navbar = () => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(
+    new Set(["en"])
+  );
+  const handleSelectionChange = (keys: any) => {
+    const selectedKeys = new Set<string>(keys);
+    setSelectedKeys(selectedKeys);
+  };
 
   return (
     <>
@@ -114,6 +132,24 @@ export const Navbar = () => {
           justify="end"
         >
           <NavbarItem className="hidden sm:flex gap-2">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly variant="light" className="capitalize">
+                  <LanguageIcon />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Single selection example"
+                variant="flat"
+                disallowEmptySelection
+                selectionMode="single"
+                selectedKeys={selectedKeys}
+                onSelectionChange={handleSelectionChange}
+              >
+                <DropdownItem key="en">English</DropdownItem>
+                <DropdownItem key="zh">中文</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
             <Link
               isExternal
               aria-label="Twitter"
