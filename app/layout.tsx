@@ -2,9 +2,8 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
-
+import { LanguageProvider } from "@/components/language-provider";
 import { Providers } from "./providers";
-
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
@@ -41,31 +40,33 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers
-          themeProps={{
-            children: null,
-            attribute: "class",
-            defaultTheme: "dark",
-          }}
-        >
-          <div className="relative flex flex-col h-screen">
-            <Navbar />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-              {children}
-            </main>
-            <footer className="w-full flex items-center justify-center py-6 mt-60">
-              <Link
-                isExternal
-                className="flex items-center gap-1 text-current"
-                href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-                title="nextui.org homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-primary">@CoinView</p>
-              </Link>
-            </footer>
-          </div>
-        </Providers>
+        <LanguageProvider>
+          <Providers
+            themeProps={{
+              children: null,
+              attribute: "class",
+              defaultTheme: "dark",
+            }}
+          >
+            <div className="relative flex flex-col h-screen">
+              <Navbar />
+              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+                {children}
+              </main>
+              <footer className="w-full flex items-center justify-center py-6 mt-60">
+                <Link
+                  isExternal
+                  className="flex items-center gap-1 text-current"
+                  href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
+                  title="nextui.org homepage"
+                >
+                  <span className="text-default-600">Powered by</span>
+                  <p className="text-primary">@CoinView</p>
+                </Link>
+              </footer>
+            </div>
+          </Providers>
+        </LanguageProvider>
       </body>
     </html>
   );

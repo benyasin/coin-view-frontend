@@ -15,12 +15,7 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  DiscordIcon,
-  SearchIcon,
-  LanguageIcon,
-} from "@/components/icons";
+import { TwitterIcon, LanguageIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { AvatarDropdown } from "@/components/avatar-dropdown";
 import {
@@ -37,13 +32,18 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Login } from "@/components/login";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Register } from "@/components/register";
+import { useIntl } from "react-intl";
+import { LanguageContext } from "@/components/language-provider";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [showRegister, setShowRegister] = useState(false);
   const [user, setUser] = useState(null);
+
+  const { setLocale } = useContext(LanguageContext);
+  const intl = useIntl();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("coinViewUser");
@@ -58,6 +58,8 @@ export const Navbar = () => {
   const handleSelectionChange = (keys: any) => {
     const selectedKeys = new Set<string>(keys);
     setSelectedKeys(selectedKeys);
+    const selectedLocale = Array.from(keys)[0];
+    setLocale(selectedLocale as any);
   };
 
   return (
@@ -168,7 +170,7 @@ export const Navbar = () => {
               className="md:flex font-semibold text-xl cursor-pointer"
               onClick={onOpen}
             >
-              Login
+              {intl.formatMessage({ id: "login" })}
             </NavbarItem>
           )}
         </NavbarContent>
