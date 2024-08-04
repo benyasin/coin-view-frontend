@@ -1,38 +1,40 @@
+"use client";
+
 import { title, subtitle } from "@/components/primitives";
 import { PieKline } from "@/components/pie-kline";
 import { TimeSelect } from "@/components/time-select";
 import YoutubeTab from "@/components/youtube-tab";
+import { useIntl } from "react-intl";
 
 export default function Home() {
+  const intl = useIntl();
   return (
     <>
       <section className="flex flex-col items-center justify-center gap-4 py-12 md:py-10">
         <div className="inline-block max-w-[690px] text-center justify-center">
           <h2 style={{ lineHeight: "1.2" }} className={title()}>
-            An&nbsp;
+            {intl.formatMessage({ id: "slogan_1" })}&nbsp;
           </h2>
           <h2
             style={{ lineHeight: "1.2" }}
             className={title({ color: "violet" })}
           >
-            AI-powered&nbsp;
+            {intl.formatMessage({ id: "slogan_2" })}&nbsp;
           </h2>
           <h2 style={{ lineHeight: "1.2" }} className={title()}>
-            tool for extracting and analyzing sentiment from YouTube videos
-            to&nbsp;
+            {intl.formatMessage({ id: "slogan_3" })}&nbsp;
           </h2>
           <h2
             style={{ lineHeight: "1.2" }}
             className={title({ color: "violet" })}
           >
-            predict&nbsp;
+            {intl.formatMessage({ id: "slogan_4" })}&nbsp;
           </h2>
           <h2 style={{ lineHeight: "1.2" }} className={title()}>
-            cryptocurrency trends
+            {intl.formatMessage({ id: "slogan_5" })}
           </h2>
         </div>
       </section>
-      {/*基于AI技术对YouTube视频内容进行提炼与情绪分析，从而预测加密市场走势的工具*/}
       <section className="text-3xl font-semibold ml-16 mt-16">
         {/*Bullish & Bearish Probability*/}
       </section>

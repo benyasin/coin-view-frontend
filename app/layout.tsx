@@ -4,16 +4,15 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import { LanguageProvider } from "@/components/language-provider";
 import { Providers } from "./providers";
-import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: "CoinView",
+    template: `%s - CoinView`,
   },
-  description: siteConfig.description,
+  description: "",
   icons: {
     icon: "/favicon.ico",
   },
@@ -53,16 +52,14 @@ export default function RootLayout({
               <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
                 {children}
               </main>
-              <footer className="w-full flex items-center justify-center py-6 mt-60">
-                <Link
-                  isExternal
-                  className="flex items-center gap-1 text-current"
-                  href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-                  title="nextui.org homepage"
-                >
-                  <span className="text-default-600">Powered by</span>
-                  <p className="text-primary">@CoinView</p>
-                </Link>
+              <footer className="w-full flex items-center justify-between py-6 px-24 mt-60">
+                <div className="text-default-500">
+                  For support related to your account, contact
+                  support@coinview.com
+                </div>
+                <div className="text-default-400">
+                  © 2024 CoinView. All rights reserved
+                </div>
               </footer>
             </div>
           </Providers>

@@ -1,4 +1,19 @@
 {
   "home": "Home",
-  "login": "Login"
+  "upgrade_to_premium": "Upgrade to Premium",
+  "faq": "FAQ",
+  "support": "Support",
+  "dashboard": "Dashboard",
+  "login": "Login",
+  "register": "Register",
+  "slogan_1": "An",
+  "slogan_2": "AI-powered",
+  "slogan_3": "tool for extracting and analyzing sentiment from YouTube videos to",
+  "slogan_4": "predict",
+  "slogan_5": "cryptocurrency trends",
+  "bullish": "Bullish",
+  "bearish": "Bearish",
+  "neutral": "Neutral",
+  "bullish_index": "Bullish Index",
+  "bitcoin_price": "Bitcoin Price"
 }

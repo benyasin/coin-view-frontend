@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
+import { useIntl } from "react-intl";
 
 type TrendData = {
   date: string;
@@ -17,6 +18,7 @@ export const PieKline = () => {
   const pieChartRef = useRef(null);
   const [data, setData] = useState<TrendData[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const intl = useIntl();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,17 +54,17 @@ export const PieKline = () => {
     const initialPieData = [
       {
         value: data[lastIndex].bullish,
-        name: "Bullish",
+        name: intl.formatMessage({ id: "bullish" }),
         itemStyle: { color: "rgb(25,166,4)" },
       },
       {
         value: data[lastIndex].neutral,
-        name: "Neutral",
+        name: intl.formatMessage({ id: "neutral" }),
         itemStyle: { color: "rgb(215,227,253)" },
       },
       {
         value: data[lastIndex].bearish,
-        name: "Bearish",
+        name: intl.formatMessage({ id: "bearish" }),
         itemStyle: { color: "rgb(244,39,103)" },
       },
     ];
@@ -127,10 +129,13 @@ export const PieKline = () => {
         formatter: (params: any[]) => {
           const date = params[0].axisValue;
           const price =
-            params.find((param) => param.seriesName === "Bitcoin Price")
-              ?.data ?? 0;
+            params.find(
+              (param) =>
+                param.seriesName === intl.formatMessage({ id: "bitcoin_price" })
+            )?.data ?? 0;
           const bullishData = params.find(
-            (param) => param.seriesName === "Bullish Index"
+            (param) =>
+              param.seriesName === intl.formatMessage({ id: "bullish_index" })
           );
           const index = bullishData?.dataIndex;
           const bullish = index !== undefined ? data[index].bullish : 0;
@@ -150,7 +155,10 @@ export const PieKline = () => {
         },
       },
       legend: {
-        data: ["Bullish Index", "Bitcoin Price"],
+        data: [
+          intl.formatMessage({ id: "bullish_index" }),
+          intl.formatMessage({ id: "bitcoin_price" }),
+        ],
         top: "42%",
       },
       grid: {
@@ -170,7 +178,7 @@ export const PieKline = () => {
       },
       yAxis: [
         {
-          name: "Bullish Index",
+          name: intl.formatMessage({ id: "bullish_index" }),
           type: "value",
           min: 0,
           max: 100,
@@ -182,7 +190,7 @@ export const PieKline = () => {
           },
         },
         {
-          name: "Bitcoin Price",
+          name: intl.formatMessage({ id: "bitcoin_price" }),
           type: "value",
           min: 0,
           max: 100000,
@@ -219,7 +227,7 @@ export const PieKline = () => {
       ],
       series: [
         {
-          name: "Bullish Index",
+          name: intl.formatMessage({ id: "bullish_index" }),
           type: "bar",
           yAxisIndex: 0,
           data: data.map((item) => item.sentimentIndices),
@@ -232,7 +240,7 @@ export const PieKline = () => {
           },
         },
         {
-          name: "Bitcoin Price",
+          name: intl.formatMessage({ id: "bitcoin_price" }),
           type: "line",
           yAxisIndex: 1,
           data: data.map((item) => item.price),
@@ -305,7 +313,7 @@ export const PieKline = () => {
 
     myChart.on("legendselectchanged", (params) => {
       // @ts-ignore
-      if (!params.selected["Bullish Index"]) {
+      if (!params.selected[intl.formatMessage({ id: "bullish_index" })]) {
         pieChart.setOption({
           graphic: {
             style: {
@@ -331,7 +339,7 @@ export const PieKline = () => {
       myChart.dispose();
       pieChart.dispose();
     };
-  }, [data]);
+  }, [intl.locale, data]);
 
   return (
     <div style={{ width: "100%", height: "600px", position: "relative" }}>

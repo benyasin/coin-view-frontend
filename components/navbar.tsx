@@ -3,17 +3,14 @@
 import {
   Navbar as NextUINavbar,
   NavbarContent,
-  NavbarMenu,
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-  NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Link } from "@nextui-org/link";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { TwitterIcon, LanguageIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";
@@ -112,20 +109,64 @@ export const Navbar = () => {
             </NextLink>
           </NavbarBrand>
           <ul className="hidden lg:flex gap-6 justify-start ml-12">
-            {siteConfig.navItems.map((item) => (
-              <NavbarItem key={item.href} className="font-semibold">
+            <NavbarItem key="1" className="font-semibold">
+              <NextLink
+                className={clsx(
+                  linkStyles({ size: "lg", color: "foreground" }),
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
+                )}
+                color="foreground"
+                href="/premium"
+              >
+                {intl.formatMessage({ id: "upgrade_to_premium" })}
+              </NextLink>
+            </NavbarItem>
+            <NavbarItem key="2" className="font-semibold">
+              <NextLink
+                className={clsx(
+                  linkStyles({ size: "lg", color: "foreground" }),
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
+                )}
+                color="foreground"
+                href="/faq"
+              >
+                {intl.formatMessage({ id: "faq" })}
+              </NextLink>
+            </NavbarItem>
+            <NavbarItem key="3" className="font-semibold">
+              <NextLink
+                className={clsx(
+                  linkStyles({ size: "lg", color: "foreground" }),
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
+                )}
+                color="foreground"
+                href="/support"
+              >
+                {intl.formatMessage({ id: "support" })}
+              </NextLink>
+            </NavbarItem>
+            {user ? (
+              <NavbarItem key="4" className="font-semibold">
                 <NextLink
                   className={clsx(
                     linkStyles({ size: "lg", color: "foreground" }),
                     "data-[active=true]:text-primary data-[active=true]:font-medium"
                   )}
                   color="foreground"
-                  href={item.href}
+                  href="/dashboard"
                 >
-                  {item.label}
+                  {intl.formatMessage({ id: "dashboard" })}
                 </NextLink>
               </NavbarItem>
-            ))}
+            ) : (
+              <NavbarItem
+                key="4"
+                className="md:flex font-semibold text-large cursor-pointer"
+                onClick={onOpen}
+              >
+                {intl.formatMessage({ id: "login" })}
+              </NavbarItem>
+            )}
           </ul>
         </NavbarContent>
 
@@ -134,10 +175,10 @@ export const Navbar = () => {
           justify="end"
         >
           <NavbarItem className="hidden sm:flex gap-2">
-            <Dropdown>
+            <Dropdown className="min-w-[100px]">
               <DropdownTrigger>
                 <Button isIconOnly variant="light" className="capitalize">
-                  <LanguageIcon />
+                  <LanguageIcon size={21} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -152,55 +193,17 @@ export const Navbar = () => {
                 <DropdownItem key="zh">中文</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Link
-              isExternal
-              aria-label="Twitter"
-              href={siteConfig.links.twitter}
-            >
+            <Link isExternal aria-label="Twitter" href="">
               <TwitterIcon className="text-default-500" />
             </Link>
             <ThemeSwitch />
           </NavbarItem>
-          {user ? (
-            <NavbarItem className="md:flex cursor-pointer">
-              <AvatarDropdown />
-            </NavbarItem>
-          ) : (
-            <NavbarItem
-              className="md:flex font-semibold text-xl cursor-pointer"
-              onClick={onOpen}
-            >
-              {intl.formatMessage({ id: "login" })}
-            </NavbarItem>
-          )}
         </NavbarContent>
 
         <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
           <ThemeSwitch />
           <NavbarMenuToggle />
         </NavbarContent>
-
-        <NavbarMenu>
-          <div className="mx-4 mt-2 flex flex-col gap-2">
-            {siteConfig.navMenuItems.map((item, index) => (
-              <NavbarMenuItem key={`${item}-${index}`}>
-                <Link
-                  color={
-                    index === 2
-                      ? "primary"
-                      : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                  }
-                  href="#"
-                  size="lg"
-                >
-                  {item.label}
-                </Link>
-              </NavbarMenuItem>
-            ))}
-          </div>
-        </NavbarMenu>
       </NextUINavbar>
     </>
   );

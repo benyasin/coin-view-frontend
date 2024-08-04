@@ -1,4 +1,19 @@
 {
   "home": "首页",
-  "login": "登录"
+  "upgrade_to_premium": "升级为高级版",
+  "faq": "常见问题",
+  "support": "支持",
+  "dashboard": "控制面板",
+  "login": "登录",
+  "register": "注册",
+  "slogan_1": "一个",
+  "slogan_2": "基于AI技术",
+  "slogan_3": "对YouTube视频内容进行提炼与情绪分析，从而",
+  "slogan_4": "预测",
+  "slogan_5": "分析加密市场整体走势的工具",
+  "bullish": "看涨",
+  "bearish": "看跌",
+  "neutral": "中性",
+  "bullish_index": "看涨指数",
+  "bitcoin_price": "比特币价格"
 }
