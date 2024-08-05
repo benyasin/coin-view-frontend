@@ -15,5 +15,12 @@
   "bearish": "看跌",
   "neutral": "中性",
   "bullish_index": "看涨指数",
-  "bitcoin_price": "比特币价格"
+  "bitcoin_price": "比特币价格",
+  "all": "所有",
+  "1_week": "1 周",
+  "1_month": "1 月",
+  "1_year": "1 年",
+  "date": "日期",
+  "youTube_analysis_results": "YouTube分析结果",
+  "bullish_bearish_probability": "看涨或看跌的概率"
 }

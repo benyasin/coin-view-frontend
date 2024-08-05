@@ -15,5 +15,12 @@
   "bearish": "Bearish",
   "neutral": "Neutral",
   "bullish_index": "Bullish Index",
-  "bitcoin_price": "Bitcoin Price"
+  "bitcoin_price": "Bitcoin Price",
+  "all": "All",
+  "1_week": "1 Week",
+  "1_month": "1 Month",
+  "1_year": "1 Year",
+  "date": "Date",
+  "youTube_analysis_results": "YouTube Analysis Results",
+  "bullish_bearish_probability": "Bullish & Bearish Probability"
 }

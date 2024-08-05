@@ -47,13 +47,13 @@ export default function RootLayout({
               defaultTheme: "dark",
             }}
           >
-            <div className="relative flex flex-col h-screen">
+            <div className="relative flex flex-col h-screen items-center">
               <Navbar />
-              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+              <main className="container mx-auto max-w-[1280px] pt-16 px-6 flex-grow">
                 {children}
               </main>
-              <footer className="w-full flex items-center justify-between py-6 px-24 mt-60">
-                <div className="text-default-500">
+              <footer className="max-w-[1280px] text-xl w-full flex items-center justify-between py-6 px-24 mt-60">
+                <div className="text-default-400">
                   For support related to your account, contact
                   support@coinview.com
                 </div>

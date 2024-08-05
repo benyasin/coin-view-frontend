@@ -25,6 +25,7 @@ import {
 } from "@/components/icons";
 import "../styles/youtube-tab.css";
 import { Video } from "@/types";
+import { useIntl } from "react-intl";
 
 dayjs.extend(relativeTime);
 
@@ -32,6 +33,7 @@ const YouTubeTab = ({}) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const intl = useIntl();
 
   // 从后端 API 获取视频数据
   useEffect(() => {
@@ -53,19 +55,19 @@ const YouTubeTab = ({}) => {
   const tabs = [
     {
       id: "all",
-      label: "All",
+      label: intl.formatMessage({ id: "all" }),
     },
     {
       id: "bullish",
-      label: "Bullish",
+      label: intl.formatMessage({ id: "bullish" }),
     },
     {
       id: "bearish",
-      label: "Bearish",
+      label: intl.formatMessage({ id: "bearish" }),
     },
     {
       id: "neutral",
-      label: "Neutral",
+      label: intl.formatMessage({ id: "neutral" }),
     },
   ];
 
@@ -131,8 +133,7 @@ const YouTubeTab = ({}) => {
                             : "bg-primary-500"
                         }`}
                       >
-                        {video.sentiment.charAt(0).toUpperCase() +
-                          video.sentiment.slice(1)}
+                        {intl.formatMessage({ id: video.sentiment })}
                       </Chip>
                       <div className="text-small tracking-tight text-default-500">
                         {dayjs(video.created_at).fromNow()}

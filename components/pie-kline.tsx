@@ -144,12 +144,22 @@ export const PieKline = () => {
           const sentimentIndex = bullishData?.data ?? 0;
           return `
             <div>
-              <p>Date: ${date}</p>
-              <p>Bitcoin Price: $${Math.round(price)}</p>
-              <p>Bullish: ${Math.round(bullish)}(${Math.round(bullish)}%)</p>
-              <p>Neutral: ${Math.round(neutral)}(${Math.round(neutral)}%)</p>
-              <p>Bearish: ${Math.round(bearish)}(${Math.round(bearish)}%)</p>
-              <p>Sentiment Index: ${Math.round(sentimentIndex)}</p>
+              <p>${intl.formatMessage({ id: "date" })}: ${date}</p>
+              <p>${intl.formatMessage({ id: "bitcoin_price" })}: $${Math.round(
+            price
+          )}</p>
+              <p>${intl.formatMessage({ id: "bullish" })}: ${Math.round(
+            bullish
+          )}(${Math.round(bullish)}%)</p>
+              <p>${intl.formatMessage({ id: "neutral" })}: ${Math.round(
+            neutral
+          )}(${Math.round(neutral)}%)</p>
+              <p>${intl.formatMessage({ id: "bearish" })}: ${Math.round(
+            bearish
+          )}(${Math.round(bearish)}%)</p>
+              <p>${intl.formatMessage({ id: "bullish_index" })}: ${Math.round(
+            sentimentIndex
+          )}</p>
             </div>
           `;
         },
@@ -291,17 +301,17 @@ export const PieKline = () => {
               data: [
                 {
                   value: bullish,
-                  name: "Bullish",
+                  name: intl.formatMessage({ id: "bullish" }),
                   itemStyle: { color: "rgb(25,166,4)" },
                 },
                 {
                   value: neutral,
-                  name: "Neutral",
+                  name: intl.formatMessage({ id: "neutral" }),
                   itemStyle: { color: "rgb(215,227,253)" },
                 },
                 {
                   value: bearish,
-                  name: "Bearish",
+                  name: intl.formatMessage({ id: "bearish" }),
                   itemStyle: { color: "rgb(244,39,103)" },
                 },
               ],

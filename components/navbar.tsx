@@ -4,7 +4,6 @@ import {
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarMenuToggle,
-  NavbarBrand,
   NavbarItem,
 } from "@nextui-org/navbar";
 import { Link } from "@nextui-org/link";
@@ -14,7 +13,6 @@ import clsx from "clsx";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { TwitterIcon, LanguageIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";
-import { AvatarDropdown } from "@/components/avatar-dropdown";
 import {
   Modal,
   ModalBody,
@@ -98,16 +96,20 @@ export const Navbar = () => {
           )}
         </ModalContent>
       </Modal>
-      <NextUINavbar maxWidth="xl" position="sticky">
-        <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-          <NavbarBrand as="li" className="gap-3 max-w-fit">
-            <NextLink
-              className="flex justify-start items-center gap-1"
-              href="/"
-            >
-              <Logo />
-            </NextLink>
-          </NavbarBrand>
+      <NextUINavbar
+        classNames={{
+          base: ["max-w-[1280px]", "nextui-navbar", "px-16"],
+          item: ["text-default-400"],
+        }}
+        position="sticky"
+      >
+        <NavbarContent
+          className="max-w-[1280px] basis-1/5 sm:basis-full"
+          justify="start"
+        >
+          <NextLink className="flex justify-start items-center gap-1" href="/">
+            <Logo size={100} />
+          </NextLink>
           <ul className="hidden lg:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="font-semibold">
               <NextLink
