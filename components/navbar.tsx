@@ -99,7 +99,6 @@ export const Navbar = () => {
       <NextUINavbar
         classNames={{
           base: ["max-w-[1280px]", "nextui-navbar", "px-16"],
-          item: ["text-default-400"],
         }}
         position="sticky"
       >
@@ -111,7 +110,7 @@ export const Navbar = () => {
             <Logo size={100} />
           </NextLink>
           <ul className="hidden lg:flex gap-6 justify-start ml-12">
-            <NavbarItem key="1" className="font-semibold">
+            <NavbarItem key="1" className="text-default-400">
               <NextLink
                 className={clsx(
                   linkStyles({ size: "lg", color: "foreground" }),
@@ -123,7 +122,7 @@ export const Navbar = () => {
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </NextLink>
             </NavbarItem>
-            <NavbarItem key="2" className="font-semibold">
+            <NavbarItem key="2" className="text-default-400">
               <NextLink
                 className={clsx(
                   linkStyles({ size: "lg", color: "foreground" }),
@@ -135,7 +134,7 @@ export const Navbar = () => {
                 {intl.formatMessage({ id: "faq" })}
               </NextLink>
             </NavbarItem>
-            <NavbarItem key="3" className="font-semibold">
+            <NavbarItem key="3" className="text-default-400">
               <NextLink
                 className={clsx(
                   linkStyles({ size: "lg", color: "foreground" }),
@@ -148,7 +147,7 @@ export const Navbar = () => {
               </NextLink>
             </NavbarItem>
             {user ? (
-              <NavbarItem key="4" className="font-semibold">
+              <NavbarItem key="4" className="text-default-400">
                 <NextLink
                   className={clsx(
                     linkStyles({ size: "lg", color: "foreground" }),
@@ -163,7 +162,7 @@ export const Navbar = () => {
             ) : (
               <NavbarItem
                 key="4"
-                className="md:flex font-semibold text-large cursor-pointer"
+                className="md:flex text-default-400 text-large cursor-pointer"
                 onClick={onOpen}
               >
                 {intl.formatMessage({ id: "login" })}
@@ -180,7 +179,7 @@ export const Navbar = () => {
             <Dropdown className="min-w-[100px]">
               <DropdownTrigger>
                 <Button isIconOnly variant="light" className="capitalize">
-                  <LanguageIcon size={21} />
+                  <LanguageIcon size={20} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
