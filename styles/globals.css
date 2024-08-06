@@ -2,9 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-.nextui-navbar{
-    border-color: hsla(0, 0%, 100%, .05);
+:root {
+    --foreground: #000;
+    --background: #fff;
+    --light: 212, 89%, 57%;
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground: #fff;
+        --background: #000;
+        --light: 212, 89%, 57%;
+    }
+}
+
+body {
+    color: rgb(var(--foreground));
+    background-color: rgb(var(--background));
+}
+
+.nextui-navbar{
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
 .nextui-navbar header{
     max-width: 1280px;
+    padding: 0 70px;
+}
+
+.youtube-accordion hr{
+    background-color: rgba(255, 255, 255, 0.09);
 }

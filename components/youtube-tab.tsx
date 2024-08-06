@@ -160,6 +160,7 @@ const YouTubeTab = ({}) => {
                   </Link>
                   <Accordion
                     isCompact
+                    className="youtube-accordion"
                     itemClasses={{
                       base: "py-2 w-full",
                       title: "font-normal text-lg pt-1",
