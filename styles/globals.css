@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.nextui-navbar{
+    border-color: hsla(0, 0%, 100%, .05);
+}
 .nextui-navbar header{
     max-width: 1280px;
 }

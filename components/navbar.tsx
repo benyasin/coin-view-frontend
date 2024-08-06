@@ -98,7 +98,7 @@ export const Navbar = () => {
       </Modal>
       <NextUINavbar
         classNames={{
-          base: ["max-w-[1280px]", "nextui-navbar", "px-16"],
+          base: ["max-w-[1280px]", "nextui-navbar", "px-16", "border-b-1"],
         }}
         position="sticky"
       >

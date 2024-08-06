@@ -13,36 +13,13 @@ import {
   Button,
 } from "@nextui-org/react";
 import React from "react";
+import { Hero } from "@/components/hero";
 
 export default function Home() {
   const intl = useIntl();
   return (
     <>
-      <section className="flex flex-col items-center justify-center gap-4 py-20 md:py-16">
-        <div className="inline-block max-w-[690px] text-center justify-center">
-          <h2 style={{ lineHeight: "1.2" }} className={title()}>
-            {intl.formatMessage({ id: "slogan_1" })}&nbsp;
-          </h2>
-          <h2
-            style={{ lineHeight: "1.2" }}
-            className={title({ color: "violet" })}
-          >
-            {intl.formatMessage({ id: "slogan_2" })}&nbsp;
-          </h2>
-          <h2 style={{ lineHeight: "1.2" }} className={title()}>
-            {intl.formatMessage({ id: "slogan_3" })}&nbsp;
-          </h2>
-          <h2
-            style={{ lineHeight: "1.2" }}
-            className={title({ color: "violet" })}
-          >
-            {intl.formatMessage({ id: "slogan_4" })}&nbsp;
-          </h2>
-          <h2 style={{ lineHeight: "1.2" }} className={title()}>
-            {intl.formatMessage({ id: "slogan_5" })}
-          </h2>
-        </div>
-      </section>
+      <Hero />
       <section className="text-2xl ml-20 mt-16 flex justify-start items-center">
         <div className="text-default-400">
           {intl.formatMessage({ id: "bullish_bearish_probability" })}

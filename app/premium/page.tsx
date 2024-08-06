@@ -59,7 +59,7 @@ export default function Premium() {
       >
         <div className="relative max-w-xl mx-auto sm:text-center">
           <h3 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
-            Pricing Plans for your business
+            Get more features with Premium.
           </h3>
           <div className="mt-3 max-w-xl text-foreground/80 text-balance">
             <p>Select the plan that best suits your needs.</p>
