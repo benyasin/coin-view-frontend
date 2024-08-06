@@ -4,6 +4,9 @@ import { subtitle } from "@/components/primitives";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/zh"; // 导入中文语言包
+import "dayjs/locale/en"; // 导入英文语言包
+
 import {
   Tabs,
   Tab,
@@ -34,6 +37,15 @@ const YouTubeTab = ({}) => {
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
+  // 获取当前语言
+  const locale = intl.locale;
+
+  // 根据语言设置dayjs的本地化
+  if (locale === "zh") {
+    dayjs.locale("zh");
+  } else {
+    dayjs.locale("en");
+  }
 
   // 从后端 API 获取视频数据
   useEffect(() => {
@@ -76,6 +88,16 @@ const YouTubeTab = ({}) => {
     return videos.filter((video) => video.sentiment.toLowerCase() === tab);
   };
 
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + "M";
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + "k";
+    } else {
+      return num.toString();
+    }
+  };
+
   return (
     <div className="flex w-full flex-col">
       <Tabs
@@ -91,7 +113,6 @@ const YouTubeTab = ({}) => {
           tabContent: "group-data-[selected=true]:text-[#06b6d4]",
         }}
         onSelectionChange={(key) => {
-          console.log("Selected Tab: ", key);
           setSelectedTab(key.toString());
         }}
       >
@@ -118,7 +139,8 @@ const YouTubeTab = ({}) => {
                           {video.channel_title}
                         </h4>
                         <h5 className="text-small tracking-tight text-default-400">
-                          {video.subscribers} subscribers
+                          {formatNumber(Number.parseInt(video.subscribers))}{" "}
+                          {intl.formatMessage({ id: "subscribers" })}
                         </h5>
                       </div>
                     </div>
@@ -174,7 +196,7 @@ const YouTubeTab = ({}) => {
                       className="accordion-item"
                       key="1"
                       aria-label="Theme"
-                      title="核心观点"
+                      title={intl.formatMessage({ id: "core_viewpoint" })}
                       startContent={<SummaryIcon size={18} />}
                     >
                       {video.summary}
@@ -183,7 +205,11 @@ const YouTubeTab = ({}) => {
                       className="accordion-item"
                       key="2"
                       aria-label="Theme"
-                      title="看涨理由"
+                      title={
+                        intl.formatMessage({ id: video.sentiment }) +
+                        (intl.locale === "en" ? " " : "") +
+                        intl.formatMessage({ id: "reason" })
+                      }
                       startContent={
                         video.sentiment === "bullish" ? (
                           <BullishIcon size={18} />

@@ -14,6 +14,7 @@
   "bullish": "看涨",
   "bearish": "看跌",
   "neutral": "中性",
+  "subscribers": "订阅者",
   "bullish_index": "看涨指数",
   "bitcoin_price": "比特币价格",
   "all": "所有",
@@ -22,5 +23,9 @@
   "1_year": "1 年",
   "date": "日期",
   "youTube_analysis_results": "YouTube分析结果",
-  "bullish_bearish_probability": "看涨或看跌的概率"
+  "bullish_bearish_probability": "看涨或看跌的概率",
+  "core_viewpoint": "核心观点",
+  "reason": "理由",
+  "all_right_reserved": "保留所有版权",
+  "contact_email": "对于与您的账户相关的支持，请联系 "
 }

@@ -14,6 +14,7 @@
   "bullish": "Bullish",
   "bearish": "Bearish",
   "neutral": "Neutral",
+  "subscribers": "subscribers",
   "bullish_index": "Bullish Index",
   "bitcoin_price": "Bitcoin Price",
   "all": "All",
@@ -22,5 +23,9 @@
   "1_year": "1 Year",
   "date": "Date",
   "youTube_analysis_results": "YouTube Analysis Results",
-  "bullish_bearish_probability": "Bullish & Bearish Probability"
+  "bullish_bearish_probability": "Bullish & Bearish Probability",
+  "core_viewpoint": "Core Viewpoint",
+  "reason": "Reason",
+  "all_right_reserved": "All rights reserved",
+  "contact_email": "For support related to your account, contact "
 }

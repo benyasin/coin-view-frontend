@@ -1,17 +1,16 @@
 "use client";
-
 import {
+  Button,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Divider,
-  Button,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
-export default function Premium() {
+export const Premium = () => {
   const plans = [
     {
       name: "Hobby Plan",
@@ -46,7 +45,7 @@ export default function Premium() {
   ];
 
   return (
-    <section className="max-w-screen-xl w-full mx-auto px-4 py-28 gap-12 md:px-8 flex flex-col justify-center items-center">
+    <section className="relative max-w-screen-xl w-full mx-auto px-4 py-28 gap-12 md:px-8 flex flex-col justify-center items-center">
       <motion.div
         initial={{ y: 5, opacity: 0 }}
         whileInView={{
@@ -107,6 +106,16 @@ export default function Premium() {
           ))}
         </div>
       </motion.div>
+      <motion.div
+        initial={{ y: 5, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.5 }}
+        className="w-full h-full absolute -top-12 flex justify-end items-center"
+      >
+        <div className="w-3/4 flex justify-center items-center">
+          <div className="w-12 h-[600px] bg-light blur-[100px] rounded-3xl max-sm:rotate-[15deg] sm:rotate-[35deg]"></div>
+        </div>
+      </motion.div>
     </section>
   );
-}
+};

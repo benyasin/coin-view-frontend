@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/components/language-provider";
 import { Providers } from "./providers";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -51,15 +52,7 @@ export default function RootLayout({
               <main className="container mx-auto max-w-[1280px] pt-16 px-6 flex-grow">
                 {children}
               </main>
-              <footer className="max-w-[1280px] text-xl w-full flex items-center justify-between py-6 px-24 mt-28">
-                <div className="text-default-400">
-                  For support related to your account, contact
-                  support@coinview.com
-                </div>
-                <div className="text-default-400">
-                  © 2024 CoinView. All rights reserved
-                </div>
-              </footer>
+              <Footer />
             </div>
           </Providers>
         </LanguageProvider>

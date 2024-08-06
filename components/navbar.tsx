@@ -98,7 +98,7 @@ export const Navbar = () => {
       </Modal>
       <NextUINavbar
         classNames={{
-          base: ["nextui-navbar", "px-16", "py-3", "border-b-1"],
+          base: ["nextui-navbar", "px-16", "py-2", "border-b-1"],
         }}
         position="sticky"
       >
@@ -117,33 +117,9 @@ export const Navbar = () => {
                   "data-[active=true]:text-primary data-[active=true]:font-medium"
                 )}
                 color="foreground"
-                href="/premium"
+                href="/pricing"
               >
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
-              </NextLink>
-            </NavbarItem>
-            <NavbarItem key="2" className="text-default-400">
-              <NextLink
-                className={clsx(
-                  linkStyles({ size: "lg", color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href="/faq"
-              >
-                {intl.formatMessage({ id: "faq" })}
-              </NextLink>
-            </NavbarItem>
-            <NavbarItem key="3" className="text-default-400">
-              <NextLink
-                className={clsx(
-                  linkStyles({ size: "lg", color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href="/support"
-              >
-                {intl.formatMessage({ id: "support" })}
               </NextLink>
             </NavbarItem>
             {user ? (
@@ -195,7 +171,7 @@ export const Navbar = () => {
               </DropdownMenu>
             </Dropdown>
             <Link isExternal aria-label="Twitter" href="">
-              <TwitterIcon className="text-default-500" />
+              <TwitterIcon size={20} className="text-default-500" />
             </Link>
             <ThemeSwitch />
           </NavbarItem>
