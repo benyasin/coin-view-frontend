@@ -5,9 +5,9 @@ import {
   NavbarContent,
   NavbarMenuToggle,
   NavbarItem,
-} from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
-import { link as linkStyles } from "@nextui-org/theme";
+  Link,
+  link as linkStyles,
+} from "@nextui-org/react";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { ThemeSwitch } from "@/components/theme-switch";
@@ -107,7 +107,7 @@ export const Navbar = () => {
           justify="start"
         >
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo size={100} />
+            <Logo />
           </NextLink>
           <ul className="hidden lg:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
