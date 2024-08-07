@@ -27,5 +27,15 @@
   "core_viewpoint": "核心观点",
   "reason": "理由",
   "all_right_reserved": "保留所有版权",
-  "contact_email": "对于与您的账户相关的支持，请联系 "
+  "contact_email": "对于与您的账户相关的支持，请联系 ",
+  "get_more_features": "通过升级到高级版获取更多功能",
+  "select_your_plan": "选择最符合您需求的方案",
+  "free_plan": "免费计划",
+  "basic_plan": "基础计划",
+  "enterprise_plan": "企业计划",
+  "enjoy_limited": "体验我们所有功能的有限访问",
+  "team_schedule": "为您的团队制定最佳安排",
+  "team_schedule_more": "为您的团队制定最佳安排及更多",
+  "features": "特征",
+  "get_started": "开始"
 }

@@ -27,5 +27,15 @@
   "core_viewpoint": "Core Viewpoint",
   "reason": "Reason",
   "all_right_reserved": "All rights reserved",
-  "contact_email": "For support related to your account, contact "
+  "contact_email": "For support related to your account, contact ",
+  "get_more_features": "Get more features with Premium",
+  "select_your_plan": "Select the plan that best suits your needs",
+  "free_plan": "Free Plan",
+  "basic_plan": "Basic Plan",
+  "enterprise_plan": "Enterprise Plan",
+  "enjoy_limited": "Enjoy limited access to all our features",
+  "team_schedule": "Make the best schedule for your team",
+  "team_schedule_more": "Make the best schedule for your team and more",
+  "features": "Features",
+  "get_started": "Get Started"
 }

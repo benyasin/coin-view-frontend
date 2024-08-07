@@ -111,34 +111,37 @@ export const Navbar = () => {
           </NextLink>
           <ul className="hidden lg:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
-              <NextLink
-                className={clsx(
-                  linkStyles({ size: "lg", color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
+              <Link
                 color="foreground"
-                href="/pricing"
+                className="text-large"
+                href="/pricing#premium"
               >
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
-              </NextLink>
+              </Link>
+            </NavbarItem>
+            <NavbarItem key="2" className="text-default-400">
+              <Link
+                color="foreground"
+                className="text-large"
+                href="/pricing#faq"
+              >
+                {intl.formatMessage({ id: "faq" })}
+              </Link>
             </NavbarItem>
             {user ? (
               <NavbarItem key="4" className="text-default-400">
-                <NextLink
-                  className={clsx(
-                    linkStyles({ size: "lg", color: "foreground" }),
-                    "data-[active=true]:text-primary data-[active=true]:font-medium"
-                  )}
+                <Link
                   color="foreground"
+                  className="text-large"
                   href="/dashboard"
                 >
                   {intl.formatMessage({ id: "dashboard" })}
-                </NextLink>
+                </Link>
               </NavbarItem>
             ) : (
               <NavbarItem
                 key="4"
-                className="md:flex text-default-400 text-large cursor-pointer"
+                className="md:flex text-foreground text-large cursor-pointer"
                 onClick={onOpen}
               >
                 {intl.formatMessage({ id: "login" })}
