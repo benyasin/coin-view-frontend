@@ -79,7 +79,7 @@ export const PieKline = () => {
       series: [
         {
           type: "pie",
-          radius: ["0%", "80%"],
+          radius: ["50%", "75%"],
           center: ["50%", "65%"], // Adjust the center position
           startAngle: 180,
           endAngle: 360,
@@ -89,17 +89,9 @@ export const PieKline = () => {
           },
           label: {
             show: true,
-            position: "inside",
-          },
-          emphasis: {
-            label: {
-              show: true,
-              color: "#464646",
-              fontSize: 12,
-            },
-          },
-          labelLine: {
-            show: false,
+            position: "outside",
+            color: "#464646", // Modify this line to set the font color
+            fontSize: 12, // Modify this line to set the font size
           },
           data: initialPieData,
         },
@@ -407,8 +399,16 @@ export const PieKline = () => {
         const fearGreedIndex = data[index].fearGreedIndex;
         gaugeChart.setOption({
           graphic: {
+            type: "text",
             style: {
               text: `${Math.round(fearGreedIndex)}`,
+              x: "50%",
+              y: "50%",
+              textAlign: "center",
+              textVerticalAlign: "middle",
+              fontSize: 20,
+              fontWeight: "bold",
+              fill: "#000",
             },
           },
         });
@@ -440,8 +440,8 @@ export const PieKline = () => {
         style={{
           position: "absolute",
           top: "0", // Moved down
-          left: "450px", // Moved left
-          width: "280px", // Smaller size
+          left: "420px", // Moved left
+          width: "400px", // Smaller size
           height: "280px",
           zIndex: "1",
         }}
@@ -451,7 +451,7 @@ export const PieKline = () => {
         style={{
           position: "absolute",
           top: "35px", // Moved up
-          left: "50px", // Adjusted to avoid overlap
+          left: "55px", // Adjusted to avoid overlap
           width: "280px",
           height: "280px",
           zIndex: "1",
