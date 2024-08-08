@@ -10,12 +10,13 @@ type TrendData = {
   bullish: number;
   bearish: number;
   neutral: number;
-  sentimentIndices: number;
+  fearGreedIndex: number;
 };
 
 export const PieKline = () => {
   const chartRef = useRef(null);
   const pieChartRef = useRef(null);
+  const gaugeChartRef = useRef(null);
   const [data, setData] = useState<TrendData[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
@@ -31,7 +32,7 @@ export const PieKline = () => {
           bullish: d.bullish || 0,
           bearish: d.bearish || 0,
           neutral: d.neutral || 0,
-          sentimentIndices: d.sentimentIndices || 0,
+          fearGreedIndex: d.fearGreedIndex || 0,
         }));
         setData(dataArray);
       } catch (error) {
@@ -47,8 +48,10 @@ export const PieKline = () => {
 
     const chartDom = chartRef.current;
     const pieChartDom = pieChartRef.current;
+    const gaugeChartDom = gaugeChartRef.current;
     const myChart = echarts.init(chartDom);
     const pieChart = echarts.init(pieChartDom);
+    const gaugeChart = echarts.init(gaugeChartDom);
 
     const lastIndex = data.length - 1;
     const initialPieData = [
@@ -73,22 +76,13 @@ export const PieKline = () => {
       tooltip: {
         trigger: "item",
       },
-      graphic: {
-        type: "text",
-        left: "center",
-        top: "middle",
-        style: {
-          text: `${Math.round(data[lastIndex].sentimentIndices)}`,
-          fontSize: 24,
-          fontWeight: "bold",
-          fill: "rgba(30,129,255,0.5)",
-        },
-      },
       series: [
         {
           type: "pie",
-          radius: ["40%", "70%"],
-          avoidLabelOverlap: false,
+          radius: ["50%", "80%"],
+          center: ["50%", "65%"], // Adjust the center position
+          startAngle: 180,
+          endAngle: 360,
           itemStyle: {
             borderRadius: 5,
             borderColor: "rgba(215,227,253,0.5)",
@@ -113,6 +107,91 @@ export const PieKline = () => {
       ],
     };
 
+    const gaugeOption = {
+      series: [
+        {
+          type: "gauge",
+          startAngle: 180,
+          endAngle: 0,
+          center: ["50%", "50%"], // Adjusted to align with the new position
+          radius: "75%",
+          min: 0,
+          max: 100,
+          splitNumber: 8,
+          axisLine: {
+            lineStyle: {
+              width: 6,
+              color: [
+                [0.25, "#FF6E76"],
+                [0.5, "#FDDD60"],
+                [0.75, "#58D9F9"],
+                [1, "#7CFFB2"],
+              ],
+            },
+          },
+          pointer: {
+            icon: "path://M12.8,0.7l12,40.1H0.7L12.8,0.7z",
+            length: "12%",
+            width: 20,
+            offsetCenter: [0, "-30%"],
+            itemStyle: {
+              color: "auto",
+            },
+          },
+          axisTick: {
+            length: 12,
+            lineStyle: {
+              color: "auto",
+              width: 2,
+            },
+          },
+          splitLine: {
+            length: 20,
+            lineStyle: {
+              color: "auto",
+              width: 5,
+            },
+          },
+          axisLabel: {
+            color: "#464646",
+            fontSize: 12,
+            distance: -50,
+            rotate: "tangential",
+            formatter: function (value: number) {
+              if (value === 87.5) {
+                return intl.formatMessage({ id: "extreme_greed" });
+              } else if (value === 62.5) {
+                return intl.formatMessage({ id: "greed" });
+              } else if (value === 37.5) {
+                return intl.formatMessage({ id: "fear" });
+              } else if (value === 12.5) {
+                return intl.formatMessage({ id: "extreme_fear" });
+              }
+              return "";
+            },
+          },
+          title: {
+            offsetCenter: [0, "20%"],
+            fontSize: 20,
+          },
+          detail: {
+            fontSize: 30,
+            offsetCenter: [0, "0%"],
+            valueAnimation: true,
+            formatter: function (value: number) {
+              return Math.round(value) + "";
+            },
+            color: "inherit",
+          },
+          data: [
+            {
+              value: data[lastIndex].fearGreedIndex,
+            },
+          ],
+        },
+      ],
+    };
+
     const lineOption = {
       tooltip: {
         trigger: "axis",
@@ -123,7 +202,6 @@ export const PieKline = () => {
           },
         },
         backgroundColor: "#1F1F1F",
-        borderColor: "rgba(0, 0, 0, 0)", // Make border transparent
         textStyle: {
           color: "#FFF",
         },
@@ -136,13 +214,14 @@ export const PieKline = () => {
             )?.data ?? 0;
           const bullishData = params.find(
             (param) =>
-              param.seriesName === intl.formatMessage({ id: "bullish_index" })
+              param.seriesName ===
+              intl.formatMessage({ id: "fear_greed_index" })
           );
           const index = bullishData?.dataIndex;
           const bullish = index !== undefined ? data[index].bullish : 0;
           const neutral = index !== undefined ? data[index].neutral : 0;
           const bearish = index !== undefined ? data[index].bearish : 0;
-          const sentimentIndex = bullishData?.data ?? 0;
+          const fearGreedIndex = bullishData?.data ?? 0;
           return `
             <div>
               <p>${intl.formatMessage({ id: "date" })}: ${date}</p>
@@ -158,25 +237,25 @@ export const PieKline = () => {
               <p>${intl.formatMessage({ id: "bearish" })}: ${Math.round(
             bearish
           )}(${Math.round(bearish)}%)</p>
-              <p>${intl.formatMessage({ id: "bullish_index" })}: ${Math.round(
-            sentimentIndex
-          )}</p>
+              <p>${intl.formatMessage({
+                id: "fear_greed_index",
+              })}: ${Math.round(fearGreedIndex)}</p>
             </div>
           `;
         },
       },
       legend: {
         data: [
-          intl.formatMessage({ id: "bullish_index" }),
+          intl.formatMessage({ id: "fear_greed_index" }),
           intl.formatMessage({ id: "bitcoin_price" }),
         ],
-        top: "42%",
+        top: "20%",
       },
       grid: {
         left: "8%",
         right: "10%",
-        top: "50%",
-        bottom: "15%",
+        top: "30%",
+        bottom: "20%",
       },
       xAxis: {
         type: "category",
@@ -189,7 +268,7 @@ export const PieKline = () => {
       },
       yAxis: [
         {
-          name: intl.formatMessage({ id: "bullish_index" }),
+          name: intl.formatMessage({ id: "fear_greed_index" }),
           type: "value",
           min: 0,
           max: 100,
@@ -238,10 +317,10 @@ export const PieKline = () => {
       ],
       series: [
         {
-          name: intl.formatMessage({ id: "bullish_index" }),
+          name: intl.formatMessage({ id: "fear_greed_index" }),
           type: "bar",
           yAxisIndex: 0,
-          data: data.map((item) => item.sentimentIndices),
+          data: data.map((item) => item.fearGreedIndex),
           itemStyle: {
             color: "rgba(30,129,255,0.3)",
           },
@@ -274,6 +353,7 @@ export const PieKline = () => {
 
     myChart.setOption(lineOption);
     pieChart.setOption(pieOption);
+    gaugeChart.setOption(gaugeOption);
 
     myChart.on("mouseover", (params) => {
       if (params.componentType === "series") {
@@ -281,29 +361,16 @@ export const PieKline = () => {
         const bullish = data[index].bullish;
         const neutral = data[index].neutral;
         const bearish = data[index].bearish;
-        const sentimentIndex = data[index].sentimentIndices;
+        const fearGreedIndex = data[index].fearGreedIndex;
 
         pieChart.setOption({
-          graphic: [
-            {
-              type: "text",
-              left: "center",
-              top: "middle",
-              style: {
-                text: `${Math.round(sentimentIndex)}`,
-                fontSize: 24,
-                fontWeight: "bold",
-                fill: "#87CEEB",
-              },
-            },
-          ],
           series: [
             {
               data: [
                 {
                   value: bullish,
                   name: intl.formatMessage({ id: "bullish" }),
-                  itemStyle: { color: "rgb(25,166,4)" },
+                  itemStyle: { color: [1, "#7CFFB2"] },
                 },
                 {
                   value: neutral,
@@ -313,19 +380,22 @@ export const PieKline = () => {
                 {
                   value: bearish,
                   name: intl.formatMessage({ id: "bearish" }),
-                  itemStyle: { color: "rgb(244,39,103)" },
+                  itemStyle: { color: [0.25, "#FF6E76"] },
                 },
               ],
             },
           ],
         });
+
+        gaugeOption.series[0].data[0].value = fearGreedIndex;
+        gaugeChart.setOption(gaugeOption);
       }
     });
 
     myChart.on("legendselectchanged", (params) => {
       // @ts-ignore
-      if (!params.selected[intl.formatMessage({ id: "bullish_index" })]) {
-        pieChart.setOption({
+      if (!params.selected[intl.formatMessage({ id: "fear_greed_index" })]) {
+        gaugeChart.setOption({
           graphic: {
             style: {
               text: "",
@@ -335,11 +405,11 @@ export const PieKline = () => {
       } else {
         // @ts-ignore
         const index = myChart.getOption().xAxis[0].data.length - 1;
-        const sentimentIndex = data[index].sentimentIndices;
-        pieChart.setOption({
+        const fearGreedIndex = data[index].fearGreedIndex;
+        gaugeChart.setOption({
           graphic: {
             style: {
-              text: `${Math.round(sentimentIndex)}`,
+              text: `${Math.round(fearGreedIndex)}`,
             },
           },
         });
@@ -349,20 +419,43 @@ export const PieKline = () => {
     return () => {
       myChart.dispose();
       pieChart.dispose();
+      gaugeChart.dispose();
     };
   }, [intl.locale, data]);
 
   return (
     <div style={{ width: "100%", height: "600px", position: "relative" }}>
-      <div ref={chartRef} style={{ width: "100%", height: "600px" }}></div>
+      <div
+        ref={chartRef}
+        style={{
+          width: "100%",
+          height: "400px",
+          position: "absolute",
+          bottom: "0", // Moved up
+          left: "0", // Adjusted to avoid overlap,
+          zIndex: "1",
+        }}
+      ></div>
       <div
         ref={pieChartRef}
         style={{
           position: "absolute",
-          top: "10px",
-          left: "50px",
-          width: "300px",
-          height: "300px",
+          top: "0px", // Moved down
+          left: "450px", // Moved left
+          width: "280px", // Smaller size
+          height: "280px",
+          zIndex: "1",
+        }}
+      ></div>
+      <div
+        ref={gaugeChartRef}
+        style={{
+          position: "absolute",
+          top: "35px", // Moved up
+          left: "50px", // Adjusted to avoid overlap
+          width: "280px",
+          height: "280px",
+          zIndex: "0",
         }}
       ></div>
     </div>

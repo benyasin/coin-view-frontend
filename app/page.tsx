@@ -66,7 +66,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="text-2xl ml-16 mt-20 mb-8">
+      <section className="text-2xl ml-16 mt-40 mb-8">
         <div className="text-default-400">
           {intl.formatMessage({ id: "youTube_analysis_results" })}
         </div>
