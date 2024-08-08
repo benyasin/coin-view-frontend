@@ -58,7 +58,7 @@ export const PieKline = () => {
       {
         value: data[lastIndex].bullish,
         name: intl.formatMessage({ id: "bullish" }),
-        itemStyle: { color: "rgb(25,166,4)" },
+        itemStyle: { color: "rgba(124,255,178,0.7)" }, // Green color
       },
       {
         value: data[lastIndex].neutral,
@@ -68,7 +68,7 @@ export const PieKline = () => {
       {
         value: data[lastIndex].bearish,
         name: intl.formatMessage({ id: "bearish" }),
-        itemStyle: { color: "rgb(244,39,103)" },
+        itemStyle: { color: "rgba(255,110,118,0.7)" }, // Red color
       },
     ];
 
@@ -79,14 +79,13 @@ export const PieKline = () => {
       series: [
         {
           type: "pie",
-          radius: ["50%", "80%"],
+          radius: ["0%", "80%"],
           center: ["50%", "65%"], // Adjust the center position
           startAngle: 180,
           endAngle: 360,
           itemStyle: {
             borderRadius: 5,
-            borderColor: "rgba(215,227,253,0.5)",
-            borderWidth: 1,
+            borderWidth: 0,
           },
           label: {
             show: true,
@@ -95,8 +94,8 @@ export const PieKline = () => {
           emphasis: {
             label: {
               show: true,
-              fontSize: "20",
-              fontWeight: "bold",
+              color: "#464646",
+              fontSize: 12,
             },
           },
           labelLine: {
@@ -122,10 +121,10 @@ export const PieKline = () => {
             lineStyle: {
               width: 6,
               color: [
-                [0.25, "#FF6E76"],
+                [0.25, "rgba(255,110,118,0.7)"],
                 [0.5, "#FDDD60"],
                 [0.75, "#58D9F9"],
-                [1, "#7CFFB2"],
+                [1, "rgba(124,255,178,0.7)"],
               ],
             },
           },
@@ -370,7 +369,7 @@ export const PieKline = () => {
                 {
                   value: bullish,
                   name: intl.formatMessage({ id: "bullish" }),
-                  itemStyle: { color: [1, "#7CFFB2"] },
+                  itemStyle: { color: "rgba(124,255,178,0.7)" },
                 },
                 {
                   value: neutral,
@@ -380,7 +379,7 @@ export const PieKline = () => {
                 {
                   value: bearish,
                   name: intl.formatMessage({ id: "bearish" }),
-                  itemStyle: { color: [0.25, "#FF6E76"] },
+                  itemStyle: { color: "rgba(255,110,118,0.7)" },
                 },
               ],
             },
@@ -429,18 +428,18 @@ export const PieKline = () => {
         ref={chartRef}
         style={{
           width: "100%",
-          height: "400px",
+          height: "425px",
           position: "absolute",
           bottom: "0", // Moved up
-          left: "0", // Adjusted to avoid overlap,
-          zIndex: "1",
+          left: "0", // Adjusted to avoid overlap
+          zIndex: "2",
         }}
       ></div>
       <div
         ref={pieChartRef}
         style={{
           position: "absolute",
-          top: "0px", // Moved down
+          top: "0", // Moved down
           left: "450px", // Moved left
           width: "280px", // Smaller size
           height: "280px",
@@ -455,7 +454,7 @@ export const PieKline = () => {
           left: "50px", // Adjusted to avoid overlap
           width: "280px",
           height: "280px",
-          zIndex: "0",
+          zIndex: "1",
         }}
       ></div>
     </div>
