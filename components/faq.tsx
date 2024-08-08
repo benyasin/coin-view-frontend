@@ -1,10 +1,17 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { useIntl } from "react-intl";
 
 export const Faq = () => {
-  const defaultContent =
-    "Here is the content of the accordion. You can put any elements here.";
+  const intl = useIntl();
+  const [defaultContent, setDefaultContent] = useState("");
+
+  useEffect(() => {
+    setDefaultContent(intl.formatMessage({ id: "faq_description" }));
+  }, [intl]);
+
   return (
     <div id="faq">
       <section className="relative max-w-screen-xl mx-auto px-4 py-28 gap-12 md:px-8 flex flex-col justify-center items-center">
@@ -19,11 +26,10 @@ export const Faq = () => {
           className="flex flex-col gap-3 justify-center items-center"
         >
           <h4 className="text-2xl font-bold sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text">
-            FAQ
+            {intl.formatMessage({ id: "faq" })}
           </h4>
           <p className="max-w-xl text-foreground/80 text-center">
-            Here are some of our frequently asked questions. If you have any
-            other questions you’d like answered please feel free to email us.
+            {intl.formatMessage({ id: "faq_description" })}
           </p>
         </motion.div>
         <motion.div
@@ -34,7 +40,7 @@ export const Faq = () => {
           }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 1 }}
-          className="max-w-2xl w-full border border-foreground/50 rounded-md p-1"
+          className="max-w-5xl text-foreground/50 w-full border border-foreground/35 rounded-md p-1"
         >
           <Accordion
             motionProps={{
@@ -76,64 +82,64 @@ export const Faq = () => {
           >
             <AccordionItem
               key="1"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="2"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI?"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="3"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI?"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="4"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="5"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI?"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="6"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI?"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="7"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="8"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI?"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
             <AccordionItem
               key="9"
-              aria-label="¿Why NextUI?"
-              title="¿Why NextUI?"
+              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
+              title="Why NextUI Why NextUI Why NextUI Why NextUI"
             >
               {defaultContent}
             </AccordionItem>
