@@ -123,6 +123,7 @@ export const PieKline = () => {
           },
         },
         backgroundColor: "#1F1F1F",
+        borderColor: "rgba(0, 0, 0, 0)", // Make border transparent
         textStyle: {
           color: "#FFF",
         },
