@@ -21,3 +21,12 @@ export interface Video {
   subscribers: string;
   channel_url: string;
 }
+
+// 类型定义
+export interface UserInfo {
+  username: string;
+  email: string;
+  is_member: boolean;
+  membership_level: string;
+  membership_expiry: string;
+}

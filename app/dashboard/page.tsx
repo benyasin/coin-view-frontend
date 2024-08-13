@@ -1,36 +1,28 @@
 "use client";
 
-import React, { useEffect } from "react";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  Divider,
-  Spacer,
-  Tooltip,
-} from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Avatar, Button, Card, CardBody } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { UserInfo } from "@/types";
+import { useIntl } from "react-intl";
 
 const Dashboard = () => {
-  // 模拟没有用户信息时的情况
-  const userInfo = localStorage.getItem("coinViewUser"); // 这里应该是获取存储在 localStorage 的用户信息
-  const user = userInfo ? JSON.parse(userInfo) : null;
+  const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const router = useRouter();
+  const intl = useIntl();
 
   useEffect(() => {
-    if (!user) {
-      // 如果用户信息为空，重定向到首页
-      router.push("/");
+    if (typeof window !== "undefined") {
+      // 只有在客户端环境下才会执行这个代码块
+      const userInfo = localStorage.getItem("coinViewUser");
+      if (userInfo) {
+        setUser(JSON.parse(userInfo) as UserInfo);
+      } else {
+        // 如果用户信息不存在，重定向到首页
+        router.push("/");
+      }
     }
-  }, [user, router]);
-
-  if (!user) {
-    // 如果用户信息为空，暂时返回 null，直到完成重定向
-    return null;
-  }
-
-  const isPremium = user.plan !== "Free";
+  }, [router]);
 
   const youtubers = [
     {
@@ -67,6 +59,11 @@ const Dashboard = () => {
     router.push("/login");
   };
 
+  if (user === undefined || null) {
+    // 等待 useEffect 执行完毕
+    return null;
+  }
+
   return (
     <div className="py-8 px-24">
       {/* Profile Section */}
@@ -74,11 +71,18 @@ const Dashboard = () => {
         <CardBody>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold">{user.username}</div>
-              <div className="text-sm">{user.email}</div>
-              <div className="text-sm">Plan: {user.plan}</div>
-              {isPremium ? (
-                <div className="text-sm">Expiry Date: {user.expiryDate}</div>
+              <div className="text-2xl font-bold">{user?.username}</div>
+              <div className="text-sm">{user?.email}</div>
+              <div className="text-sm">
+                Plan:{" "}
+                {user?.is_member
+                  ? user?.membership_level
+                  : intl.formatMessage({ id: "free_plan" })}
+              </div>
+              {user?.is_member ? (
+                <div className="text-sm">
+                  Expiry Date: {user?.membership_expiry}
+                </div>
               ) : (
                 <Button color="primary" size="sm">
                   Upgrade to Premium
@@ -95,10 +99,10 @@ const Dashboard = () => {
       {/* Config Section */}
       <section
         className={`p-6 rounded-lg ${
-          isPremium ? "bg-gray-800" : "bg-gray-800 opacity-40"
+          user?.is_member ? "bg-gray-800" : "bg-gray-800 opacity-40"
         }`}
       >
-        {isPremium ? (
+        {user?.is_member ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {youtubers.map((yt, index) => (
               <div
