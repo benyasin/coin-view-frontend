@@ -42,5 +42,16 @@
   "team_schedule_more": "为您的团队制定最佳安排及更多",
   "features": "特征",
   "get_started": "开始",
-  "faq_description": "以下是我们的一些常见问题。如果您有任何其他问题，请随时给我们发送电子邮件。"
+  "faq_description": "以下是我们的一些常见问题。如果您有任何其他问题，请随时给我们发送电子邮件。",
+  "sign_up_title": "注册一个新账号",
+  "sign_in_title": "使用邮箱与密码登录",
+  "already_have_account_title": "已经有一个账号了 ?",
+  "have_not_account_title": "没有任何一个账号 ?",
+  "login_here_title": " 在这里登录",
+  "register_here_title": " 在这里注册",
+  "email": "邮箱",
+  "password": "密码",
+  "username": "用户名",
+  "confirm_password": "确认密码",
+  "register_successfully": "Register successfully."
 }

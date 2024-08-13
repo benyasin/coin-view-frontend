@@ -56,9 +56,9 @@ export const PieKline = () => {
     const lastIndex = data.length - 1;
     const initialPieData = [
       {
-        value: data[lastIndex].bullish,
-        name: intl.formatMessage({ id: "bullish" }),
-        itemStyle: { color: "rgba(124,255,178,0.7)" }, // Green color
+        value: data[lastIndex].bearish,
+        name: intl.formatMessage({ id: "bearish" }),
+        itemStyle: { color: "rgba(255,110,118,0.7)" }, // Red color
       },
       {
         value: data[lastIndex].neutral,
@@ -66,9 +66,9 @@ export const PieKline = () => {
         itemStyle: { color: "rgb(215,227,253)" },
       },
       {
-        value: data[lastIndex].bearish,
-        name: intl.formatMessage({ id: "bearish" }),
-        itemStyle: { color: "rgba(255,110,118,0.7)" }, // Red color
+        value: data[lastIndex].bullish,
+        name: intl.formatMessage({ id: "bullish" }),
+        itemStyle: { color: "rgba(124,255,178,0.7)" }, // Green color
       },
     ];
 
@@ -83,6 +83,7 @@ export const PieKline = () => {
           center: ["50%", "65%"], // Adjust the center position
           startAngle: 180,
           endAngle: 360,
+          padAngle: 5,
           itemStyle: {
             borderRadius: 5,
             borderWidth: 0,
@@ -196,6 +197,7 @@ export const PieKline = () => {
         textStyle: {
           color: "#FFF",
         },
+        borderColor: "transparent", //
         formatter: (params: any[]) => {
           const date = params[0].axisValue;
           const price =
@@ -209,9 +211,9 @@ export const PieKline = () => {
               intl.formatMessage({ id: "fear_greed_index" })
           );
           const index = bullishData?.dataIndex;
-          const bullish = index !== undefined ? data[index].bullish : 0;
-          const neutral = index !== undefined ? data[index].neutral : 0;
           const bearish = index !== undefined ? data[index].bearish : 0;
+          const neutral = index !== undefined ? data[index].neutral : 0;
+          const bullish = index !== undefined ? data[index].bullish : 0;
           const fearGreedIndex = bullishData?.data ?? 0;
           return `
             <div>
@@ -359,9 +361,9 @@ export const PieKline = () => {
             {
               data: [
                 {
-                  value: bullish,
-                  name: intl.formatMessage({ id: "bullish" }),
-                  itemStyle: { color: "rgba(124,255,178,0.7)" },
+                  value: bearish,
+                  name: intl.formatMessage({ id: "bearish" }),
+                  itemStyle: { color: "rgba(255,110,118,0.7)" },
                 },
                 {
                   value: neutral,
@@ -369,9 +371,9 @@ export const PieKline = () => {
                   itemStyle: { color: "rgb(215,227,253)" },
                 },
                 {
-                  value: bearish,
-                  name: intl.formatMessage({ id: "bearish" }),
-                  itemStyle: { color: "rgba(255,110,118,0.7)" },
+                  value: bullish,
+                  name: intl.formatMessage({ id: "bullish" }),
+                  itemStyle: { color: "rgba(124,255,178,0.7)" },
                 },
               ],
             },
@@ -380,38 +382,6 @@ export const PieKline = () => {
 
         gaugeOption.series[0].data[0].value = fearGreedIndex;
         gaugeChart.setOption(gaugeOption);
-      }
-    });
-
-    myChart.on("legendselectchanged", (params) => {
-      // @ts-ignore
-      if (!params.selected[intl.formatMessage({ id: "fear_greed_index" })]) {
-        gaugeChart.setOption({
-          graphic: {
-            style: {
-              text: "",
-            },
-          },
-        });
-      } else {
-        // @ts-ignore
-        const index = myChart.getOption().xAxis[0].data.length - 1;
-        const fearGreedIndex = data[index].fearGreedIndex;
-        gaugeChart.setOption({
-          graphic: {
-            type: "text",
-            style: {
-              text: `${Math.round(fearGreedIndex)}`,
-              x: "50%",
-              y: "50%",
-              textAlign: "center",
-              textVerticalAlign: "middle",
-              fontSize: 20,
-              fontWeight: "bold",
-              fill: "#000",
-            },
-          },
-        });
       }
     });
 

@@ -20,25 +20,25 @@ export const Hero = () => {
           className="flex flex-col justify-center items-center space-y-5 max-w-4xl mx-auto text-center"
         >
           <div className="inline-block max-w-[690px] text-center justify-center">
-            <h2 style={{ lineHeight: "1.2" }} className={title()}>
+            <h2 style={{ lineHeight: "1.2" }} className={title({ size: "sm" })}>
               {intl.formatMessage({ id: "slogan_1" })}&nbsp;
             </h2>
             <h2
               style={{ lineHeight: "1.2" }}
-              className={title({ color: "violet" })}
+              className={title({ color: "violet", size: "sm" })}
             >
               {intl.formatMessage({ id: "slogan_2" })}&nbsp;
             </h2>
-            <h2 style={{ lineHeight: "1.2" }} className={title()}>
+            <h2 style={{ lineHeight: "1.2" }} className={title({ size: "sm" })}>
               {intl.formatMessage({ id: "slogan_3" })}&nbsp;
             </h2>
             <h2
               style={{ lineHeight: "1.2" }}
-              className={title({ color: "violet" })}
+              className={title({ color: "violet", size: "sm" })}
             >
               {intl.formatMessage({ id: "slogan_4" })}&nbsp;
             </h2>
-            <h2 style={{ lineHeight: "1.2" }} className={title()}>
+            <h2 style={{ lineHeight: "1.2" }} className={title({ size: "sm" })}>
               {intl.formatMessage({ id: "slogan_5" })}
             </h2>
           </div>

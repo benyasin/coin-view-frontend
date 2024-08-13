@@ -1,6 +1,5 @@
 "use client";
 
-import { title, subtitle } from "@/components/primitives";
 import { PieKline } from "@/components/pie-kline";
 import { TimeSelect } from "@/components/time-select";
 import YoutubeTab from "@/components/youtube-tab";
@@ -21,7 +20,7 @@ export default function Home() {
     <>
       <Hero />
       <section className="text-2xl ml-20 mt-16 flex justify-start items-center">
-        <div className="text-default-400">
+        <div className="text-default-500">
           {intl.formatMessage({ id: "bullish_bearish_probability" })}
         </div>
 
@@ -67,7 +66,7 @@ export default function Home() {
         </div>
       </section>
       <section className="text-2xl ml-16 mt-40 mb-8">
-        <div className="text-default-400">
+        <div className="text-default-500">
           {intl.formatMessage({ id: "youTube_analysis_results" })}
         </div>
       </section>

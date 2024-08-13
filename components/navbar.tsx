@@ -65,29 +65,29 @@ export const Navbar = () => {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 {showRegister
-                  ? "Sign up with a new account"
-                  : "Sign in with your email and password"}
+                  ? intl.formatMessage({ id: "sign_up_title" })
+                  : intl.formatMessage({ id: "sign_in_title" })}
               </ModalHeader>
               <ModalBody>{showRegister ? <Register /> : <Login />}</ModalBody>
               <ModalFooter>
                 {showRegister ? (
                   <div className="font-light text-slate-400 mt-4 text-sm">
-                    Already have an account ?{" "}
+                    {intl.formatMessage({ id: "already_have_account_title" })}
                     <span
                       onClick={() => setShowRegister(false)}
                       className="font-bold text-primary-500 cursor-pointer"
                     >
-                      Login here
+                      {intl.formatMessage({ id: "login_here_title" })}
                     </span>
                   </div>
                 ) : (
                   <div className="font-light text-slate-400 mt-4 text-sm">
-                    Don&apos;t have an account ?{" "}
+                    {intl.formatMessage({ id: "have_not_account_title" })}
                     <span
                       className="font-bold text-primary-500 cursor-pointer"
                       onClick={() => setShowRegister(true)}
                     >
-                      Register here
+                      {intl.formatMessage({ id: "register_here_title" })}
                     </span>
                   </div>
                 )}

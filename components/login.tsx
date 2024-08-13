@@ -12,6 +12,7 @@ import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { MailIcon } from "@nextui-org/shared-icons";
+import { useIntl } from "react-intl";
 
 function LockIcon(props: { className: string }) {
   return null;
@@ -19,10 +20,11 @@ function LockIcon(props: { className: string }) {
 
 export const Login = () => {
   const router = useRouter();
+  const intl = useIntl();
 
   const initialValues: LoginFormType = {
-    email: "admin@acme.com",
-    password: "admin",
+    email: "",
+    password: "",
   };
 
   const handleLogin = useCallback(
@@ -65,7 +67,7 @@ export const Login = () => {
                   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 variant="bordered"
-                label="Email"
+                label={intl.formatMessage({ id: "email" })}
                 type="email"
                 value={values.email}
                 isInvalid={!!errors.email && !!touched.email}
@@ -77,7 +79,7 @@ export const Login = () => {
                   <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 variant="bordered"
-                label="Password"
+                label={intl.formatMessage({ id: "password" })}
                 type="password"
                 value={values.password}
                 isInvalid={!!errors.password && !!touched.password}
@@ -91,7 +93,7 @@ export const Login = () => {
               variant="flat"
               color="primary"
             >
-              Login
+              {intl.formatMessage({ id: "login" })}
             </Button>
           </>
         )}

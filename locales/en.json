@@ -10,7 +10,7 @@
   "slogan_2": "AI-powered",
   "slogan_3": "tool for extracting and analyzing sentiment from YouTube videos to",
   "slogan_4": "predict",
-  "slogan_5": "cryptocurrency trends",
+  "slogan_5": "cryptocurrency market trends",
   "bullish": "Bullish",
   "bearish": "Bearish",
   "neutral": "Neutral",
@@ -42,5 +42,16 @@
   "team_schedule_more": "Make the best schedule for your team and more",
   "features": "Features",
   "get_started": "Get Started",
-  "faq_description": "Here are some of our frequently asked questions. If you have any other questions you’d like answered please feel free to email us."
+  "faq_description": "Here are some of our frequently asked questions. If you have any other questions you’d like answered please feel free to email us.",
+  "sign_up_title": "Sign up with a new account",
+  "sign_in_title": "Sign in with your email and password",
+  "already_have_account_title": "Already have an account ?",
+  "have_not_account_title": "Don't have an account ?",
+  "login_here_title": " Login here",
+  "register_here_title": " Register here",
+  "email": "Email",
+  "password": "Password",
+  "username": "Username",
+  "confirm_password": "Confirm password",
+  "register_successfully": "Register successfully."
 }

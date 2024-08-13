@@ -12,16 +12,19 @@ import { Formik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { useIntl } from "react-intl";
 
 export const Register = () => {
   const router = useRouter();
-  const notify = () => toast.success("Register successfully.");
+  const intl = useIntl();
+  const notify = () =>
+    toast.success(intl.formatMessage({ id: "register_successfully" }));
 
   const initialValues: RegisterFormType = {
-    username: "Acme",
-    email: "admin@acme.com",
-    password: "admin",
-    confirmPassword: "admin",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const handleRegister = useCallback(
@@ -61,7 +64,7 @@ export const Register = () => {
             <div className="flex flex-col gap-4 mb-4">
               <Input
                 variant="bordered"
-                label="Username"
+                label={intl.formatMessage({ id: "username" })}
                 type="text"
                 value={values.username}
                 isInvalid={!!errors.username && !!touched.username}
@@ -70,7 +73,7 @@ export const Register = () => {
               />
               <Input
                 variant="bordered"
-                label="Email"
+                label={intl.formatMessage({ id: "email" })}
                 type="email"
                 value={values.email}
                 isInvalid={!!errors.email && !!touched.email}
@@ -79,7 +82,7 @@ export const Register = () => {
               />
               <Input
                 variant="bordered"
-                label="Password"
+                label={intl.formatMessage({ id: "password" })}
                 type="password"
                 value={values.password}
                 isInvalid={!!errors.password && !!touched.password}
@@ -88,7 +91,7 @@ export const Register = () => {
               />
               <Input
                 variant="bordered"
-                label="Confirm password"
+                label={intl.formatMessage({ id: "confirm_password" })}
                 type="password"
                 value={values.confirmPassword}
                 isInvalid={
@@ -104,7 +107,7 @@ export const Register = () => {
               variant="flat"
               color="primary"
             >
-              Register
+              {intl.formatMessage({ id: "register" })}
             </Button>
           </>
         )}
