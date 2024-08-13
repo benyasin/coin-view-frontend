@@ -10,7 +10,7 @@ import { LoginFormType } from "@/helpers/types";
 import { Button, Input } from "@nextui-org/react";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { MailIcon } from "@nextui-org/shared-icons";
 import { useIntl } from "react-intl";
 
@@ -20,6 +20,7 @@ function LockIcon(props: { className: string }) {
 
 export const Login = () => {
   const router = useRouter();
+  const [loginError, setLoginError] = useState("");
   const intl = useIntl();
 
   const initialValues: LoginFormType = {
@@ -44,8 +45,15 @@ export const Login = () => {
             console.error("User data is missing in the response");
           }
         }
-      } catch (e) {
-        console.error(e);
+      } catch (e: any) {
+        if (e.message !== "[object Object]") {
+          if (e.message === "Incorrect email or password") {
+            setLoginError(intl.formatMessage({ id: "incorrect_u_or_p" }));
+          } else {
+            setLoginError(e.message);
+          }
+        }
+        console.error(e.message);
       }
     },
     [router]
@@ -87,6 +95,8 @@ export const Login = () => {
                 onChange={handleChange("password")}
               />
             </div>
+
+            <div className="text-red-600 ml-1 mb-2">{loginError}</div>
 
             <Button
               onPress={() => handleSubmit()}

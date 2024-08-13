@@ -56,5 +56,6 @@
   "confirm_password": "Confirm password",
   "register_successfully": "Register successfully.",
   "currently_you": "You are currently on the ",
-  "expire_in": "This paid plan will expire on {dueDay}"
+  "expire_in": "This paid plan will expire on {dueDay}",
+  "incorrect_u_or_p": "Incorrect email or password"
 }

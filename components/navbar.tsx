@@ -6,10 +6,8 @@ import {
   NavbarMenuToggle,
   NavbarItem,
   Link,
-  link as linkStyles,
 } from "@nextui-org/react";
 import NextLink from "next/link";
-import clsx from "clsx";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { TwitterIcon, LanguageIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";

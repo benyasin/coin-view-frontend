@@ -56,5 +56,6 @@
   "confirm_password": "确认密码",
   "register_successfully": "Register successfully.",
   "currently_you": "你当前是 ",
-  "expire_in": "付费计划将于 {dueDay} 过期"
+  "expire_in": "付费计划将于 {dueDay} 过期",
+  "incorrect_u_or_p": "不正确的用户名或密码"
 }
