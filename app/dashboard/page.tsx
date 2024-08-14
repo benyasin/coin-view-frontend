@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Card, CardBody } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { UserInfo } from "@/types";
-import { useIntl } from "react-intl";
 import { Profile } from "@/components/profile";
+import { Customize } from "@/components/customize";
 
 const Dashboard = () => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const router = useRouter();
-  const intl = useIntl();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -29,25 +27,8 @@ const Dashboard = () => {
 
   return (
     <div className="py-8 px-24">
-      {/* Profile Section */}
-      <Profile />
-
-      {/* Config Section */}
-      <section
-        className={`p-6 rounded-lg shadow-lg ${
-          user?.is_member ? "bg-gray-800" : "bg-gray-800 opacity-40"
-        }`}
-      >
-        {user?.is_member ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Config content goes here */}
-          </div>
-        ) : (
-          <div className="text-center text-white">
-            Upgrade to access this feature
-          </div>
-        )}
-      </section>
+      <Profile user={user as UserInfo} />
+      <Customize user={user as UserInfo} />
     </div>
   );
 };

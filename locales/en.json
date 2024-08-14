@@ -57,5 +57,8 @@
   "register_successfully": "Register successfully.",
   "currently_you": "You are currently on the ",
   "expire_in": "This paid plan will expire on {dueDay}",
-  "incorrect_u_or_p": "Incorrect email or password"
+  "incorrect_u_or_p": "Incorrect email or password",
+  "youtubers": "Youtubers",
+  "add_youtuber": "Add Youtuber",
+  "delete": "Delete"
 }

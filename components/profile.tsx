@@ -4,33 +4,19 @@ import { useIntl } from "react-intl";
 import { Button, Card, CardBody } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { UserInfo } from "@/types";
-import { useRouter } from "next/navigation";
 
-export const Profile = () => {
-  const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
-  const router = useRouter();
+type ProfileProps = {
+  user: UserInfo; // Ensure that user is of type UserInfo
+};
+
+export const Profile: React.FC<ProfileProps> = ({ user }) => {
   const intl = useIntl();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userInfo = localStorage.getItem("coinViewUser");
-      if (userInfo) {
-        setUser(JSON.parse(userInfo) as UserInfo);
-      } else {
-        router.push("/");
-      }
-    }
-  }, [router]);
 
   const handleLogout = () => {
     console.log("User logged out");
     localStorage.removeItem("coinViewUser");
-    router.push("/");
+    location.href = "/";
   };
-
-  if (user === undefined || null) {
-    return null;
-  }
 
   return (
     <Card className="mb-8 p-8 bg-gradient-to-r from-gray-900 to-green-950 shadow-lg rounded-lg">

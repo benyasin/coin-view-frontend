@@ -24,6 +24,7 @@ export interface Video {
 
 // 类型定义
 export interface UserInfo {
+  id: string;
   username: string;
   email: string;
   is_member: boolean;

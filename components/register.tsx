@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  createAuthCookie,
-  loginUser,
-  registerUser,
-} from "@/actions/auth.action";
+import { createAuthCookie, loginUser, registerUser } from "@/actions/api";
 import { RegisterSchema } from "@/helpers/schemas";
 import { RegisterFormType } from "@/helpers/types";
 import { Button, Input } from "@nextui-org/react";

@@ -57,5 +57,8 @@
   "register_successfully": "Register successfully.",
   "currently_you": "你当前是 ",
   "expire_in": "付费计划将于 {dueDay} 过期",
-  "incorrect_u_or_p": "不正确的用户名或密码"
+  "incorrect_u_or_p": "不正确的用户名或密码",
+  "youtubers": "油管博主",
+  "add_youtuber": "添加油管博主",
+  "delete": "删除"
 }

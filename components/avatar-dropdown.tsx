@@ -9,7 +9,7 @@ import {
   Avatar,
   User,
 } from "@nextui-org/react";
-import { deleteAuthCookie } from "@/actions/auth.action";
+import { deleteAuthCookie } from "@/actions/api";
 
 type User = {
   username: string;
