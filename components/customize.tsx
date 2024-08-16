@@ -36,7 +36,6 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
     const userId = user.id;
     fetchYoutubers(userId)
       .then((data) => {
-        console.log(data);
         setYoutubers(data.data); // Assuming the API returns data in a "data" field
       })
       .catch((err) => {
@@ -50,7 +49,7 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
       try {
         const { data } = await searchYoutuber(channelId);
         if (data) {
-          console.log(data);
+          //console.log(data);
           const result = {
             channel_id: data.channel_id,
             avatar: data.channel_thumbnail,
