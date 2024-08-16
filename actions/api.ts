@@ -3,6 +3,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { LoginFormType, RegisterFormType } from "@/helpers/types";
+import { Youtuber } from "@/types";
 
 export const registerUser = async (values: RegisterFormType) => {
   try {
@@ -33,7 +34,52 @@ export const loginUser = async (values: LoginFormType) => {
 export const fetchYoutubers = async (userId: string) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/list_by_user/${userId}`
+      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/list/${userId}`
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const searchYoutuber = async (channelId: string) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/search/${channelId}`
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const addYoutuberToDB = async (
+  newYoutuber: Youtuber,
+  userId: string
+) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/save`,
+      {
+        youtuber: newYoutuber,
+        user_id: userId,
+      }
     );
     return response.data; // Return the data from the response
   } catch (error) {

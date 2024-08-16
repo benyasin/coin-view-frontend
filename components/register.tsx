@@ -36,7 +36,7 @@ export const Register = () => {
             notify();
             setTimeout(() => {
               location.reload();
-            }, 300);
+            }, 1500);
           } else {
             console.error("User data is missing in the response");
           }

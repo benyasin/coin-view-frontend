@@ -60,5 +60,12 @@
   "incorrect_u_or_p": "不正确的用户名或密码",
   "youtubers": "油管博主",
   "add_youtuber": "添加油管博主",
-  "delete": "删除"
+  "delete": "删除",
+  "search_youtuber": "搜索油管博主",
+  "search": "搜索",
+  "channel_id_placeholder": "请输入频道ID",
+  "channel_id_describe": "频道ID必须以'UC'开头, 就如'UCz2wzs4KacqHth7R_N5grgA'. 你可以按照下图所示的步骤来获取频道ID.",
+  "confirm_add": "确认添加",
+  "youtuber_search_error": "没有找到对应的油管博主，请检查频道ID是否正确.",
+  "add_youtuber_successfully": "成功添加了油管博主."
 }

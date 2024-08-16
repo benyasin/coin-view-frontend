@@ -60,5 +60,12 @@
   "incorrect_u_or_p": "Incorrect email or password",
   "youtubers": "Youtubers",
   "add_youtuber": "Add Youtuber",
-  "delete": "Delete"
+  "delete": "Delete",
+  "search_youtuber": "Search Youtuber",
+  "search": "Search",
+  "channel_id_placeholder": "Please input Channel ID",
+  "channel_id_describe": "The channel Id must start with 'UC', like 'UCz2wzs4KacqHth7R_N5grgA'. You can follow the steps shown in the image below to obtain the Channel ID.",
+  "confirm_add": "Confirm Add",
+  "youtuber_search_error": "No matching Youtuber found. Please check if the channel ID is correct.",
+  "add_youtuber_successfully": "Add youtuber successfully."
 }

@@ -31,3 +31,11 @@ export interface UserInfo {
   membership_level: string;
   membership_expiry: string;
 }
+
+// 类型定义
+export interface Youtuber {
+  channel_id: string;
+  channel_title: string;
+  subscribers: string;
+  avatar: string;
+}
