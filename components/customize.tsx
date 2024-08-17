@@ -15,7 +15,12 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { UserInfo, Youtuber } from "@/types";
-import { fetchYoutubers, addYoutuberToDB, searchYoutuber } from "@/actions/api";
+import {
+  fetchYoutubers,
+  addYoutuberToDB,
+  searchYoutuber,
+  deleteYoutuberFromDB,
+} from "@/actions/api";
 import toast, { Toaster } from "react-hot-toast";
 
 type CustomizeProps = {
@@ -27,10 +32,20 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
   const [channelId, setChannelId] = useState("");
   const [searchResult, setSearchResult] = useState<Youtuber | null>(null);
   const [searchError, setSearchError] = useState("");
+  const [selectedYoutuber, setSelectedYoutuber] = useState<Youtuber | null>(
+    null
+  );
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onOpenChange: onDeleteOpenChange,
+  } = useDisclosure();
   const intl = useIntl();
   const [youtubers, setYoutubers] = useState<Youtuber[]>([]);
   const notify = () =>
     toast.success(intl.formatMessage({ id: "add_youtuber_successfully" }));
+  const deleteNotify = () =>
+    toast.success(intl.formatMessage({ id: "delete_youtuber_successfully" }));
 
   useEffect(() => {
     const userId = user.id;
@@ -49,7 +64,6 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
       try {
         const { data } = await searchYoutuber(channelId);
         if (data) {
-          //console.log(data);
           const result = {
             channel_id: data.channel_id,
             avatar: data.channel_thumbnail,
@@ -90,6 +104,29 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
     }
   };
 
+  const confirmDeleteYoutuber = async () => {
+    if (selectedYoutuber) {
+      try {
+        const result = await deleteYoutuberFromDB(
+          selectedYoutuber.channel_id,
+          user.id
+        );
+        if (result.status_code === 200) {
+          deleteNotify();
+          // @ts-ignore
+          onDeleteOpenChange(false); // 关闭删除确认 Modal
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+        } else {
+          console.error("delete user_youtuber error");
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
       return (num / 1000000).toFixed(1) + "M";
@@ -98,11 +135,6 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
     } else {
       return num.toString();
     }
-  };
-
-  const deleteYoutuber = (index: number) => {
-    const updatedYoutubers = youtubers.filter((_, i) => i !== index);
-    setYoutubers(updatedYoutubers);
   };
 
   return (
@@ -181,6 +213,24 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
         </ModalContent>
       </Modal>
 
+      <Modal
+        size="md"
+        backdrop="blur"
+        isOpen={isDeleteOpen}
+        onOpenChange={onDeleteOpenChange}
+      >
+        <ModalContent>
+          <ModalBody className="pt-10">
+            <p>{intl.formatMessage({ id: "confirm_delete_message" })}</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={confirmDeleteYoutuber}>
+              {intl.formatMessage({ id: "confirm" })}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       <section className="p-6 rounded-lg shadow-lg bg-gray-900">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">
@@ -208,7 +258,10 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
               <Button
                 variant="light"
                 color="danger"
-                onClick={() => deleteYoutuber(index)}
+                onClick={() => {
+                  setSelectedYoutuber(yt);
+                  onDeleteOpen();
+                }}
               >
                 {intl.formatMessage({ id: "delete" })}
               </Button>

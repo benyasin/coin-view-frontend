@@ -95,6 +95,28 @@ export const addYoutuberToDB = async (
   }
 };
 
+export const deleteYoutuberFromDB = async (
+  channelId: string,
+  userId: string
+) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/del_relation/${channelId}/${userId}`
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
 export const createAuthCookie = async (token: string) => {
   cookies().set("coinViewAuth", token, { secure: true });
 };
