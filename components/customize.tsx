@@ -231,11 +231,19 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
         </ModalContent>
       </Modal>
 
-      <section className="p-6 rounded-lg shadow-lg bg-gray-900">
+      <section className="p-12 rounded-lg shadow-lg bg-gray-900">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-white">
-            {intl.formatMessage({ id: "youtubers" })}
-          </h2>
+          <div className="inline-block">
+            <h2 className="text-xl font-bold text-white">
+              {intl.formatMessage({ id: "youtubers" })}
+            </h2>
+            <h6>
+              {intl.formatMessage(
+                { id: "youtubers_left" },
+                { youtubers_left: 10 }
+              )}
+            </h6>
+          </div>
           <Button variant="light" color="primary" size="md" onClick={onOpen}>
             {intl.formatMessage({ id: "add_youtuber" })}
           </Button>

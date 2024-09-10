@@ -15,6 +15,7 @@
   "bullish": "Bullish",
   "bearish": "Bearish",
   "neutral": "Neutral",
+  "opinion": "Opinion",
   "subscribers": "subscribers",
   "fear_greed_index": "Fear Greed Index",
   "extreme_fear": "Extreme Fear",
@@ -70,5 +71,10 @@
   "add_youtuber_successfully": "Add youtuber successfully.",
   "delete_youtuber_successfully": "Delete youtuber successfully.",
   "confirm_delete_message": "Are you confirm to delete the youtuber?",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "youtubers_left": "( There are {youtubers_left} more Youtubers left to add )",
+  "total_videos": "Total {video_length} videos",
+  "rows_per_page": "Rows per page:",
+  "previous": "Previous",
+  "next": "Next"
 }

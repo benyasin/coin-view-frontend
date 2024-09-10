@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { UserInfo } from "@/types";
 import { Profile } from "@/components/profile";
 import { Customize } from "@/components/customize";
+import { Statistics } from "@/components/statistics";
 
 const Dashboard = () => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
@@ -29,6 +30,7 @@ const Dashboard = () => {
     <div className="py-8 px-24">
       <Profile user={user as UserInfo} />
       <Customize user={user as UserInfo} />
+      <Statistics />
     </div>
   );
 };

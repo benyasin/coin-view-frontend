@@ -15,6 +15,7 @@
   "bullish": "看涨",
   "bearish": "看跌",
   "neutral": "中性",
+  "opinion": "观点",
   "subscribers": "订阅者",
   "fear_greed_index": "恐惧贪婪指数",
   "extreme_fear": "极度恐惧",
@@ -70,5 +71,10 @@
   "add_youtuber_successfully": "成功添加了油管博主.",
   "delete_youtuber_successfully": "成功删除了油管博主.",
   "confirm_delete_message": "你确定要删除这一个油管博主？",
-  "confirm": "确定"
+  "confirm": "确定",
+  "youtubers_left": "( 还剩下{youtubers_left}个油管博主可以添加 ) ",
+  "total_videos": "一共{video_length}条视频",
+  "rows_per_page": "每页行数:",
+  "previous": "前一页",
+  "next": "后一页"
 }

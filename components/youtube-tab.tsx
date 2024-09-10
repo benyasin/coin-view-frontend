@@ -121,7 +121,7 @@ const YouTubeTab = ({}) => {
             {filterVideos(selectedTab).map((video) => (
               <div
                 key={video.video_id}
-                className="flex mt-2 mb-14 gap-3 justify-between w-full"
+                className="flex mt-2 mb-14 gap-12 px-2 justify-between w-full"
               >
                 <Card key={video.video_id} className="w-1/2">
                   <CardHeader className="pt-4 px-4 justify-between items-center">
@@ -165,7 +165,7 @@ const YouTubeTab = ({}) => {
                   <CardBody className="overflow-visible !p-0">
                     <YouTubeEmbed
                       height={275}
-                      width={440}
+                      width={548}
                       videoId={video.video_id}
                     />
                   </CardBody>
@@ -173,7 +173,7 @@ const YouTubeTab = ({}) => {
                 <div className="w-1/2 h-[275px]">
                   <Link
                     className={subtitle({
-                      className: "text-primary line-clamp-2 pl-4 mb-0",
+                      className: "text-default-600 line-clamp-2 pl-4 mb-0",
                     })}
                     href={video.url}
                     target="_blank"
@@ -185,7 +185,7 @@ const YouTubeTab = ({}) => {
                     className="youtube-accordion"
                     itemClasses={{
                       base: "py-2 w-full",
-                      title: "font-normal text-lg pt-1",
+                      title: "font-normal text-default-400 text-lg pt-1",
                       trigger: "px-2 py-0 rounded-lg h-10 flex items-center",
                       indicator: "text-medium",
                       content: "px-2 pb-2 text-default-500",
