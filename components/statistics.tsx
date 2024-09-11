@@ -17,14 +17,17 @@ import {
   Chip,
   User,
   Pagination,
+  DatePicker,
   Selection,
   ChipProps,
   SortDescriptor,
+  DateValue,
 } from "@nextui-org/react";
-import { ChevronDownIcon } from "@/components/icons";
+import { ChevronDownIcon, ExportIcon } from "@/components/icons";
 import { SearchIcon } from "@/components/icons";
-import { columns, users } from "./data";
+import { users } from "./data";
 import { useIntl } from "react-intl";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 const opinionColorMap: Record<string, ChipProps["color"]> = {
   bullish: "success",
@@ -32,7 +35,7 @@ const opinionColorMap: Record<string, ChipProps["color"]> = {
   neutral: "primary",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["youtuber", "title", "opinion"];
+const INITIAL_VISIBLE_COLUMNS = ["youtuber", "title", "opinion", "date"];
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -40,6 +43,9 @@ type User = (typeof users)[0];
 
 export const Statistics = () => {
   const [filterValue, setFilterValue] = React.useState("");
+  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+    new Set([])
+  );
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
@@ -50,8 +56,31 @@ export const Statistics = () => {
     direction: "ascending",
   });
   const intl = useIntl();
-  const [page, setPage] = React.useState(1);
 
+  let defaultDate = today(getLocalTimeZone());
+  const [dateValue, setDateValue] = React.useState<DateValue>(defaultDate);
+
+  const [page, setPage] = React.useState(1);
+  const columns = [
+    { name: "ID", uid: "id", sortable: true },
+    {
+      name: intl.formatMessage({ id: "youtuber" }),
+      uid: "youtuber",
+      sortable: true,
+    },
+    {
+      name: intl.formatMessage({ id: "video_title" }),
+      uid: "title",
+      sortable: true,
+    },
+    { name: intl.formatMessage({ id: "core_view" }), uid: "coreView" },
+    { name: intl.formatMessage({ id: "publish_date" }), uid: "date" },
+    {
+      name: intl.formatMessage({ id: "opinion" }),
+      uid: "opinion",
+      sortable: true,
+    },
+  ];
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
@@ -60,7 +89,7 @@ export const Statistics = () => {
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
-  }, [visibleColumns]);
+  }, [visibleColumns, intl]);
 
   const filteredItems = React.useMemo(() => {
     let filteredUsers = [...users];
@@ -77,7 +106,7 @@ export const Statistics = () => {
     }
 
     return filteredUsers;
-  }, [users, filterValue, opinionFilter]);
+  }, [users, intl, filterValue, opinionFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -106,10 +135,10 @@ export const Statistics = () => {
         return (
           <User
             avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
+            description={user.date}
             name={cellValue}
           >
-            {user.email}
+            {user.date}
           </User>
         );
       case "title":
@@ -117,7 +146,7 @@ export const Statistics = () => {
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
             <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
+              {user.coreView}
             </p>
           </div>
         );
@@ -141,13 +170,13 @@ export const Statistics = () => {
     if (page < pages) {
       setPage(page + 1);
     }
-  }, [page, pages]);
+  }, [page, pages, intl]);
 
   const onPreviousPage = React.useCallback(() => {
     if (page > 1) {
       setPage(page - 1);
     }
-  }, [page]);
+  }, [page, intl]);
 
   const onRowsPerPageChange = React.useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -177,7 +206,7 @@ export const Statistics = () => {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full sm:max-w-[34%]"
             placeholder={intl.formatMessage({ id: "search_youtuber" })}
             startContent={<SearchIcon />}
             value={filterValue}
@@ -185,6 +214,13 @@ export const Statistics = () => {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <DatePicker
+              label={intl.formatMessage({ id: "publish_date" })}
+              labelPlacement="outside-left"
+              className="max-w-[284px]"
+              value={dateValue}
+              onChange={setDateValue}
+            />
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -198,6 +234,7 @@ export const Statistics = () => {
                 disallowEmptySelection
                 aria-label="Table Columns"
                 closeOnSelect={false}
+                selectedKeys={opinionFilter}
                 selectionMode="multiple"
                 onSelectionChange={setOpinionFilter}
               >
@@ -218,13 +255,15 @@ export const Statistics = () => {
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
-                  Columns
+                  {intl.formatMessage({ id: "columns" })}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
                 aria-label="Table Columns"
                 closeOnSelect={false}
+                selectedKeys={visibleColumns}
+                selectionMode="multiple"
                 onSelectionChange={setVisibleColumns}
               >
                 {columns.map((column) => (
@@ -234,6 +273,14 @@ export const Statistics = () => {
                 ))}
               </DropdownMenu>
             </Dropdown>
+            <Button
+              color="primary"
+              size="sm"
+              className="text-white shadow-lg w-[120px]"
+              endContent={<ExportIcon />}
+            >
+              {intl.formatMessage({ id: "export" })}
+            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -260,6 +307,7 @@ export const Statistics = () => {
   }, [
     filterValue,
     intl,
+    dateValue,
     opinionFilter,
     visibleColumns,
     onSearchChange,
@@ -300,7 +348,7 @@ export const Statistics = () => {
         </div>
       </div>
     );
-  }, [intl, items.length, page, pages, hasSearchFilter]);
+  }, [selectedKeys, intl, items.length, page, pages, hasSearchFilter]);
 
   return (
     <Table
@@ -311,6 +359,7 @@ export const Statistics = () => {
       classNames={{
         wrapper: "max-h-[382px]",
       }}
+      selectedKeys={selectedKeys}
       sortDescriptor={sortDescriptor}
       topContent={topContent}
       topContentPlacement="outside"

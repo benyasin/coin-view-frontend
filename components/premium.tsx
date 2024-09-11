@@ -30,8 +30,7 @@ export const Premium = () => {
       isMostPop: true,
       features: [
         "大盘数据每日更新",
-        "检索任意博主频道",
-        "数据统计与邮件推送",
+        "统计报表与邮件推送",
         "首页定制展示10个博主",
       ],
     },
@@ -42,8 +41,7 @@ export const Premium = () => {
       isMostPop: false,
       features: [
         "大盘数据每日更新",
-        "检索任意博主频道",
-        "数据统计与邮件推送",
+        "统计报表与邮件推送",
         "首页定制展示50个博主",
       ],
     },

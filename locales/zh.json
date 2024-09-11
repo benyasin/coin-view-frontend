@@ -76,5 +76,11 @@
   "total_videos": "一共{video_length}条视频",
   "rows_per_page": "每页行数:",
   "previous": "前一页",
-  "next": "后一页"
+  "next": "后一页",
+  "columns": "列",
+  "publish_date": "发布日期",
+  "youtuber": "油管博主",
+  "video_title": "视频标题",
+  "core_view": "核心观点",
+  "export": "导出"
 }

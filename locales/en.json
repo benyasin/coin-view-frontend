@@ -76,5 +76,11 @@
   "total_videos": "Total {video_length} videos",
   "rows_per_page": "Rows per page:",
   "previous": "Previous",
-  "next": "Next"
+  "next": "Next",
+  "columns": "Columns",
+  "publish_date": "Publish Date",
+  "youtuber": "YOUTUBER",
+  "video_title": "TITLE",
+  "core_view": "CORE VIEW",
+  "export": "Export"
 }
