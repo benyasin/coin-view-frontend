@@ -28,10 +28,9 @@ import { SearchIcon } from "@/components/icons";
 import { useIntl } from "react-intl";
 import { getLocalTimeZone } from "@internationalized/date";
 import axios from "axios"; // Make sure axios is imported
-import { searchVideo } from "@/actions/api";
+import { exportVideo, searchVideo } from "@/actions/api";
 import { Video } from "@/types";
 import dayjs from "dayjs"; // Import the API function from the correct path
-import { useDebounce } from "@/helpers/utils";
 
 const opinionColorMap: Record<string, ChipProps["color"]> = {
   bullish: "success",
@@ -152,6 +151,33 @@ export const Statistics = () => {
     });
   }, [sortDescriptor, videos]);
 
+  let debounceTimeout: NodeJS.Timeout | null = null;
+
+  const handleExportButtonClick = async (): Promise<void> => {
+    // 如果之前的请求还在进行，取消之前的操作
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+    // 设置新的防抖计时器，等待300ms后执行导出操作
+    debounceTimeout = setTimeout(async () => {
+      const opinionString: string = Array.from(opinionFilter).join(",");
+      const dateStr: string = dateValue ? dateValue.toString() : "";
+
+      // 从后端获取导出视频的数据
+      const { data } = await exportVideo(dateStr, opinionString, filterValue);
+
+      if (data) {
+        // 打开新的tab页，并将data值作为URL
+        window.open(data, "_blank");
+      } else {
+        console.error("Failed to get export URL");
+      }
+
+      debounceTimeout = null; // 清除防抖计时器
+    }, 300); // 设置300ms的防抖时间
+  };
+
   const renderCell = React.useCallback((user: any, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof typeof user];
 
@@ -258,6 +284,7 @@ export const Statistics = () => {
               size="sm"
               className="text-white shadow-lg w-[120px]"
               endContent={<ExportIcon />}
+              onClick={handleExportButtonClick}
             >
               {intl.formatMessage({ id: "export" })}
             </Button>
