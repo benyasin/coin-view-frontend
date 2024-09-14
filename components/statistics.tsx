@@ -25,9 +25,13 @@ import {
 } from "@nextui-org/react";
 import { ChevronDownIcon, ExportIcon } from "@/components/icons";
 import { SearchIcon } from "@/components/icons";
-import { users } from "./data";
 import { useIntl } from "react-intl";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import { getLocalTimeZone } from "@internationalized/date";
+import axios from "axios"; // Make sure axios is imported
+import { searchVideo } from "@/actions/api";
+import { Video } from "@/types";
+import dayjs from "dayjs"; // Import the API function from the correct path
+import { useDebounce } from "@/helpers/utils";
 
 const opinionColorMap: Record<string, ChipProps["color"]> = {
   bullish: "success",
@@ -35,11 +39,25 @@ const opinionColorMap: Record<string, ChipProps["color"]> = {
   neutral: "primary",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["youtuber", "title", "opinion", "date"];
+const formatNumber = (num: number) => {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + "M";
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + "k";
+  } else {
+    return num.toString();
+  }
+};
+
+const INITIAL_VISIBLE_COLUMNS = [
+  "channel_title",
+  "title",
+  "sentiment",
+  "created_at",
+];
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-type User = (typeof users)[0];
 
 export const Statistics = () => {
   const [filterValue, setFilterValue] = React.useState("");
@@ -49,23 +67,27 @@ export const Statistics = () => {
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
-  const [opinionFilter, setOpinionFilter] = React.useState<Selection>("all");
+  const [opinionFilter, setOpinionFilter] = React.useState<Selection>(
+    new Set(["bullish", "bearish", "neutral"])
+  );
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [totalItems, setTotalItems] = React.useState(0);
+  const [totalPages, setTotalPages] = React.useState(0);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "age",
     direction: "ascending",
   });
+  const [videos, setVideos] = React.useState([]);
   const intl = useIntl();
 
-  let defaultDate = today(getLocalTimeZone());
-  const [dateValue, setDateValue] = React.useState<DateValue>(defaultDate);
-
+  const [dateValue, setDateValue] = React.useState<DateValue | null>(null); // DatePicker default to null
   const [page, setPage] = React.useState(1);
+
   const columns = [
     { name: "ID", uid: "id", sortable: true },
     {
       name: intl.formatMessage({ id: "youtuber" }),
-      uid: "youtuber",
+      uid: "channel_title",
       sortable: true,
     },
     {
@@ -74,14 +96,43 @@ export const Statistics = () => {
       sortable: true,
     },
     { name: intl.formatMessage({ id: "core_view" }), uid: "coreView" },
-    { name: intl.formatMessage({ id: "publish_date" }), uid: "date" },
+    { name: intl.formatMessage({ id: "publish_date" }), uid: "created_at" },
     {
       name: intl.formatMessage({ id: "opinion" }),
-      uid: "opinion",
+      uid: "sentiment",
       sortable: true,
     },
   ];
-  const hasSearchFilter = Boolean(filterValue);
+
+  const fetchVideos = async () => {
+    const opinionString = Array.from(opinionFilter).join(",");
+    const dateStr = dateValue ? dateValue.toString() : "";
+    const { data } = await searchVideo(
+      dateStr,
+      opinionString,
+      filterValue,
+      page,
+      rowsPerPage
+    );
+    setVideos(data?.videos || []);
+    setPage(page);
+    setRowsPerPage(rowsPerPage);
+    setTotalItems(data.total_videos);
+    setTotalPages(data.total_pages);
+  };
+
+  // 处理防抖的useEffect
+  React.useEffect(() => {
+    // 创建一个定时器，300毫秒后触发fetchVideos
+    const handler = setTimeout(() => {
+      fetchVideos(); // 你的请求函数
+    }, 300);
+
+    // 清除上一次的定时器
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [filterValue, opinionFilter, dateValue, page, rowsPerPage]); // 依赖项为这些值
 
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -91,55 +142,31 @@ export const Statistics = () => {
     );
   }, [visibleColumns, intl]);
 
-  const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
-
-    if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.youtuber.toLowerCase().includes(filterValue.toLowerCase())
-      );
-    }
-    if (opinionFilter !== "all" && Array.from(opinionFilter).length !== 3) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(opinionFilter).includes(user.opinion)
-      );
-    }
-
-    return filteredUsers;
-  }, [users, intl, filterValue, opinionFilter]);
-
-  const pages = Math.ceil(filteredItems.length / rowsPerPage);
-
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
-
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
+    return [...videos].sort((a, b) => {
+      const first = a[sortDescriptor.column as keyof typeof a] as number;
+      const second = b[sortDescriptor.column as keyof typeof b] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [sortDescriptor, items]);
+  }, [sortDescriptor, videos]);
 
-  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof User];
+  const renderCell = React.useCallback((user: any, columnKey: React.Key) => {
+    const cellValue = user[columnKey as keyof typeof user];
 
     switch (columnKey) {
-      case "youtuber":
+      case "channel_title":
         return (
           <User
             avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.date}
+            description={
+              formatNumber(Number.parseInt(user.subscribers)) +
+              " " +
+              intl.formatMessage({ id: "subscribers" })
+            }
             name={cellValue}
-          >
-            {user.date}
-          </User>
+          ></User>
         );
       case "title":
         return (
@@ -150,11 +177,22 @@ export const Statistics = () => {
             </p>
           </div>
         );
-      case "opinion":
+      case "created_at":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">
+              {dayjs(cellValue).format("YYYY-MM-DD")}
+            </p>
+            <p className="text-bold text-tiny capitalize text-default-400">
+              {user.coreView}
+            </p>
+          </div>
+        );
+      case "sentiment":
         return (
           <Chip
             className="capitalize"
-            color={opinionColorMap[user.opinion]}
+            color={opinionColorMap[user.sentiment]}
             size="sm"
             variant="flat"
           >
@@ -164,40 +202,6 @@ export const Statistics = () => {
       default:
         return cellValue;
     }
-  }, []);
-
-  const onNextPage = React.useCallback(() => {
-    if (page < pages) {
-      setPage(page + 1);
-    }
-  }, [page, pages, intl]);
-
-  const onPreviousPage = React.useCallback(() => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  }, [page, intl]);
-
-  const onRowsPerPageChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    []
-  );
-
-  const onSearchChange = React.useCallback((value?: string) => {
-    if (value) {
-      setFilterValue(value);
-      setPage(1);
-    } else {
-      setFilterValue("");
-    }
-  }, []);
-
-  const onClear = React.useCallback(() => {
-    setFilterValue("");
-    setPage(1);
   }, []);
 
   const topContent = React.useMemo(() => {
@@ -210,8 +214,8 @@ export const Statistics = () => {
             placeholder={intl.formatMessage({ id: "search_youtuber" })}
             startContent={<SearchIcon />}
             value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
+            onClear={() => setFilterValue("")}
+            onValueChange={setFilterValue}
           />
           <div className="flex gap-3">
             <DatePicker
@@ -249,30 +253,6 @@ export const Statistics = () => {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  {intl.formatMessage({ id: "columns" })}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
             <Button
               color="primary"
               size="sm"
@@ -287,14 +267,14 @@ export const Statistics = () => {
           <span className="text-default-400 text-small">
             {intl.formatMessage(
               { id: "total_videos" },
-              { video_length: users.length }
+              { video_length: totalItems }
             )}
           </span>
           <label className="flex items-center text-default-400 text-small">
             {intl.formatMessage({ id: "rows_per_page" })}
             <select
               className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
+              onChange={(e) => setRowsPerPage(Number(e.target.value))}
             >
               <option value="5">5</option>
               <option value="10">10</option>
@@ -304,17 +284,7 @@ export const Statistics = () => {
         </div>
       </div>
     );
-  }, [
-    filterValue,
-    intl,
-    dateValue,
-    opinionFilter,
-    visibleColumns,
-    onSearchChange,
-    onRowsPerPageChange,
-    users.length,
-    hasSearchFilter,
-  ]);
+  }, [filterValue, intl, dateValue, opinionFilter, totalItems]);
 
   const bottomContent = React.useMemo(() => {
     return (
@@ -325,30 +295,12 @@ export const Statistics = () => {
           showShadow
           color="primary"
           page={page}
-          total={pages}
+          total={totalPages}
           onChange={setPage}
         />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onPreviousPage}
-          >
-            {intl.formatMessage({ id: "previous" })}
-          </Button>
-          <Button
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onNextPage}
-          >
-            {intl.formatMessage({ id: "next" })}
-          </Button>
-        </div>
       </div>
     );
-  }, [selectedKeys, intl, items.length, page, pages, hasSearchFilter]);
+  }, [page, totalPages, rowsPerPage]);
 
   return (
     <Table
@@ -377,8 +329,8 @@ export const Statistics = () => {
         )}
       </TableHeader>
       <TableBody emptyContent={"No users found"} items={sortedItems}>
-        {(item) => (
-          <TableRow key={item.id}>
+        {(item: Video) => (
+          <TableRow key={item.video_id}>
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)}</TableCell>
             )}
