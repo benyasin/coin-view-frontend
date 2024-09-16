@@ -4,6 +4,11 @@ export enum ChannelLimits {
   EnterprisePlanChannels = 50,
 }
 
+export enum PriceSettings {
+  BasicPlanPrice = 7,
+  EnterprisePlanPrice = 35,
+}
+
 // 计划类型的枚举
 export enum PlanType {
   Basic = "basic plan",

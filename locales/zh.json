@@ -82,5 +82,9 @@
   "youtuber": "油管博主",
   "video_title": "视频标题",
   "core_view": "核心观点",
-  "export": "导出"
+  "export": "导出",
+  "daily_update": "大盘数据每日更新",
+  "recommend_channel": "推荐博主频道展示",
+  "statistic_push": "统计报表与邮件推送",
+  "custom_channel": "定制展示{plan_youtubers}个博主"
 }

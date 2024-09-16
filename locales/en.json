@@ -82,5 +82,9 @@
   "youtuber": "YOUTUBER",
   "video_title": "TITLE",
   "core_view": "CORE VIEW",
-  "export": "Export"
+  "export": "Export",
+  "daily_update": "Daily Market Data Update",
+  "recommend_channel": "Display Recommended YouTuber Channels",
+  "statistic_push": "Statistical Reports and Email Push",
+  "custom_channel": "Customize Display for {plan_youtubers} YouTubers"
 }

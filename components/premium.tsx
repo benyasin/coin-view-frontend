@@ -11,6 +11,7 @@ import {
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { useIntl } from "react-intl";
+import { ChannelLimits, PriceSettings } from "@/config/enums";
 
 export const Premium = () => {
   const intl = useIntl();
@@ -21,28 +22,37 @@ export const Premium = () => {
       desc: intl.formatMessage({ id: "enjoy_limited" }),
       price: 0,
       isMostPop: false,
-      features: ["大盘数据每日更新", "首页推荐博主频道展示"],
+      features: [
+        intl.formatMessage({ id: "daily_update" }),
+        intl.formatMessage({ id: "recommend_channel" }),
+      ],
     },
     {
       name: intl.formatMessage({ id: "basic_plan" }),
       desc: intl.formatMessage({ id: "team_schedule" }),
-      price: 7,
+      price: PriceSettings.BasicPlanPrice,
       isMostPop: true,
       features: [
-        "大盘数据每日更新",
-        "统计报表与邮件推送",
-        "首页定制展示10个博主",
+        intl.formatMessage({ id: "daily_update" }),
+        intl.formatMessage({ id: "statistic_push" }),
+        intl.formatMessage(
+          { id: "custom_channel" },
+          { plan_youtubers: ChannelLimits.BasicPlanChannels }
+        ),
       ],
     },
     {
       name: intl.formatMessage({ id: "enterprise_plan" }),
       desc: intl.formatMessage({ id: "team_schedule_more" }),
-      price: 35,
+      price: PriceSettings.EnterprisePlanPrice,
       isMostPop: false,
       features: [
-        "大盘数据每日更新",
-        "统计报表与邮件推送",
-        "首页定制展示50个博主",
+        intl.formatMessage({ id: "daily_update" }),
+        intl.formatMessage({ id: "statistic_push" }),
+        intl.formatMessage(
+          { id: "custom_channel" },
+          { plan_youtubers: ChannelLimits.EnterprisePlanChannels }
+        ),
       ],
     },
   ];
