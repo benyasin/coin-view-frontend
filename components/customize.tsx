@@ -232,10 +232,10 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
         </ModalContent>
       </Modal>
 
-      <section className="p-12 rounded-lg shadow-lg bg-gray-900">
+      <section className="p-12 rounded-lg shadow-lg dark:bg-gray-900">
         <div className="flex justify-between items-center mb-4">
           <div className="inline-block">
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold">
               {intl.formatMessage({ id: "youtubers" })}
             </h2>
             <h6>
@@ -258,7 +258,7 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
           {youtubers.map((yt, index) => (
             <div
               key={index}
-              className="flex items-center justify-between bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors duration-200"
+              className="flex items-center justify-between p-4 rounded-lg border-1 border-gray-200 dark:border-gray-800"
             >
               <User
                 name={yt.channel_title}
