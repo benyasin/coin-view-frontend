@@ -22,6 +22,7 @@ import {
   deleteYoutuberFromDB,
 } from "@/actions/api";
 import toast, { Toaster } from "react-hot-toast";
+import { getChannelLimit } from "@/config/enums";
 
 type CustomizeProps = {
   user: UserInfo;
@@ -240,13 +241,18 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
             <h6>
               {intl.formatMessage(
                 { id: "youtubers_left" },
-                { youtubers_left: 10 }
+                {
+                  youtubers_left:
+                    getChannelLimit(user.membership_level) - youtubers.length,
+                }
               )}
             </h6>
           </div>
-          <Button variant="light" color="primary" size="md" onClick={onOpen}>
-            {intl.formatMessage({ id: "add_youtuber" })}
-          </Button>
+          {getChannelLimit(user.membership_level) - youtubers.length > 0 && (
+            <Button variant="light" color="primary" size="md" onClick={onOpen}>
+              {intl.formatMessage({ id: "add_youtuber" })}
+            </Button>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {youtubers.map((yt, index) => (

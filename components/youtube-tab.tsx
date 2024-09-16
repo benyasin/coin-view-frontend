@@ -37,8 +37,7 @@ const YouTubeTab = ({}) => {
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
-  // 获取当前语言
-  const locale = intl.locale;
+  const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
 
   // 根据语言设置dayjs的本地化
   if (locale === "zh") {
@@ -62,7 +61,12 @@ const YouTubeTab = ({}) => {
       }
     };
     fetchVideos();
-  }, []);
+
+    const storedLang = localStorage.getItem("coinViewLang");
+    if (storedLang) {
+      setLocaleState(storedLang); // 更新状态中的语言
+    }
+  }, [intl]);
 
   const tabs = [
     {
@@ -199,7 +203,7 @@ const YouTubeTab = ({}) => {
                       title={intl.formatMessage({ id: "core_viewpoint" })}
                       startContent={<SummaryIcon size={18} />}
                     >
-                      {video.summary}
+                      {locale == "zh" ? video.summary_chinese : video.summary}
                     </AccordionItem>
                     <AccordionItem
                       className="accordion-item"
@@ -220,7 +224,9 @@ const YouTubeTab = ({}) => {
                         )
                       }
                     >
-                      {video.sentiment_explanation}
+                      {locale == "zh"
+                        ? video.sentiment_explanation_chinese
+                        : video.sentiment_explanation}
                     </AccordionItem>
                   </Accordion>
                 </div>

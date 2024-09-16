@@ -37,22 +37,34 @@ export const Navbar = () => {
 
   const { setLocale } = useContext(LanguageContext);
   const intl = useIntl();
+  const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
+  const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(
+    new Set([intl.locale])
+  );
 
+  // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
-    const storedUser = localStorage.getItem("coinViewUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (typeof window !== "undefined") {
+      const storedUser: string = localStorage.getItem("coinViewUser") ?? "";
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+
+      const storedLang = localStorage.getItem("coinViewLang");
+      if (storedLang) {
+        setLocale(storedLang as any);
+        setLocaleState(storedLang); // 更新状态中的语言
+        setSelectedKeys(new Set([storedLang]));
+      }
     }
   }, []);
 
-  const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(
-    new Set(["en"])
-  );
   const handleSelectionChange = (keys: any) => {
     const selectedKeys = new Set<string>(keys);
     setSelectedKeys(selectedKeys);
     const selectedLocale = Array.from(keys)[0];
     setLocale(selectedLocale as any);
+    localStorage.setItem("coinViewLang", selectedLocale as string);
   };
 
   return (

@@ -9,10 +9,11 @@ export interface Video {
   video_id: string;
   title: string;
   summary: string;
+  summary_chinese: string;
   sentiment: string;
   sentiment_explanation: string;
+  sentiment_explanation_chinese: string;
   url: string;
-  translated_text: string;
   created_at: string;
   updated_at: string;
   channel_id: string;
