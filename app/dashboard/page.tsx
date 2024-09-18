@@ -6,20 +6,19 @@ import { UserInfo } from "@/types";
 import { Profile } from "@/components/profile";
 import { Customize } from "@/components/customize";
 import { Statistics } from "@/components/statistics";
+import { getUserInfo } from "@/actions/api";
 
 const Dashboard = () => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userInfo = localStorage.getItem("coinViewUser");
-      if (userInfo) {
-        setUser(JSON.parse(userInfo) as UserInfo);
-      } else {
-        router.push("/");
-      }
-    }
+    const fetchData = async () => {
+      const { data } = await getUserInfo();
+      if (data) setUser(data);
+    };
+
+    fetchData();
   }, [router]);
 
   if (user === undefined || null) {

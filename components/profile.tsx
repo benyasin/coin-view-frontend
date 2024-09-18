@@ -4,6 +4,7 @@ import { useIntl } from "react-intl";
 import { Button, Card, CardBody } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { UserInfo } from "@/types";
+import { deleteAuthCookie } from "@/actions/api";
 
 type ProfileProps = {
   user: UserInfo; // Ensure that user is of type UserInfo
@@ -12,9 +13,9 @@ type ProfileProps = {
 export const Profile: React.FC<ProfileProps> = ({ user }) => {
   const intl = useIntl();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     console.log("User logged out");
-    localStorage.removeItem("coinViewUser");
+    await deleteAuthCookie();
     location.href = "/";
   };
 

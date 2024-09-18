@@ -29,6 +29,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Register } from "@/components/register";
 import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
+import { getUserInfo } from "@/actions/api";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -45,11 +46,6 @@ export const Navbar = () => {
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUser: string = localStorage.getItem("coinViewUser") ?? "";
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-
       const storedLang = localStorage.getItem("coinViewLang");
       if (storedLang) {
         setLocale(storedLang as any);
@@ -57,6 +53,25 @@ export const Navbar = () => {
         setSelectedKeys(new Set([storedLang]));
       }
     }
+
+    const fetchData = async () => {
+      try {
+        const { data } = await getUserInfo();
+        if (data) {
+          setUser(data);
+        }
+      } catch (error) {
+        // @ts-ignore
+        if (error.response && error.response.status === 401) {
+          console.error("Unauthorized: Invalid token or Token has expired");
+        } else {
+          // @ts-ignore
+          console.error("An unexpected error occurred:", error.message);
+        }
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSelectionChange = (keys: any) => {

@@ -26,6 +26,7 @@ export const loginUser = async (values: LoginFormType) => {
     );
     return response.data;
   } catch (error) {
+    console.log(error);
     // @ts-ignore
     throw new Error(error.response?.data?.detail || "Login failed");
   }
@@ -69,6 +70,27 @@ export const searchYoutuber = async (channelId: string) => {
   }
 };
 
+export const getUserInfo = async () => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
+      cookies().get("access_token")?.value // Pass the token here as part of the data
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch UserInfo";
+      console.log(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching user info");
+    }
+  }
+};
+
 export const searchVideo = async (
   publishDate: string,
   opinion: string,
@@ -92,11 +114,11 @@ export const searchVideo = async (
     // Check if the error is an Axios error
     if (axios.isAxiosError(error)) {
       const errorMessage =
-        error.response?.data?.detail || "Failed to fetch Youtubers";
+        error.response?.data?.detail || "Failed to fetch Videos";
       throw new Error(errorMessage);
     } else {
       // Handle other types of errors (non-Axios errors)
-      throw new Error("An unexpected error occurred while fetching Youtubers");
+      throw new Error("An unexpected error occurred while fetching Videos");
     }
   }
 };
@@ -178,9 +200,13 @@ export const deleteYoutuberFromDB = async (
 };
 
 export const createAuthCookie = async (token: string) => {
-  cookies().set("coinViewAuth", token, { secure: true });
+  cookies().set("access_token", token, {
+    secure: false,
+    httpOnly: true,
+    sameSite: "strict",
+  });
 };
 
 export const deleteAuthCookie = async () => {
-  cookies().delete("coinViewAuth");
+  cookies().delete("access_token");
 };

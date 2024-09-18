@@ -33,7 +33,6 @@ export const Login = () => {
           const user = response.user;
           await createAuthCookie(token.access_token);
           if (user) {
-            localStorage.setItem("coinViewUser", JSON.stringify(user));
             setTimeout(() => {
               location.reload();
             }, 300);

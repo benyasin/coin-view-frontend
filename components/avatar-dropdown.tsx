@@ -20,18 +20,10 @@ export const AvatarDropdown = () => {
 
   const logout = async () => {
     await deleteAuthCookie();
-    localStorage.removeItem("coinViewUser");
     setTimeout(() => {
       location.reload();
     }, 300);
   };
-
-  useEffect(() => {
-    const storedUser: string | null = localStorage.getItem("coinViewUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
 
   if (!user) {
     return null;
