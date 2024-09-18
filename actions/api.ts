@@ -74,7 +74,7 @@ export const getUserInfo = async () => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
-      cookies().get("access_token")?.value // Pass the token here as part of the data
+      { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
     );
     return response.data; // Return the data from the response
   } catch (error) {

@@ -29,7 +29,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Register } from "@/components/register";
 import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
-import { getUserInfo } from "@/actions/api";
+import { deleteAuthCookie, getUserInfo } from "@/actions/api";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -56,7 +56,12 @@ export const Navbar = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getUserInfo();
+        const { data, description } = await getUserInfo();
+        if (description == "Cookie token expired") {
+          console.log("Cookie token expired");
+          await deleteAuthCookie();
+          location.href = "/";
+        }
         if (data) {
           setUser(data);
         }
