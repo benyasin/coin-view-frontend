@@ -4,7 +4,7 @@ import { PieKline } from "@/components/pie-kline";
 import { TimeSelect } from "@/components/time-select";
 import YoutubeTab from "@/components/youtube-tab";
 import { useIntl } from "react-intl";
-import { LanguageIcon, QuestionIcon } from "@/components/icons";
+import { QuestionIcon } from "@/components/icons";
 import {
   Popover,
   PopoverTrigger,

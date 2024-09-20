@@ -27,8 +27,11 @@ import {
   SummaryIcon,
 } from "@/components/icons";
 import "../styles/youtube-tab.css";
-import { Video } from "@/types";
+import { UserInfo, Video } from "@/types";
 import { useIntl } from "react-intl";
+import { getCache, setCache } from "@/helpers/store";
+import { getUserInfo } from "@/actions/api";
+import { useRouter } from "next/navigation";
 
 dayjs.extend(relativeTime);
 
@@ -38,6 +41,8 @@ const YouTubeTab = ({}) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
+  const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
+  const router = useRouter();
 
   // 根据语言设置dayjs的本地化
   if (locale === "zh") {
@@ -48,9 +53,32 @@ const YouTubeTab = ({}) => {
 
   // 从后端 API 获取视频数据
   useEffect(() => {
-    const fetchVideos = async () => {
+    const storedLang = localStorage.getItem("coinViewLang");
+    if (storedLang) {
+      setLocaleState(storedLang); // 更新状态中的语言
+    }
+
+    const timeout = setTimeout(() => {
+      const cachedUser = getCache("user");
+      if (cachedUser) {
+        setUser(cachedUser);
+      } else {
+        getUserInfo().then((data) => {
+          setUser(data.data);
+          setCache("user", data.data); // 缓存数据
+        });
+      }
+    }, 1500);
+
+    return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
+  }, [intl, router]);
+
+  useEffect(() => {
+    const fetchVideos = async (uid?: string) => {
       try {
-        const response = await fetch(`${apiUrl}/video/list`);
+        const response = await fetch(
+          uid ? `${apiUrl}/video/list?user_id=${uid}` : `${apiUrl}/video/list`
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -60,13 +88,12 @@ const YouTubeTab = ({}) => {
         console.error("Error fetching videos:", error);
       }
     };
-    fetchVideos();
-
-    const storedLang = localStorage.getItem("coinViewLang");
-    if (storedLang) {
-      setLocaleState(storedLang); // 更新状态中的语言
+    if (user) {
+      fetchVideos(user.id).then((r) => {});
+    } else {
+      fetchVideos().then((r) => {});
     }
-  }, [intl]);
+  }, [user]);
 
   const tabs = [
     {

@@ -30,6 +30,7 @@ import { Register } from "@/components/register";
 import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
 import { deleteAuthCookie, getUserInfo } from "@/actions/api";
+import { getCache, setCache } from "@/helpers/store";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -54,29 +55,25 @@ export const Navbar = () => {
       }
     }
 
-    const fetchData = async () => {
-      try {
-        const { data, description } = await getUserInfo();
-        if (description == "Cookie token expired") {
-          console.log("Cookie token expired");
-          await deleteAuthCookie();
-          location.href = "/";
-        }
-        if (data) {
-          setUser(data);
-        }
-      } catch (error) {
-        // @ts-ignore
-        if (error.response && error.response.status === 401) {
-          console.error("Unauthorized: Invalid token or Token has expired");
-        } else {
-          // @ts-ignore
-          console.error("An unexpected error occurred:", error.message);
-        }
-      }
-    };
+    const timeout = setTimeout(() => {
+      const cachedUser = getCache("user");
+      if (cachedUser) {
+        setUser(cachedUser);
+      } else {
+        getUserInfo().then((data) => {
+          if (data.description == "Cookie token expired") {
+            console.log("Cookie token expired");
+            deleteAuthCookie();
+            location.href = "/";
+          }
 
-    fetchData();
+          setUser(data.data);
+          setCache("user", data.data); // 缓存数据
+        });
+      }
+    }, 10); // 延迟 10ms 获取缓存
+
+    return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
   }, []);
 
   const handleSelectionChange = (keys: any) => {

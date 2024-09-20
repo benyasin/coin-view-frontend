@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
-import { LoginFormType, RegisterFormType } from "@/helpers/types";
+import { LoginFormType, RegisterFormType } from "@/types";
 import { Youtuber } from "@/types";
 
 export const registerUser = async (values: RegisterFormType) => {

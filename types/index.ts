@@ -3,6 +3,17 @@ import { SVGProps } from "react";
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
 };
+export type LoginFormType = {
+  email: string;
+  password: string;
+};
+
+export type RegisterFormType = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 // 类型定义
 export interface Video {

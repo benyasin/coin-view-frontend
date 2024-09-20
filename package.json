@@ -9,9 +9,11 @@
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
+		"@internationalized/date": "latest",
 		"@nextui-org/react": "^2.4.6",
 		"@nextui-org/shared-icons": "^2.0.9",
 		"@nextui-org/theme": "^2.2.9",
+		"@react-aria/i18n": "latest",
 		"@react-aria/ssr": "3.9.4",
 		"@react-aria/visually-hidden": "3.8.12",
 		"axios": "^1.7.3",
@@ -33,8 +35,6 @@
 		"react-lazyload": "^3.2.1",
 		"react-multi-carousel": "^2.8.5",
 		"react-youtube": "^10.1.0",
-		"@internationalized/date": "latest",
-		"@react-aria/i18n": "latest",
 		"yup": "^1.4.0"
 	},
 	"devDependencies": {

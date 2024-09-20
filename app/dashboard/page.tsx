@@ -7,18 +7,26 @@ import { Profile } from "@/components/profile";
 import { Customize } from "@/components/customize";
 import { Statistics } from "@/components/statistics";
 import { getUserInfo } from "@/actions/api";
+import { getCache, setCache } from "@/helpers/store";
 
 const Dashboard = () => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getUserInfo();
-      if (data) setUser(data);
-    };
+    const timeout = setTimeout(() => {
+      const cachedUser = getCache("user");
+      if (cachedUser) {
+        setUser(cachedUser);
+      } else {
+        getUserInfo().then((data) => {
+          setUser(data.data);
+          setCache("user", data.data); // 缓存数据
+        });
+      }
+    }, 1000);
 
-    fetchData();
+    return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
   }, [router]);
 
   if (user === undefined || null) {
