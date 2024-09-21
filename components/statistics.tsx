@@ -29,7 +29,7 @@ import { useIntl } from "react-intl";
 import { getLocalTimeZone } from "@internationalized/date";
 import axios from "axios"; // Make sure axios is imported
 import { exportVideo, searchVideo } from "@/actions/api";
-import { Video } from "@/types";
+import { UserInfo, Video } from "@/types";
 import dayjs from "dayjs"; // Import the API function from the correct path
 
 const opinionColorMap: Record<string, ChipProps["color"]> = {
@@ -58,7 +58,11 @@ export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export const Statistics = () => {
+type StatisticsProps = {
+  user: UserInfo;
+};
+
+export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -103,10 +107,11 @@ export const Statistics = () => {
     },
   ];
 
-  const fetchVideos = async () => {
+  const fetchVideos = async (userId: string) => {
     const opinionString = Array.from(opinionFilter).join(",");
     const dateStr = dateValue ? dateValue.toString() : "";
     const { data } = await searchVideo(
+      userId,
       dateStr,
       opinionString,
       filterValue,
@@ -124,7 +129,7 @@ export const Statistics = () => {
   React.useEffect(() => {
     // 创建一个定时器，300毫秒后触发fetchVideos
     const handler = setTimeout(() => {
-      fetchVideos(); // 你的请求函数
+      fetchVideos(user.id); // 你的请求函数
     }, 300);
 
     // 清除上一次的定时器
@@ -165,7 +170,12 @@ export const Statistics = () => {
       const dateStr: string = dateValue ? dateValue.toString() : "";
 
       // 从后端获取导出视频的数据
-      const { data } = await exportVideo(dateStr, opinionString, filterValue);
+      const { data } = await exportVideo(
+        user.id,
+        dateStr,
+        opinionString,
+        filterValue
+      );
 
       if (data) {
         // 打开新的tab页，并将data值作为URL

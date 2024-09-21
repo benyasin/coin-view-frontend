@@ -30,7 +30,7 @@ import "../styles/youtube-tab.css";
 import { UserInfo, Video } from "@/types";
 import { useIntl } from "react-intl";
 import { getCache, setCache } from "@/helpers/store";
-import { getUserInfo } from "@/actions/api";
+import { deleteAuthCookie, getUserInfo } from "@/actions/api";
 import { useRouter } from "next/navigation";
 
 dayjs.extend(relativeTime);
@@ -64,8 +64,16 @@ const YouTubeTab = ({}) => {
         setUser(cachedUser);
       } else {
         getUserInfo().then((data) => {
-          setUser(data.data);
-          setCache("user", data.data); // 缓存数据
+          if (data) {
+            if (data.description == "Cookie token expired") {
+              console.log("Cookie token expired");
+              deleteAuthCookie();
+              location.href = "/";
+            }
+
+            setUser(data.data);
+            setCache("user", data.data); // 缓存数据
+          }
         });
       }
     }, 1500);
@@ -74,10 +82,12 @@ const YouTubeTab = ({}) => {
   }, [intl, router]);
 
   useEffect(() => {
-    const fetchVideos = async (uid?: string) => {
+    const fetchVideos = async (uid?: string, is_member?: boolean) => {
       try {
         const response = await fetch(
-          uid ? `${apiUrl}/video/list?user_id=${uid}` : `${apiUrl}/video/list`
+          uid
+            ? `${apiUrl}/video/list?user_id=${uid}&is_member=${is_member}`
+            : `${apiUrl}/video/list`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -89,7 +99,7 @@ const YouTubeTab = ({}) => {
       }
     };
     if (user) {
-      fetchVideos(user.id).then((r) => {});
+      fetchVideos(user.id, user.is_member).then((r) => {});
     } else {
       fetchVideos().then((r) => {});
     }

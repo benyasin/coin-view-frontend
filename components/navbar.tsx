@@ -61,14 +61,16 @@ export const Navbar = () => {
         setUser(cachedUser);
       } else {
         getUserInfo().then((data) => {
-          if (data.description == "Cookie token expired") {
-            console.log("Cookie token expired");
-            deleteAuthCookie();
-            location.href = "/";
-          }
+          if (data) {
+            if (data.description == "Cookie token expired") {
+              console.log("Cookie token expired");
+              deleteAuthCookie();
+              location.href = "/";
+            }
 
-          setUser(data.data);
-          setCache("user", data.data); // 缓存数据
+            setUser(data.data);
+            setCache("user", data.data); // 缓存数据
+          }
         });
       }
     }, 10); // 延迟 10ms 获取缓存

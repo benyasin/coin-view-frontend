@@ -86,5 +86,6 @@
   "daily_update": "Daily Market Data Update",
   "recommend_channel": "Display Recommended YouTuber Channels",
   "statistic_push": "Statistical Reports and Email Push",
-  "custom_channel": "Customize Display for {plan_youtubers} YouTubers"
+  "custom_channel": "Customize Display for {plan_youtubers} YouTubers",
+  "upgrade_tip": "Please upgrade to membership to unlock more features"
 }

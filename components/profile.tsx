@@ -19,6 +19,10 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
     location.href = "/";
   };
 
+  const handleUpgrade = async () => {
+    location.href = "/pricing#premium";
+  };
+
   return (
     <Card className="mb-8 p-8 bg-gradient-to-r from-gray-100 to-green-300 dark:from-gray-900 dark:to-green-950 shadow-lg rounded-lg">
       <CardBody>
@@ -62,6 +66,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
 
             <Button
               size="sm"
+              onClick={handleUpgrade}
               className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
             >
               {intl.formatMessage({ id: "upgrade_to_premium" })}

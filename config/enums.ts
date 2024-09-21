@@ -23,6 +23,6 @@ export const getChannelLimit = (plan: string): number => {
     case PlanType.Enterprise:
       return ChannelLimits.EnterprisePlanChannels;
     default:
-      throw new Error("Unknown plan type");
+      return 0;
   }
 };

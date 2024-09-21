@@ -2,7 +2,7 @@
 
 import { createAuthCookie, loginUser, registerUser } from "@/actions/api";
 import { RegisterSchema } from "@/helpers/schemas";
-import { RegisterFormType } from "@/helpers/types";
+import { RegisterFormType } from "@/types";
 import { Button, Input } from "@nextui-org/react";
 import { Formik } from "formik";
 import toast, { Toaster } from "react-hot-toast";

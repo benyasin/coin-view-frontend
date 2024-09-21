@@ -4,6 +4,7 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import { LoginFormType, RegisterFormType } from "@/types";
 import { Youtuber } from "@/types";
+import { clearCache } from "@/helpers/store";
 
 export const registerUser = async (values: RegisterFormType) => {
   try {
@@ -72,11 +73,13 @@ export const searchYoutuber = async (channelId: string) => {
 
 export const getUserInfo = async () => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
-      { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
-    );
-    return response.data; // Return the data from the response
+    if (cookies().get("access_token")?.value) {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
+        { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
+      );
+      return response.data; // Return the data from the response
+    }
   } catch (error) {
     // Check if the error is an Axios error
     if (axios.isAxiosError(error)) {
@@ -92,6 +95,7 @@ export const getUserInfo = async () => {
 };
 
 export const searchVideo = async (
+  userId: string,
   publishDate: string,
   opinion: string,
   channelTitle: string,
@@ -102,6 +106,7 @@ export const searchVideo = async (
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/video/search`,
       {
+        user_id: userId,
         publish_date: publishDate,
         opinion,
         channel_title: channelTitle,
@@ -124,6 +129,7 @@ export const searchVideo = async (
 };
 
 export const exportVideo = async (
+  userId: string,
   publishDate: string,
   opinion: string,
   channelTitle: string
@@ -132,6 +138,7 @@ export const exportVideo = async (
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/video/export`,
       {
+        user_id: userId,
         publish_date: publishDate,
         opinion,
         channel_title: channelTitle,
@@ -209,4 +216,5 @@ export const createAuthCookie = async (token: string) => {
 
 export const deleteAuthCookie = async () => {
   cookies().delete("access_token");
+  clearCache("user");
 };

@@ -55,7 +55,7 @@
   "password": "密码",
   "username": "用户名",
   "confirm_password": "确认密码",
-  "register_successfully": "Register successfully.",
+  "register_successfully": "注册成功.",
   "currently_you": "你当前是 ",
   "expire_in": "付费计划将于 {dueDay} 过期",
   "incorrect_u_or_p": "不正确的用户名或密码",
@@ -86,5 +86,6 @@
   "daily_update": "大盘数据每日更新",
   "recommend_channel": "推荐博主频道展示",
   "statistic_push": "统计报表与邮件推送",
-  "custom_channel": "定制展示{plan_youtubers}个博主"
+  "custom_channel": "定制展示{plan_youtubers}个博主",
+  "upgrade_tip": "请升级为会员以解锁更多功能"
 }

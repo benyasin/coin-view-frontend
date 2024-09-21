@@ -2,7 +2,7 @@
 
 import { createAuthCookie, loginUser, registerUser } from "@/actions/api";
 import { LoginSchema } from "@/helpers/schemas";
-import { LoginFormType } from "@/helpers/types";
+import { LoginFormType } from "@/types";
 import { Button, Input } from "@nextui-org/react";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
