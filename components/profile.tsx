@@ -20,7 +20,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
   };
 
   const handleUpgrade = async () => {
-    location.href = "/pricing#premium";
+    location.href = "/pricing";
   };
 
   return (

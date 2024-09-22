@@ -33,6 +33,24 @@ export const loginUser = async (values: LoginFormType) => {
   }
 };
 
+export const createOrder = async (
+  userId: string,
+  email: string,
+  amount: string
+) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
+      { user_id: userId, email, amount }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // @ts-ignore
+    throw new Error(error.response?.data?.detail || "Login failed");
+  }
+};
+
 export const fetchYoutubers = async (userId: string) => {
   try {
     const response = await axios.get(

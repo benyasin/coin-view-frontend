@@ -7,17 +7,28 @@ import {
   CardFooter,
   CardHeader,
   Divider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { useIntl } from "react-intl";
 import { ChannelLimits, PriceSettings } from "@/config/enums";
+import { getCache } from "@/helpers/store";
+import { EventBus } from "@/helpers/events";
+import { createOrder } from "@/actions/api";
 
 export const Premium = () => {
   const intl = useIntl();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const createPlans = () => [
     {
+      type: "free_plan",
       name: intl.formatMessage({ id: "free_plan" }),
       desc: intl.formatMessage({ id: "enjoy_limited" }),
       price: 0,
@@ -28,6 +39,7 @@ export const Premium = () => {
       ],
     },
     {
+      type: "basic_plan",
       name: intl.formatMessage({ id: "basic_plan" }),
       desc: intl.formatMessage({ id: "team_schedule" }),
       price: PriceSettings.BasicPlanPrice,
@@ -42,6 +54,7 @@ export const Premium = () => {
       ],
     },
     {
+      type: "enterprise_plan",
       name: intl.formatMessage({ id: "enterprise_plan" }),
       desc: intl.formatMessage({ id: "team_schedule_more" }),
       price: PriceSettings.EnterprisePlanPrice,
@@ -69,6 +82,21 @@ export const Premium = () => {
       isMostPop: idx === index,
     }));
     setPlans(updatedPlans);
+  };
+
+  const handleStartClick = async (type: string) => {
+    const user = getCache("user");
+    console.log(user);
+    if (!user) {
+      EventBus.emit("showLoginDialog", true);
+    }
+    if (!user.is_member) {
+      const { data } = await createOrder(user.id, user.email, "7.0000");
+      console.log(data);
+      if (data.pay_url) {
+        window.open(data.pay_url);
+      }
+    }
   };
 
   return (
@@ -138,6 +166,7 @@ export const Premium = () => {
                   <Button
                     className="w-full"
                     variant="solid"
+                    onClick={() => handleStartClick(item.type)}
                     color={item.isMostPop ? "primary" : "default"}
                   >
                     {intl.formatMessage({ id: "get_started" })}
@@ -148,6 +177,18 @@ export const Premium = () => {
           </div>
         </motion.div>
       </section>
+
+      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">qqqqq</ModalHeader>
+              <ModalBody>ssss</ModalBody>
+              <ModalFooter>dddd</ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

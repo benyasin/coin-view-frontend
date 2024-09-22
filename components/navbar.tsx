@@ -31,12 +31,13 @@ import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
 import { deleteAuthCookie, getUserInfo } from "@/actions/api";
 import { getCache, setCache } from "@/helpers/store";
+import { EventBus } from "@/helpers/events";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [showRegister, setShowRegister] = useState(false);
   const [user, setUser] = useState(null);
-
+  const [showLoginDialog, setShowLoginDialog] = useState("");
   const { setLocale } = useContext(LanguageContext);
   const intl = useIntl();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
@@ -75,7 +76,19 @@ export const Navbar = () => {
       }
     }, 10); // 延迟 10ms 获取缓存
 
-    return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
+    // 定义监听器函数
+    const handleShowLoginDialog = (open: any) => {
+      setShowLoginDialog(open);
+      open && onOpen();
+    };
+
+    // 注册事件监听器
+    EventBus.on("showLoginDialog", handleShowLoginDialog);
+
+    return () => {
+      clearTimeout(timeout); // 清除定时器
+      EventBus.off("showLoginDialog", handleShowLoginDialog); // 移除事件监听器
+    };
   }, []);
 
   const handleSelectionChange = (keys: any) => {
@@ -140,20 +153,12 @@ export const Navbar = () => {
           </NextLink>
           <ul className="hidden lg:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
-              <Link
-                color="foreground"
-                className="text-large"
-                href="/pricing#premium"
-              >
+              <Link color="foreground" className="text-large" href="/pricing">
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
             </NavbarItem>
             <NavbarItem key="2" className="text-default-400">
-              <Link
-                color="foreground"
-                className="text-large"
-                href="/pricing#faq"
-              >
+              <Link color="foreground" className="text-large" href="/faq">
                 {intl.formatMessage({ id: "faq" })}
               </Link>
             </NavbarItem>

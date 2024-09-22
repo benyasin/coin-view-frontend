@@ -1,6 +1,6 @@
 "use client";
 
-import { Premium } from "@/components/premium";
+import { Faq } from "@/components/faq";
 import { useEffect } from "react";
 
 export default function Pricing() {
@@ -16,7 +16,7 @@ export default function Pricing() {
 
   return (
     <>
-      <Premium />
+      <Faq />
     </>
   );
 }
