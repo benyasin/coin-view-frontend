@@ -129,7 +129,7 @@ export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
   React.useEffect(() => {
     // 创建一个定时器，300毫秒后触发fetchVideos
     const handler = setTimeout(() => {
-      fetchVideos(user.id); // 你的请求函数
+      user.is_member && fetchVideos(user.id); // 你的请求函数
     }, 300);
 
     // 清除上一次的定时器

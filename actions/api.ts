@@ -36,12 +36,57 @@ export const loginUser = async (values: LoginFormType) => {
 export const createOrder = async (
   userId: string,
   email: string,
-  amount: string
+  amount: string,
+  memberPlan: string
 ) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
-      { user_id: userId, email, amount }
+      { user_id: userId, email, amount, memberPlan }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // @ts-ignore
+    throw new Error(error.response?.data?.detail || "Login failed");
+  }
+};
+
+export const pollingOrder = async (orderId: string) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/order/search/${orderId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // @ts-ignore
+    throw new Error(error.response?.data?.detail || "Login failed");
+  }
+};
+
+export const findMyOrders = async (user_id: string, page_number: number) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/order/list`,
+      {
+        user_id,
+        page_number,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // @ts-ignore
+    throw new Error(error.response?.data?.detail || "Login failed");
+  }
+};
+
+export const searchPendingOrder = async (userId: string) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/order/pending`,
+      { user_id: userId }
     );
     return response.data;
   } catch (error) {

@@ -415,6 +415,30 @@ export const ChevronDownIcon = ({
   </svg>
 );
 
+export const ChevronRightIcon = ({
+  strokeWidth = 1.5,
+  ...otherProps
+}: IconSvgProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    focusable="false"
+    height="1em"
+    role="presentation"
+    viewBox="0 0 24 24"
+    width="1em"
+    {...otherProps}
+  >
+    <path
+      d="M8.95 4.08l6.52 6.52c.77.77.77 2.03 0 2.8l-6.52 6.52"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeMiterlimit={10}
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
 export const ExportIcon = ({
   strokeWidth = 1.5,
   ...otherProps

@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const router = useRouter();
   const [isMember, setIsMember] = useState(true);
+  const [backdropTop, setBackdropTop] = useState("30%"); // 新增状态管理backdrop的top值
   const intl = useIntl();
 
   useEffect(() => {
@@ -39,23 +40,28 @@ const Dashboard = () => {
     return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
   }, [router]);
 
-  if (user === undefined || user === null) {
-    return null;
-  }
+  // 修改 backdrop 的函数
+  const handleBackdropChange = (newTopValue: string) => {
+    setBackdropTop(newTopValue);
+  };
 
-  if (user === undefined || null) {
+  if (user === undefined || user === null) {
     return null;
   }
 
   return (
     <div className="dashboard-container py-8 px-2">
-      <Profile user={user as UserInfo} />
+      <Profile
+        user={user as UserInfo}
+        onBackdropChange={handleBackdropChange}
+      />
+      {/* 传递回调函数 */}
       <Customize user={user as UserInfo} />
       <Statistics user={user as UserInfo} />
 
       {/* 当 user.is_member === false 时显示模糊蒙层 */}
       {!isMember && (
-        <div className="backdrop">
+        <div className="backdrop" style={{ top: backdropTop }}>
           <div className="backdrop-content">
             <p className="text-gray-500">
               {intl.formatMessage({ id: "upgrade_tip" })}
@@ -71,7 +77,6 @@ const Dashboard = () => {
 
         .backdrop {
           position: absolute;
-          top: 27%;
           left: 0;
           width: 100%;
           height: 70%;

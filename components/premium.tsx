@@ -20,12 +20,14 @@ import { useIntl } from "react-intl";
 import { ChannelLimits, PriceSettings } from "@/config/enums";
 import { getCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
-import { createOrder } from "@/actions/api";
+import { createOrder, pollingOrder, searchPendingOrder } from "@/actions/api";
+import { useDebounce } from "@/helpers/utils"; // 引入你的防抖工具
 
 export const Premium = () => {
   const intl = useIntl();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const [isLoading, setIsLoading] = useState(false); // 控制 loading 状态
+  const [existingOrder, setExistingOrder] = useState(null); // 用于存储用户的进行中订单
   const createPlans = () => [
     {
       type: "free_plan",
@@ -84,19 +86,66 @@ export const Premium = () => {
     setPlans(updatedPlans);
   };
 
-  const handleStartClick = async (type: string) => {
+  // 使用自定义防抖函数
+  const handleStartClick = useDebounce(async (type: string) => {
+    if (isLoading) return; // 如果当前正在加载，阻止重复点击
+
     const user = getCache("user");
-    console.log(user);
     if (!user) {
       EventBus.emit("showLoginDialog", true);
+      return;
     }
-    if (!user.is_member) {
-      const { data } = await createOrder(user.id, user.email, "7.0000");
-      console.log(data);
-      if (data.pay_url) {
-        window.open(data.pay_url);
+
+    if (type === "free_plan") {
+      document.location.href = "/dashboard";
+      return;
+    }
+
+    setIsLoading(true); // 开始加载状态
+
+    // 查询是否有进行中的订单
+    /*    const pendingOrder = await checkPendingOrder(user.id);
+    if (pendingOrder && pendingOrder.pay_url) {
+      setIsLoading(false);
+      setExistingOrder(pendingOrder);
+      // 提示用户当前有一个进行中的订单
+      if (window.confirm("你有一个正在进行中的订单，是否继续支付？")) {
+        window.open(pendingOrder.pay_url);
       }
+      return;
+    }*/
+
+    // 创建订单
+    const { data } = await createOrder(user.id, user.email, "3.0000", type);
+    console.log(data);
+    if (data && data._id) {
+      // 轮询检查订单状态
+      const pollOrderStatus = async () => {
+        const result = await pollingOrder(data._id);
+        console.log("轮询订单状态: ", result.data);
+
+        if (result.data.status !== 0) {
+          setIsLoading(false); // 订单状态不再是 0，停止 loading
+          document.location.href = "/dashboard";
+        } else {
+          //setTimeout(pollOrderStatus, 2000); // 每隔2秒轮询一次
+        }
+      };
+
+      await pollOrderStatus(); // 开始轮询
+    } else {
+      setIsLoading(false); // 如果订单创建失败，停止 loading
+      alert("订单创建失败，请稍后重试。");
     }
+  }, 300); // 设置防抖的延时为 300ms
+
+  const checkPendingOrder = async (userId: string) => {
+    // 调用接口查询用户是否有进行中的订单
+    const result = await searchPendingOrder(userId); // 需要实现的API请求
+    if (result && result.status === 0) {
+      return result; // 返回进行中的订单
+    }
+    return null;
   };
 
   return (
@@ -166,6 +215,7 @@ export const Premium = () => {
                   <Button
                     className="w-full"
                     variant="solid"
+                    isLoading={isLoading}
                     onClick={() => handleStartClick(item.type)}
                     color={item.isMostPop ? "primary" : "default"}
                   >

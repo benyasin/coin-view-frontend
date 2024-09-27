@@ -87,5 +87,12 @@
   "recommend_channel": "Display Recommended YouTuber Channels",
   "statistic_push": "Statistical Reports and Email Push",
   "custom_channel": "Customize Display for {plan_youtubers} YouTubers",
-  "upgrade_tip": "Please upgrade to membership to unlock more features"
+  "upgrade_tip": "Please upgrade to membership to unlock more features",
+  "order_no": "OrderNo",
+  "amount": "Amount",
+  "status": "Status",
+  "order_list": "Order List",
+  "member_plan": "Member Plan",
+  "created_at": "Created Time",
+  "expiration_time": "Expiration Time"
 }
