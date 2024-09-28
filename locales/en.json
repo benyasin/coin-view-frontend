@@ -87,12 +87,17 @@
   "recommend_channel": "Display Recommended YouTuber Channels",
   "statistic_push": "Statistical Reports and Email Push",
   "custom_channel": "Customize Display for {plan_youtubers} YouTubers",
-  "upgrade_tip": "Please upgrade to membership to unlock more features",
+  "upgrade_tip": "Please upgrade to paying membership to unlock more features",
   "order_no": "OrderNo",
   "amount": "Amount",
   "status": "Status",
   "order_list": "Order List",
   "member_plan": "Member Plan",
-  "created_at": "Created Time",
-  "expiration_time": "Expiration Time"
+  "created_at": "Ordered Time",
+  "expiration_time": "Membership Expiration Time",
+  "charged_annually": "charged annually",
+  "status0": "Pending Payment",
+  "status1": "Payment Successful",
+  "status2": "Payment Timeout",
+  "status4": "Payment Failed"
 }

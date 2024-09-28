@@ -42,7 +42,7 @@ export const createOrder = async (
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
-      { user_id: userId, email, amount, memberPlan }
+      { user_id: userId, email, amount, member_plan: memberPlan }
     );
     return response.data;
   } catch (error) {

@@ -197,6 +197,12 @@ export const Premium = () => {
                   <div className="text-3xl font-semibold">
                     ${item.price}{" "}
                     <span className="text-xl font-normal">/mo</span>
+                    {item.type !== "free_plan" && (
+                      <span className="text-sm text-default-400">
+                        &nbsp;&nbsp;(
+                        {intl.formatMessage({ id: "charged_annually" })})
+                      </span>
+                    )}
                   </div>
                   <p>{item.desc}</p>
                   <ul className="p-8 space-y-3">

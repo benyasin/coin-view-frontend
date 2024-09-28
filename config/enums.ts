@@ -11,8 +11,8 @@ export enum PriceSettings {
 
 // 计划类型的枚举
 export enum PlanType {
-  Basic = "basic plan",
-  Enterprise = "enterprise plan",
+  Basic = "basic_plan",
+  Enterprise = "enterprise_plan",
 }
 
 // 你还可以定义一个函数，基于计划类型获取预设的频道限制

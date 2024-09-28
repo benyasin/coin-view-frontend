@@ -8,9 +8,9 @@ import {
   Card,
   CardBody,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { UserInfo } from "@/types";
-import { deleteAuthCookie, findMyOrders, searchVideo } from "@/actions/api";
+import { deleteAuthCookie, findMyOrders } from "@/actions/api";
 import {
   Table,
   TableHeader,
@@ -19,9 +19,9 @@ import {
   TableRow,
   TableCell,
   Pagination,
-  getKeyValue,
 } from "@nextui-org/react";
 import { ChevronDownIcon, ChevronRightIcon } from "@/components/icons";
+import dayjs from "dayjs";
 
 type ProfileProps = {
   user: UserInfo; // Ensure that user is of type UserInfo
@@ -33,7 +33,6 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
 
   const [page, setPage] = React.useState(1);
   const [showTable, setShowTable] = React.useState(false);
-  const rowsPerPage = 5;
   const [items, setItems] = React.useState(0);
   const [pages, setPages] = React.useState(0);
 
@@ -59,7 +58,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
     return () => {
       clearTimeout(handler);
     };
-  }, [user.id, page]); // 依赖项为这些值
+  }, [user.id, page, intl]); // 依赖项为这些值
 
   const handleUpgrade = async () => {
     location.href = "/pricing";
@@ -90,11 +89,11 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div>
-              <div className="text-3xl text-gray-300 font-bold mb-2">
+              <div className="text-3xl text-gray-400 font-bold mb-2">
                 {user?.username}
               </div>
-              <div className="text-md text-gray-400">{user?.email}</div>
-              <div className="text-md text-gray-400 mt-1">
+              <div className="text-md text-gray-600">{user?.email}</div>
+              <div className="text-md text-gray-600 mt-1">
                 {intl.formatMessage({ id: "currently_you" })}
                 <span className="font-bold text-yellow-800">
                   {user?.is_member
@@ -105,7 +104,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                 </span>
               </div>
               {user?.is_member && (
-                <div className="text-md text-gray-400 mt-1">
+                <div className="text-md text-gray-600 mt-1">
                   {intl.formatMessage(
                     { id: "expire_in" },
                     { dueDay: user?.membership_expiry }
@@ -136,7 +135,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
         </div>
 
         <Accordion
-          className="px-0 flex flex-row justify-start"
+          className="px-0 mt-2 flex flex-row justify-start"
           itemClasses={itemClasses}
           onSelectionChange={handleAccordionOpen} // 当展开时触发修改backdrop
         >
@@ -189,13 +188,23 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
               </TableHeader>
               <TableBody items={Array.isArray(items) ? items : []}>
                 {(item) => (
-                  <TableRow key={item._id}>
+                  <TableRow key={item._id} className="text-default-500">
                     <TableCell>{item._id}</TableCell>
-                    <TableCell>{item.member_plan}</TableCell>
-                    <TableCell>{item.amount}</TableCell>
-                    <TableCell>{item.created_at}</TableCell>
-                    <TableCell>{item.expiration_time}</TableCell>
-                    <TableCell>{item.status}</TableCell>
+                    <TableCell>
+                      {intl.formatMessage({ id: item.member_plan })}
+                    </TableCell>
+                    <TableCell>${item.amount}</TableCell>
+                    <TableCell>
+                      {dayjs(item.created_at).format("YYYY-MM-DD HH:mm:ss")}
+                    </TableCell>
+                    <TableCell>
+                      {dayjs(item.expiration_time).format(
+                        "YYYY-MM-DD HH:mm:ss"
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {intl.formatMessage({ id: "status" + item.status })}
+                    </TableCell>
                   </TableRow>
                 )}
               </TableBody>

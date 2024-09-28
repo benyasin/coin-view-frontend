@@ -253,7 +253,7 @@ export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
             onClear={() => setFilterValue("")}
             onValueChange={setFilterValue}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-3 text-default-500">
             <DatePicker
               label={intl.formatMessage({ id: "publish_date" })}
               labelPlacement="outside-left"

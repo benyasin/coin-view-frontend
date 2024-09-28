@@ -235,10 +235,10 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
       <section className="p-12 rounded-lg shadow-lg dark:bg-gray-900">
         <div className="flex justify-between items-center mb-4">
           <div className="inline-block">
-            <h2 className="text-xl font-bold">
+            <h2 className="text-xl text-default-700">
               {intl.formatMessage({ id: "youtubers" })}
             </h2>
-            <h6>
+            <h6 className="text-default-500">
               {intl.formatMessage(
                 { id: "youtubers_left" },
                 {
@@ -249,7 +249,7 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
             </h6>
           </div>
           {getChannelLimit(user.membership_level) - youtubers.length > 0 && (
-            <Button variant="light" color="primary" size="md" onClick={onOpen}>
+            <Button variant="shadow" size="md" onClick={onOpen}>
               {intl.formatMessage({ id: "add_youtuber" })}
             </Button>
           )}
