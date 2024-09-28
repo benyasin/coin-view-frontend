@@ -84,9 +84,8 @@ export const findMyOrders = async (user_id: string, page_number: number) => {
 
 export const searchPendingOrder = async (userId: string) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/order/pending`,
-      { user_id: userId }
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/order/pending/${userId}`
     );
     return response.data;
   } catch (error) {

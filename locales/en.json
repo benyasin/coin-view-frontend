@@ -72,6 +72,7 @@
   "delete_youtuber_successfully": "Delete youtuber successfully.",
   "confirm_delete_message": "Are you confirm to delete the youtuber?",
   "confirm": "Confirm",
+  "cancel": "Cancel",
   "youtubers_left": "( There are {youtubers_left} more Youtubers left to add )",
   "total_videos": "Total {video_length} videos",
   "rows_per_page": "Rows per page:",
@@ -96,8 +97,15 @@
   "created_at": "Ordered Time",
   "expiration_time": "Membership Expiration Time",
   "charged_annually": "charged annually",
+  "pay_url": "Payment Url",
   "status0": "Pending Payment",
   "status1": "Payment Successful",
   "status2": "Payment Timeout",
-  "status4": "Payment Failed"
+  "status4": "Payment Failed",
+  "pending_order_found": "Pending Order Found",
+  "pending_order_message": "There is a pending order. Would you like to continue with the payment?",
+  "continue_payment": "Continue Payment",
+  "create_new_order": "Create New Order",
+  "confirm_payment": "Open Payment Page",
+  "payment_window_message": "The system will open a new page for payment, do you confirm?"
 }

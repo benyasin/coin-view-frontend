@@ -28,6 +28,10 @@ export const Premium = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false); // 控制 loading 状态
   const [existingOrder, setExistingOrder] = useState(null); // 用于存储用户的进行中订单
+  const [showPendingModal, setShowPendingModal] = useState(false); // 控制弹出框显示
+  const [showPaymentModal, setShowPaymentModal] = useState(false); // 控制弹出框显示
+  const [pendingPayUrl, setPendingPayUrl] = useState(""); // 存储待支付订单的支付链接
+
   const createPlans = () => [
     {
       type: "free_plan",
@@ -86,6 +90,36 @@ export const Premium = () => {
     setPlans(updatedPlans);
   };
 
+  const createNewOrder = async (
+    user: { id: string; email: string },
+    type: string
+  ): Promise<void> => {
+    const { data } = await createOrder(user.id, user.email, "3.0000", type);
+    console.log(data);
+
+    if (data && data._id) {
+      // 显示确认 Modal
+      setShowPaymentModal(true); // 打开确认支付的 Modal
+      setPendingPayUrl(data.pay_url); // 保存支付链接
+    } else {
+      setIsLoading(false); // 如果订单创建失败，停止 loading
+      alert("订单创建失败，请稍后重试。");
+    }
+  };
+
+  // 点击确认支付时的处理函数
+  const handleConfirmPayment = () => {
+    window.open(pendingPayUrl); // 打开支付链接
+    setShowPaymentModal(false); // 关闭 Modal
+    document.location.href = "/dashboard";
+  };
+
+  // 点击取消时的处理函数
+  const handleCancelPayment = () => {
+    setShowPaymentModal(false); // 关闭 Modal
+    document.location.href = "/dashboard"; // 跳转到 dashboard
+  };
+
   // 使用自定义防抖函数
   const handleStartClick = useDebounce(async (type: string) => {
     if (isLoading) return; // 如果当前正在加载，阻止重复点击
@@ -104,48 +138,45 @@ export const Premium = () => {
     setIsLoading(true); // 开始加载状态
 
     // 查询是否有进行中的订单
-    /*    const pendingOrder = await checkPendingOrder(user.id);
-    if (pendingOrder && pendingOrder.pay_url) {
-      setIsLoading(false);
+    const pendingOrder = await checkPendingOrder(user.id);
+    console.log(pendingOrder);
+    if (pendingOrder) {
       setExistingOrder(pendingOrder);
-      // 提示用户当前有一个进行中的订单
-      if (window.confirm("你有一个正在进行中的订单，是否继续支付？")) {
-        window.open(pendingOrder.pay_url);
-      }
+      setPendingPayUrl(pendingOrder.pay_url); // 设置支付链接
+      setShowPendingModal(true); // 显示弹出框
       return;
-    }*/
+    }
 
     // 创建订单
-    const { data } = await createOrder(user.id, user.email, "3.0000", type);
-    console.log(data);
-    if (data && data._id) {
-      // 轮询检查订单状态
-      const pollOrderStatus = async () => {
-        const result = await pollingOrder(data._id);
-        console.log("轮询订单状态: ", result.data);
-
-        if (result.data.status !== 0) {
-          setIsLoading(false); // 订单状态不再是 0，停止 loading
-          document.location.href = "/dashboard";
-        } else {
-          //setTimeout(pollOrderStatus, 2000); // 每隔2秒轮询一次
-        }
-      };
-
-      await pollOrderStatus(); // 开始轮询
-    } else {
-      setIsLoading(false); // 如果订单创建失败，停止 loading
-      alert("订单创建失败，请稍后重试。");
-    }
+    await createNewOrder(user, type);
   }, 300); // 设置防抖的延时为 300ms
 
   const checkPendingOrder = async (userId: string) => {
     // 调用接口查询用户是否有进行中的订单
-    const result = await searchPendingOrder(userId); // 需要实现的API请求
-    if (result && result.status === 0) {
-      return result; // 返回进行中的订单
+    const { data } = await searchPendingOrder(userId); // 需要实现的API请求
+    console.log(data);
+    if (data) {
+      return data[0]; // 返回进行中的订单
     }
     return null;
+  };
+
+  const handleContinuePayment = () => {
+    window.open(pendingPayUrl); // 打开支付链接
+    setShowPendingModal(false); // 关闭弹出框
+    document.location.href = "/dashboard"; // 跳转到 dashboard
+  };
+
+  const handleCreateNewOrder = async () => {
+    setShowPendingModal(false); // 关闭弹出框
+
+    const user = getCache("user");
+    if (!user) {
+      EventBus.emit("showLoginDialog", true);
+      return;
+    }
+    // @ts-ignore
+    await createNewOrder(user, existingOrder.member_plan);
   };
 
   return (
@@ -234,15 +265,51 @@ export const Premium = () => {
         </motion.div>
       </section>
 
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+      {/* Pending Order Modal */}
+      <Modal
+        backdrop="blur"
+        isOpen={showPendingModal}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">qqqqq</ModalHeader>
-              <ModalBody>ssss</ModalBody>
-              <ModalFooter>dddd</ModalFooter>
-            </>
-          )}
+          <ModalHeader className="flex flex-col gap-1">
+            {intl.formatMessage({ id: "pending_order_found" })}
+          </ModalHeader>
+          <ModalBody>
+            {intl.formatMessage({ id: "pending_order_message" })}
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleContinuePayment} color="primary">
+              {intl.formatMessage({ id: "continue_payment" })}
+            </Button>
+            <Button onClick={handleCreateNewOrder} color="default">
+              {intl.formatMessage({ id: "create_new_order" })}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Payment Modal */}
+      <Modal
+        backdrop="blur"
+        isOpen={showPaymentModal}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">
+            {intl.formatMessage({ id: "confirm_payment" })}
+          </ModalHeader>
+          <ModalBody>
+            {intl.formatMessage({ id: "payment_window_message" })}
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleConfirmPayment} color="primary">
+              {intl.formatMessage({ id: "confirm" })}
+            </Button>
+            <Button onClick={handleCancelPayment} color="default">
+              {intl.formatMessage({ id: "cancel" })}
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </div>

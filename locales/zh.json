@@ -72,6 +72,7 @@
   "delete_youtuber_successfully": "成功删除了油管博主.",
   "confirm_delete_message": "你确定要删除这一个油管博主？",
   "confirm": "确定",
+  "cancel": "取消",
   "youtubers_left": "( 还剩下{youtubers_left}个油管博主可以添加 ) ",
   "total_videos": "一共{video_length}条视频",
   "rows_per_page": "每页行数:",
@@ -96,8 +97,15 @@
   "created_at": "下单时间",
   "expiration_time": "会员过期时间",
   "charged_annually": "按年收费",
+  "pay_url": "支付链接",
   "status0": "待支付",
   "status1": "支付成功",
   "status2": "支付超时",
-  "status4": "支付失败"
+  "status4": "支付失败",
+  "pending_order_found": "发现进行中的订单",
+  "pending_order_message": "当前有一个进行中的订单，你是否继续完成支付？",
+  "continue_payment": "继续支付",
+  "create_new_order": "发起新订单",
+  "confirm_payment": "打开支付页面",
+  "payment_window_message": "系统将打开一个新的页面用来支付，你确认吗?"
 }

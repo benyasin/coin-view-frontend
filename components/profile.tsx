@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardBody,
+  Link,
 } from "@nextui-org/react";
 import React from "react";
 import { UserInfo } from "@/types";
@@ -182,6 +183,9 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                 <TableColumn key="expiration_time" className="bg-transparent">
                   {intl.formatMessage({ id: "expiration_time" })}
                 </TableColumn>
+                <TableColumn key="pay_url" className="bg-transparent">
+                  {intl.formatMessage({ id: "pay_url" })}
+                </TableColumn>
                 <TableColumn key="status" className="bg-transparent">
                   {intl.formatMessage({ id: "status" })}
                 </TableColumn>
@@ -201,6 +205,15 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                       {dayjs(item.expiration_time).format(
                         "YYYY-MM-DD HH:mm:ss"
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        href={item.pay_url}
+                        target="_blank"
+                        className="text-sm"
+                      >
+                        {intl.formatMessage({ id: "continue_payment" })}
+                      </Link>
                     </TableCell>
                     <TableCell>
                       {intl.formatMessage({ id: "status" + item.status })}
