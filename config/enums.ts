@@ -5,8 +5,8 @@ export enum ChannelLimits {
 }
 
 export enum PriceSettings {
-  BasicPlanPrice = 7,
-  EnterprisePlanPrice = 35,
+  BasicPlanPrice = 5,
+  EnterprisePlanPrice = 25,
 }
 
 // 计划类型的枚举
@@ -22,6 +22,17 @@ export const getChannelLimit = (plan: string): number => {
       return ChannelLimits.BasicPlanChannels;
     case PlanType.Enterprise:
       return ChannelLimits.EnterprisePlanChannels;
+    default:
+      return 0;
+  }
+};
+
+export const getPaymentPlan = (plan: string): number => {
+  switch (plan) {
+    case PlanType.Basic:
+      return PriceSettings.BasicPlanPrice;
+    case PlanType.Enterprise:
+      return PriceSettings.EnterprisePlanPrice;
     default:
       return 0;
   }

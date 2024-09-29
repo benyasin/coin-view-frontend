@@ -17,11 +17,12 @@ import {
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { useIntl } from "react-intl";
-import { ChannelLimits, PriceSettings } from "@/config/enums";
+import { ChannelLimits, getPaymentPlan, PriceSettings } from "@/config/enums";
 import { getCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
-import { createOrder, pollingOrder, searchPendingOrder } from "@/actions/api";
-import { useDebounce } from "@/helpers/utils"; // 引入你的防抖工具
+import { createOrder, searchPendingOrder } from "@/actions/api";
+import { useDebounce } from "@/helpers/utils";
+import { useRouter } from "next/navigation"; // 引入你的防抖工具
 
 export const Premium = () => {
   const intl = useIntl();
@@ -31,6 +32,7 @@ export const Premium = () => {
   const [showPendingModal, setShowPendingModal] = useState(false); // 控制弹出框显示
   const [showPaymentModal, setShowPaymentModal] = useState(false); // 控制弹出框显示
   const [pendingPayUrl, setPendingPayUrl] = useState(""); // 存储待支付订单的支付链接
+  const router = useRouter();
 
   const createPlans = () => [
     {
@@ -80,7 +82,7 @@ export const Premium = () => {
 
   useEffect(() => {
     setPlans(createPlans());
-  }, [intl]);
+  }, [intl, router]);
 
   const handleCardMouseOver = (index: number) => {
     const updatedPlans = plans.map((plan, idx) => ({
@@ -94,7 +96,12 @@ export const Premium = () => {
     user: { id: string; email: string },
     type: string
   ): Promise<void> => {
-    const { data } = await createOrder(user.id, user.email, "3.0000", type);
+    const { data } = await createOrder(
+      user.id,
+      user.email,
+      getPaymentPlan(type) * 12 + ".0000",
+      type
+    );
     console.log(data);
 
     if (data && data._id) {
