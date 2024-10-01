@@ -5,6 +5,8 @@ import {
   NavbarContent,
   NavbarMenuToggle,
   NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
   Link,
 } from "@nextui-org/react";
 import NextLink from "next/link";
@@ -44,6 +46,7 @@ export const Navbar = () => {
   const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(
     new Set([intl.locale])
   );
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
@@ -139,11 +142,13 @@ export const Navbar = () => {
         </ModalContent>
       </Modal>
       <NextUINavbar
+        onMenuOpenChange={setIsMenuOpen}
         classNames={{
-          base: ["nextui-navbar", "px-16", "py-2", "border-b-1"],
+          base: ["nextui-navbar", "lg:px-16", "border-b-1"],
         }}
         position="sticky"
       >
+        <NavbarMenuToggle className="sm:hidden h-auto mr-2" />
         <NavbarContent
           className="max-w-[1280px] basis-1/5 sm:basis-full"
           justify="start"
@@ -151,7 +156,7 @@ export const Navbar = () => {
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
           </NextLink>
-          <ul className="hidden lg:flex gap-6 justify-start ml-12">
+          <ul className="hidden md:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
               <Link color="foreground" className="text-large" href="/pricing">
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
@@ -184,40 +189,57 @@ export const Navbar = () => {
           </ul>
         </NavbarContent>
 
-        <NavbarContent
-          className="hidden sm:flex basis-1/5 sm:basis-full"
-          justify="end"
-        >
-          <NavbarItem className="hidden sm:flex gap-2">
-            <Dropdown className="min-w-[100px]">
-              <DropdownTrigger>
-                <Button isIconOnly variant="light" className="capitalize">
-                  <LanguageIcon size={20} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Single selection example"
-                variant="flat"
-                disallowEmptySelection
-                selectionMode="single"
-                selectedKeys={selectedKeys}
-                onSelectionChange={handleSelectionChange}
-              >
-                <DropdownItem key="en">English</DropdownItem>
-                <DropdownItem key="zh">中文</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Link isExternal aria-label="Twitter" href="">
-              <TwitterIcon size={20} className="text-default-500" />
-            </Link>
-            <ThemeSwitch />
-          </NavbarItem>
+        <NavbarContent className="flex basis-1/5 sm:basis-full" justify="end">
+          <Dropdown className="min-w-[100px]">
+            <DropdownTrigger>
+              <Button isIconOnly variant="light" className="capitalize">
+                <LanguageIcon size={20} />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Single selection example"
+              variant="flat"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={handleSelectionChange}
+            >
+              <DropdownItem key="en">English</DropdownItem>
+              <DropdownItem key="zh">中文</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Link isExternal aria-label="Twitter" href="">
+            <TwitterIcon size={20} className="text-default-500" />
+          </Link>
+          <ThemeSwitch />
         </NavbarContent>
 
-        <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-          <ThemeSwitch />
-          <NavbarMenuToggle />
-        </NavbarContent>
+        <NavbarMenu>
+          <NavbarMenuItem key="1" className="text-default-400">
+            <Link color="foreground" className="text-large" href="/pricing">
+              {intl.formatMessage({ id: "upgrade_to_premium" })}
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem key="2" className="text-default-400">
+            <Link color="foreground" className="text-large" href="/faq">
+              {intl.formatMessage({ id: "faq" })}
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem key="4" className="text-default-400">
+            {user ? (
+              <Link color="foreground" className="text-large" href="/dashboard">
+                {intl.formatMessage({ id: "dashboard" })}
+              </Link>
+            ) : (
+              <div
+                className="md:flex text-foreground text-large cursor-pointer"
+                onClick={onOpen}
+              >
+                {intl.formatMessage({ id: "login" })}
+              </div>
+            )}
+          </NavbarMenuItem>
+        </NavbarMenu>
       </NextUINavbar>
     </>
   );

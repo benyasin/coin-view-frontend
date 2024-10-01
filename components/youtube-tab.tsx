@@ -162,9 +162,9 @@ const YouTubeTab = ({}) => {
             {filterVideos(selectedTab).map((video) => (
               <div
                 key={video.video_id}
-                className="flex mt-2 mb-14 gap-12 px-2 justify-between w-full"
+                className="flex flex-col md:flex-row mt-2 mb-14 gap-12 px-2 justify-between w-full"
               >
-                <Card key={video.video_id} className="w-1/2">
+                <Card key={video.video_id} className="sm:w-1 md:w-1/2">
                   <CardHeader className="pt-4 px-4 justify-between items-center">
                     <div className="flex items-center gap-5 h-[45px]">
                       <Link href={video.channel_url} target="_blank">
@@ -211,7 +211,7 @@ const YouTubeTab = ({}) => {
                     />
                   </CardBody>
                 </Card>
-                <div className="w-1/2 h-[275px]">
+                <div className="sm:w-1 md:w-1/2 h-[275px]">
                   <Link
                     className={subtitle({
                       className: "text-default-600 line-clamp-2 pl-4 mb-0",

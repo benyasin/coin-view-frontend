@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <section className="text-2xl ml-20 mt-16 flex justify-start items-center">
+      <section className="text-xl ml-4 md:ml-20 md:mt-16 flex justify-start items-center">
         <div className="text-default-500">
           {intl.formatMessage({ id: "bullish_bearish_probability" })}
         </div>
@@ -58,20 +58,18 @@ export default function Home() {
         </Popover>
       </section>
       <section>
-        <div className="mt-8 relative">
+        <div className="mt-8 md:relative">
           <PieKline />
-          <div className="absolute top-20 right-24">
-            <TimeSelect />
-          </div>
+          <TimeSelect />
         </div>
       </section>
-      <section className="text-2xl ml-16 mt-40 mb-8">
+      <section className="text-xl ml-4 md:ml-16 mt-10 md:mt-28 mb-8">
         <div className="text-default-500">
           {intl.formatMessage({ id: "youTube_analysis_results" })}
         </div>
       </section>
       <section>
-        <div className="mt-8 px-16">
+        <div className="mt-8 md:px-16">
           <YoutubeTab />
         </div>
       </section>

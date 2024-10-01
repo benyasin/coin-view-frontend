@@ -9,7 +9,7 @@ export const Hero = () => {
 
   return (
     <div className="relative justify-center items-center">
-      <section className="flex flex-col items-center justify-center gap-4 py-20 md:py-20">
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-20">
         <motion.div
           initial={{ y: 5, opacity: 0 }}
           animate={{

@@ -20,6 +20,7 @@ export const PieKline = () => {
   const [data, setData] = useState<TrendData[]>([]);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +42,19 @@ export const PieKline = () => {
     };
 
     fetchData();
+
+    // 判断是否在mobile下（小于640px）
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640); // sm 断点为 640px
+    };
+
+    // 初始化判断
+    handleResize();
+
+    // 监听窗口大小变化
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -392,25 +406,37 @@ export const PieKline = () => {
     };
   }, [intl.locale, data]);
 
+  // 如果 isMobile 还未被初始化，返回空值或加载状态
+  if (isMobile === null) {
+    return <div>Loading...</div>; // 或者使用占位内容
+  }
+
   return (
-    <div style={{ width: "100%", height: "600px", position: "relative" }}>
+    <div
+      style={{
+        width: "100%",
+        height: isMobile ? "800px" : "600px",
+        position: "relative",
+      }}
+    >
       <div
         ref={chartRef}
         style={{
+          position: "absolute",
+          left: "0", // Adjusted to avoid overlap
+          bottom: "0", // Moved up
+          zIndex: "2",
           width: "100%",
           height: "425px",
-          position: "absolute",
-          bottom: "0", // Moved up
-          left: "0", // Adjusted to avoid overlap
-          zIndex: "2",
         }}
       ></div>
       <div
         ref={pieChartRef}
         style={{
           position: "absolute",
-          top: "0", // Moved down
-          left: "420px", // Moved left
+          top: isMobile ? "200px" : 0, // Moved down
+          left: isMobile ? "50%" : "420px", // Moved left
+          transform: isMobile ? "translateX(-50%)" : "none",
           width: "400px", // Smaller size
           height: "280px",
           zIndex: "1",
@@ -421,7 +447,8 @@ export const PieKline = () => {
         style={{
           position: "absolute",
           top: "35px", // Moved up
-          left: "55px", // Adjusted to avoid overlap
+          left: isMobile ? "50%" : "55px", // Adjusted to avoid overlap
+          transform: isMobile ? "translateX(-50%)" : "none",
           width: "280px",
           height: "280px",
           zIndex: "1",
