@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PricingLayout({
+export default function PremiumLayout({
   children,
 }: {
   children: React.ReactNode;

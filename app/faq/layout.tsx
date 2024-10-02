@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "FAQ - CoinView",
   openGraph: {
     title: "FAQ - CoinView",
-    url: "https://www.coinview.today/premium",
+    url: "https://www.coinview.today/faq",
     images: [
       {
         url: "https://www.coinview.today/coinview-premium.png",
@@ -16,11 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PricingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function FaqLayout({ children }: { children: React.ReactNode }) {
   return (
     <section>
       <div>{children}</div>
