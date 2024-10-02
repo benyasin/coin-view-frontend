@@ -7,6 +7,7 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Script from "next/script";
+import Head from "next/head";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -22,7 +23,12 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <head>
+      <Head>
+        <title>CoinView</title>
+        <meta
+          name="description"
+          content="An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends"
+        />
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-VJ4FV2QGY0"
@@ -36,7 +42,7 @@ export default function RootLayout({
             gtag('config', 'G-VJ4FV2QGY0');
           `}
         </Script>
-      </head>
+      </Head>
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
