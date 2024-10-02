@@ -43,7 +43,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="max-w-[1280px] text-large w-full flex flex-col-reverse md:flex-row items-center justify-between py-6 px-12 mt-28">
+    <footer className="max-w-[1280px] text-medium md:text-large w-full flex flex-col-reverse md:flex-row items-center justify-between py-6 px-12 mt-28">
       <div className="text-default-500">
         <div>
           © 2024 CoinView.Today &nbsp;&nbsp;
