@@ -43,6 +43,25 @@ const YouTubeTab = ({}) => {
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // 判断是否在mobile下（小于640px）
+    const handleResize = () => {
+      setIsMobile(
+        window.innerWidth < 640 ||
+          /Mobi|Android|iPhone/i.test(navigator.userAgent)
+      );
+    };
+
+    // 初始化判断
+    handleResize();
+
+    // 监听窗口大小变化
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // 根据语言设置dayjs的本地化
   if (locale === "zh") {
@@ -165,7 +184,7 @@ const YouTubeTab = ({}) => {
                 className={
                   locale == "zh"
                     ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-36 gap-6 px-2 justify-between w-full"
-                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 pb-96 gap-6 px-2 justify-between w-full"
+                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 gap-6 px-2 justify-between w-full"
                 }
               >
                 <Card key={video.video_id} className="w-full sm:w-1 md:w-1/2">
