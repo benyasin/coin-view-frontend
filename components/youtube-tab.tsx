@@ -184,7 +184,7 @@ const YouTubeTab = ({}) => {
                 className={
                   locale == "zh"
                     ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-36 gap-6 px-2 justify-between w-full"
-                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 pb-8 md:pb-0 gap-6 px-2 justify-between w-full"
+                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 pb-16 md:pb-0 gap-6 px-2 justify-between w-full"
                 }
               >
                 <Card key={video.video_id} className="w-full sm:w-1 md:w-1/2">
