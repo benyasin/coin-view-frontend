@@ -9,15 +9,15 @@ import { Footer } from "@/components/footer";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "CoinView Today",
+  title: "CoinView",
   description:
     "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
   openGraph: {
-    title: "CoinView Today",
+    title: "CoinView",
     description:
       "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
     url: "https://www.coinview.today",
-    siteName: "CoinView Today",
+    siteName: "CoinView",
     images: [
       {
         url: "https://www.coinview.today/coinview-home.png",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CoinView Today",
+    title: "CoinView",
     description:
       "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
     images: ["https://www.coinview.today/coinview-x.png"],
