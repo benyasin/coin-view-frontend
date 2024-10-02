@@ -96,6 +96,27 @@ export const TwitterIcon: React.FC<IconSvgProps> = ({
   );
 };
 
+export const TelegramIcon: React.FC<IconSvgProps> = ({
+  size = 24,
+  width,
+  height,
+  ...props
+}) => {
+  return (
+    <svg
+      height={size || height}
+      viewBox="0 0 24 24"
+      width={size || width}
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M21.5 2.5L2.5 10.5C1.7 10.8 1.7 11.7 2.5 12L6.5 13.5L8.5 19.5C8.7 20.1 9.5 20.3 10 19.8L12.5 17.5L17 21C17.3 21.3 17.8 21.1 17.8 20.6L20 4.5C20.1 3.8 19.4 3.3 18.8 3.6L5.5 10L18 5.5C18.5 5.3 18.9 5.6 18.7 6L11.5 13L9.5 12.2L19.2 6.5C19.6 6.3 19.4 5.9 19 6L5.5 11.5L3 10.5L19 4C19.5 3.8 19.7 3.3 19.3 3.1L3.5 10.2C3 10.4 3 11.1 3.5 11.3L6.2 12.5L8.5 18C8.8 18.7 9.5 18.5 9.9 18.1L12.5 15.5L17.5 20.5C17.9 21.1 18.7 20.7 18.6 20L21.5 2.5z"
+      ></path>
+    </svg>
+  );
+};
+
 export const QuestionIcon: React.FC<IconSvgProps> = ({
   size = 24,
   width,

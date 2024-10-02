@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { TwitterIcon, LanguageIcon } from "@/components/icons";
+import { TwitterIcon, LanguageIcon, TelegramIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import {
   Modal,
@@ -218,8 +218,19 @@ export const Navbar = () => {
               <DropdownItem key="zh">中文</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Link isExternal aria-label="Twitter" href="">
+          <Link
+            isExternal
+            aria-label="Twitter"
+            href="https://x.com/coinview_today"
+          >
             <TwitterIcon size={20} className="text-default-500" />
+          </Link>
+          <Link
+            isExternal
+            aria-label="Telegram"
+            href="https://t.me/coinview_cs"
+          >
+            <TelegramIcon size={20} className="text-default-500" />
           </Link>
           <ThemeSwitch />
         </NavbarContent>
