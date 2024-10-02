@@ -3,7 +3,6 @@
 import {
   Navbar as NextUINavbar,
   NavbarContent,
-  NavbarMenuToggle,
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
@@ -34,6 +33,7 @@ import { LanguageContext } from "@/components/language-provider";
 import { deleteAuthCookie, getUserInfo } from "@/actions/api";
 import { getCache, setCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
+import { MenuIcon } from "lucide-react"; // 导入MenuIcon
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -46,7 +46,7 @@ export const Navbar = () => {
   const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(
     new Set([intl.locale])
   );
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
@@ -102,6 +102,10 @@ export const Navbar = () => {
     localStorage.setItem("coinViewLang", selectedLocale as string);
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <>
       <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -142,18 +146,24 @@ export const Navbar = () => {
         </ModalContent>
       </Modal>
       <NextUINavbar
-        onMenuOpenChange={setIsMenuOpen}
         classNames={{
           base: ["nextui-navbar", "lg:px-16", "border-b-1"],
         }}
         position="sticky"
+        isMenuOpen={isMenuOpen}
       >
-        <NavbarMenuToggle className="sm:hidden h-auto mr-2" />
+        <div className="sm:hidden h-auto mr-2" onClick={toggleMenu}>
+          <MenuIcon className="h-6 w-6" />
+        </div>
         <NavbarContent
           className="max-w-[1280px] basis-1/5 sm:basis-full"
           justify="start"
         >
-          <NextLink className="flex justify-start items-center gap-1" href="/">
+          <NextLink
+            className="flex justify-start items-center gap-1"
+            href="/"
+            onClick={() => setIsMenuOpen(false)}
+          >
             <Logo />
           </NextLink>
           <ul className="hidden md:flex gap-6 justify-start ml-12">
@@ -216,24 +226,42 @@ export const Navbar = () => {
 
         <NavbarMenu>
           <NavbarMenuItem key="1" className="text-default-400">
-            <Link color="foreground" className="text-large" href="/pricing">
+            <Link
+              color="foreground"
+              className="text-large"
+              href="/pricing"
+              onPress={() => setIsMenuOpen(false)}
+            >
               {intl.formatMessage({ id: "upgrade_to_premium" })}
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem key="2" className="text-default-400">
-            <Link color="foreground" className="text-large" href="/faq">
+            <Link
+              color="foreground"
+              className="text-large"
+              href="/faq"
+              onPress={() => setIsMenuOpen(false)}
+            >
               {intl.formatMessage({ id: "faq" })}
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem key="4" className="text-default-400">
             {user ? (
-              <Link color="foreground" className="text-large" href="/dashboard">
+              <Link
+                color="foreground"
+                className="text-large"
+                href="/dashboard"
+                onPress={() => setIsMenuOpen(false)}
+              >
                 {intl.formatMessage({ id: "dashboard" })}
               </Link>
             ) : (
               <div
                 className="md:flex text-foreground text-large cursor-pointer"
-                onClick={onOpen}
+                onClick={() => {
+                  onOpen();
+                  setIsMenuOpen(false);
+                }}
               >
                 {intl.formatMessage({ id: "login" })}
               </div>

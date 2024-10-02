@@ -46,12 +46,12 @@ export const TimeSelect = () => {
   ];
 
   return (
-    <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-20 md:right-24 mt-16 md:mt-0">
+    <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-20 md:right-24 mt-16 md:mt-0 px-2">
       <Tabs aria-label="tabs" items={tabs}>
         {(item) => (
           <Tab key={item.id} title={item.label}>
             <Card className="bg-transparent shadow-none">
-              <CardBody className="text-default-500 gap-2 !px-0">
+              <CardBody className="text-default-400 gap-2 !px-0">
                 <div className="flex justify-between">
                   <span>{intl.formatMessage({ id: "bullish" })}</span>
                   <span>{item.bullish}</span>

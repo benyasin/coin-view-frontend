@@ -45,7 +45,10 @@ export const PieKline = () => {
 
     // 判断是否在mobile下（小于640px）
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640); // sm 断点为 640px
+      setIsMobile(
+        window.innerWidth < 640 ||
+          /Mobi|Android|iPhone/i.test(navigator.userAgent)
+      );
     };
 
     // 初始化判断
@@ -256,11 +259,11 @@ export const PieKline = () => {
           intl.formatMessage({ id: "fear_greed_index" }),
           intl.formatMessage({ id: "bitcoin_price" }),
         ],
-        top: "20%",
+        top: "10%",
       },
       grid: {
-        left: "8%",
-        right: "10%",
+        left: "10%",
+        right: "14%",
         top: "30%",
         bottom: "20%",
       },
