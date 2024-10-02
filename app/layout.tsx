@@ -7,7 +7,6 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Script from "next/script";
-import Head from "next/head";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -23,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <Head>
+      <head>
         <title>CoinView</title>
         <meta
           name="description"
@@ -42,7 +41,7 @@ export default function RootLayout({
             gtag('config', 'G-VJ4FV2QGY0');
           `}
         </Script>
-      </Head>
+      </head>
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
