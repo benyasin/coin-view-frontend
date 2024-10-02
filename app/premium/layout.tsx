@@ -1,22 +1,22 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard - CoinView",
+  title: "Premium - CoinView",
   openGraph: {
-    title: "Dashboard - CoinView",
-    url: "https://www.coinview.today/dashboard",
+    title: "Premium - CoinView",
+    url: "https://www.coinview.today/premium",
     images: [
       {
-        url: "https://www.coinview.today/coinview-dashboard.png",
+        url: "https://www.coinview.today/coinview-premium.png",
         width: 800,
         height: 600,
-        alt: "Dashboard OG Image",
+        alt: "Premium OG Image",
       },
     ],
   },
 };
 
-export default function DashboardLayout({
+export default function PricingLayout({
   children,
 }: {
   children: React.ReactNode;

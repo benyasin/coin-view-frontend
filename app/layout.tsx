@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { Viewport } from "next";
+import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { LanguageProvider } from "@/components/language-provider";
 import { Providers } from "./providers";
@@ -7,6 +7,36 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Script from "next/script";
+
+export const metadata: Metadata = {
+  title: "CoinView Today",
+  description:
+    "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
+  openGraph: {
+    title: "CoinView Today",
+    description:
+      "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
+    url: "https://www.coinview.today",
+    siteName: "CoinView Today",
+    images: [
+      {
+        url: "https://www.coinview.today/coinview-home.png",
+        width: 800,
+        height: 800,
+        alt: "CoinView Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CoinView Today",
+    description:
+      "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
+    images: ["https://www.coinview.today/coinview-x.png"],
+  },
+};
 
 export const viewport: Viewport = {
   themeColor: [
@@ -23,11 +53,6 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
-        <title>CoinView</title>
-        <meta
-          name="description"
-          content="An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends"
-        />
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-VJ4FV2QGY0"

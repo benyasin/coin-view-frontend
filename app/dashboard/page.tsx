@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { UserInfo } from "@/types";
 import { Profile } from "@/components/profile";
 import { Customize } from "@/components/customize";
@@ -11,34 +10,33 @@ import { getCache, setCache } from "@/helpers/store";
 import { useIntl } from "react-intl";
 
 const Dashboard = () => {
-  const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
-  const router = useRouter();
-  const [isMember, setIsMember] = useState(true);
-  const [backdropTop, setBackdropTop] = useState("30%"); // 新增状态管理backdrop的top值
+  const [user, setUser] = React.useState<UserInfo | null | undefined>(
+    undefined
+  );
+  const [isMember, setIsMember] = React.useState(true);
+  const [backdropTop, setBackdropTop] = React.useState("30%"); // 新增状态管理backdrop的top值
   const intl = useIntl();
 
-  useEffect(() => {
-    const timeout: NodeJS.Timeout = setTimeout(() => {
-      const cachedUser = getCache("user");
-      if (cachedUser) {
-        setUser(cachedUser);
-        setIsMember(cachedUser.is_member);
-      } else {
-        getUserInfo().then((data) => {
-          if (data.description === "Cookie token expired") {
-            console.log("Cookie token expired");
-            deleteAuthCookie();
-            location.href = "/";
-          }
-          setUser(data.data);
-          setIsMember(data.data.is_member);
-          setCache("user", data.data); // 缓存数据
-        });
-      }
-    }, 1000);
+  const timeout: NodeJS.Timeout = setTimeout(() => {
+    const cachedUser = getCache("user");
+    if (cachedUser) {
+      setUser(cachedUser);
+      setIsMember(cachedUser.is_member);
+    } else {
+      getUserInfo().then((data) => {
+        if (data.description === "Cookie token expired") {
+          console.log("Cookie token expired");
+          deleteAuthCookie();
+          location.href = "/";
+        }
+        setUser(data.data);
+        setIsMember(data.data.is_member);
+        setCache("user", data.data); // 缓存数据
+      });
+    }
 
     return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
-  }, [router]);
+  }, 1000);
 
   // 修改 backdrop 的函数
   const handleBackdropChange = (newTopValue: string) => {
@@ -69,30 +67,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .dashboard-container {
-          position: relative;
-        }
-
-        .backdrop {
-          position: absolute;
-          left: 0;
-          width: 100%;
-          height: 70%;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 100;
-          border-radius: 5px;
-        }
-
-        .backdrop-content {
-          font-size: 20px;
-        }
-      `}</style>
     </div>
   );
 };

@@ -168,7 +168,7 @@ export const Navbar = () => {
           </NextLink>
           <ul className="hidden md:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
-              <Link color="foreground" className="text-large" href="/pricing">
+              <Link color="foreground" className="text-large" href="/premium">
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
             </NavbarItem>
@@ -240,7 +240,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href="/pricing"
+              href="/premium"
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "upgrade_to_premium" })}

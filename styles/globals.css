@@ -32,3 +32,25 @@ body {
 .youtube-accordion hr{
     opacity: .4;
 }
+
+.dashboard-container {
+    position: relative;
+}
+
+.backdrop {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    border-radius: 5px;
+}
+
+.backdrop-content {
+    font-size: 20px;
+}
