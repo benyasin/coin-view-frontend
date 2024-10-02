@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
+import { Viewport } from "next";
 import clsx from "clsx";
 import { LanguageProvider } from "@/components/language-provider";
 import { Providers } from "./providers";
@@ -7,17 +7,6 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Script from "next/script";
-
-export const metadata: Metadata = {
-  title: {
-    default: "CoinView",
-    template: `%s - CoinView`,
-  },
-  description: "",
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
 
 export const viewport: Viewport = {
   themeColor: [

@@ -13,11 +13,25 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { Hero } from "@/components/hero";
+import NextHeadSeo from "next-head-seo";
 
 export default function Home() {
   const intl = useIntl();
   return (
     <>
+      <NextHeadSeo
+        title="CoinView"
+        description="An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends."
+        canonical="https://www.coinview.today/"
+        og={{
+          title: "Coinview",
+          description:
+            "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
+          image: "https://coinview.today/logo.png",
+          type: "website",
+          siteName: "Coinview",
+        }}
+      />
       <Hero />
       <section className="text-xl ml-2 md:ml-20 md:mt-16 flex justify-start items-center">
         <div className="text-default-400">
