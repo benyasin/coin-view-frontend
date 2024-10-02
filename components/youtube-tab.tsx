@@ -183,8 +183,8 @@ const YouTubeTab = ({}) => {
                 key={video.video_id}
                 className={
                   locale == "zh"
-                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-36 gap-6 px-2 justify-between w-full"
-                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 pb-16 md:pb-0 gap-6 px-2 justify-between w-full"
+                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-36 gap-6 justify-between w-full"
+                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 pb-16 md:pb-0 gap-6 justify-between w-full"
                 }
               >
                 <Card key={video.video_id} className="w-full sm:w-1 md:w-1/2">
@@ -237,7 +237,7 @@ const YouTubeTab = ({}) => {
                 <div className="sm:w-1 md:w-1/2 h-[275px]">
                   <Link
                     className={subtitle({
-                      className: "text-default-600 line-clamp-2 pl-4 mb-0",
+                      className: "text-default-600 line-clamp-2 pl-2 mb-0",
                     })}
                     href={video.url}
                     target="_blank"
@@ -250,9 +250,9 @@ const YouTubeTab = ({}) => {
                     itemClasses={{
                       base: "py-2 w-full",
                       title: "font-normal text-default-400 text-lg pt-1",
-                      trigger: "px-2 py-0 rounded-lg h-10 flex items-center",
+                      trigger: "py-0 rounded-lg h-10 flex items-center",
                       indicator: "text-medium",
-                      content: "px-2 pb-2 text-default-500",
+                      content: "pb-2 text-default-500",
                     }}
                     defaultExpandedKeys={["1"]}
                   >
