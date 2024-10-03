@@ -108,7 +108,13 @@ export const Navbar = () => {
 
   return (
     <>
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        backdrop="blur"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+      >
         <ModalContent>
           {(onClose) => (
             <>
