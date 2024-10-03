@@ -55,6 +55,8 @@
   "password": "Password",
   "username": "Username",
   "confirm_password": "Confirm password",
+  "captcha": "Captcha",
+  "refresh_captcha": "Refresh captcha",
   "register_successfully": "Register successfully.",
   "currently_you": "You are currently on the ",
   "expire_in": "This paid plan will expire on {dueDay}",

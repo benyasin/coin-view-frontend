@@ -55,6 +55,8 @@
   "password": "密码",
   "username": "用户名",
   "confirm_password": "确认密码",
+  "captcha": "验证码",
+  "refresh_captcha": "刷新验证码",
   "register_successfully": "注册成功.",
   "currently_you": "你当前是 ",
   "expire_in": "付费计划将于 {dueDay} 过期",

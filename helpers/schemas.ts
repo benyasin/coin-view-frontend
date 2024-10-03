@@ -13,6 +13,7 @@ export const RegisterSchema = object().shape({
     .email("This field must be an email")
     .required("Email is required"),
   password: string().required("Password is required"),
+  captcha: string().required("Captcha is required"),
   confirmPassword: string()
     .required("Confirm password is required")
     .oneOf([ref("password")], "Passwords must match"),

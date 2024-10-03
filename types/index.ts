@@ -3,6 +3,7 @@ import { SVGProps } from "react";
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
 };
+
 export type LoginFormType = {
   email: string;
   password: string;
@@ -13,6 +14,8 @@ export type RegisterFormType = {
   email: string;
   password: string;
   confirmPassword: string;
+  captcha: string;
+  captchaId: string;
 };
 
 // 类型定义

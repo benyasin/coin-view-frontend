@@ -10,7 +10,13 @@ export const registerUser = async (values: RegisterFormType) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/user/signup`,
-      values
+      {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        captcha: values.captcha,
+        captcha_id: values.captchaId,
+      }
     );
     return response.data;
   } catch (error) {
@@ -43,19 +49,6 @@ export const createOrder = async (
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
       { user_id: userId, email, amount, member_plan: memberPlan }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    // @ts-ignore
-    throw new Error(error.response?.data?.detail || "Login failed");
-  }
-};
-
-export const pollingOrder = async (orderId: string) => {
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/order/search/${orderId}`
     );
     return response.data;
   } catch (error) {
