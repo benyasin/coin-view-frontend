@@ -9,7 +9,7 @@ import { Footer } from "@/components/footer";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "CoinView",
+  title: "CoinView Today",
   description:
     "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
   openGraph: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description:
       "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
     url: "https://www.coinview.today",
-    siteName: "CoinView",
+    siteName: "CoinView Today",
     images: [
       {
         url: "https://www.coinview.today/coinview-home.png",

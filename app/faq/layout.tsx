@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ - CoinView",
+  title: "FAQ - CoinView Today",
   openGraph: {
-    title: "FAQ - CoinView",
+    title: "FAQ - CoinView Today",
     url: "https://www.coinview.today/faq",
     images: [
       {
