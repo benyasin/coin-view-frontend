@@ -9,6 +9,7 @@ import { clearCache } from "@/helpers/store";
 // 创建 axios 实例时全局设置 withCredentials: true
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL, // 你的 API URL
+  withCredentials: true, // 全局设置 withCredentials 为 true
 });
 
 export const registerUser = async (values: RegisterFormType) => {
