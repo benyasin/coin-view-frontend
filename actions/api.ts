@@ -6,18 +6,21 @@ import { LoginFormType, RegisterFormType } from "@/types";
 import { Youtuber } from "@/types";
 import { clearCache } from "@/helpers/store";
 
+// 创建 axios 实例时全局设置 withCredentials: true
+const apiClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL, // 你的 API URL
+  withCredentials: true, // 全局设置 withCredentials 为 true
+});
+
 export const registerUser = async (values: RegisterFormType) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/signup`,
-      {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-        captcha: values.captcha,
-        captcha_id: values.captchaId,
-      }
-    );
+    const response = await apiClient.post(`/user/signup`, {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      captcha: values.captcha,
+      captcha_id: values.captchaId,
+    });
     return response.data;
   } catch (error) {
     // @ts-ignore
@@ -27,10 +30,7 @@ export const registerUser = async (values: RegisterFormType) => {
 
 export const loginUser = async (values: LoginFormType) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/login`,
-      values
-    );
+    const response = await apiClient.post(`/user/login`, values);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -46,10 +46,12 @@ export const createOrder = async (
   memberPlan: string
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
-      { user_id: userId, email, amount, member_plan: memberPlan }
-    );
+    const response = await apiClient.post(`/order/create`, {
+      user_id: userId,
+      email,
+      amount,
+      member_plan: memberPlan,
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -60,13 +62,10 @@ export const createOrder = async (
 
 export const findMyOrders = async (user_id: string, page_number: number) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/order/list`,
-      {
-        user_id,
-        page_number,
-      }
-    );
+    const response = await apiClient.post(`/order/list`, {
+      user_id,
+      page_number,
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -77,9 +76,7 @@ export const findMyOrders = async (user_id: string, page_number: number) => {
 
 export const searchPendingOrder = async (userId: string) => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/order/pending/${userId}`
-    );
+    const response = await apiClient.get(`/order/pending/${userId}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -90,9 +87,7 @@ export const searchPendingOrder = async (userId: string) => {
 
 export const fetchYoutubers = async (userId: string) => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/list/${userId}`
-    );
+    const response = await apiClient.get(`/youtuber/list/${userId}`);
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
@@ -109,9 +104,7 @@ export const fetchYoutubers = async (userId: string) => {
 
 export const searchYoutuber = async (channelId: string) => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/search/${channelId}`
-    );
+    const response = await apiClient.get(`/youtuber/search/${channelId}`);
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
@@ -129,8 +122,8 @@ export const searchYoutuber = async (channelId: string) => {
 export const getUserInfo = async () => {
   try {
     if (cookies().get("access_token")?.value) {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
+      const response = await apiClient.post(
+        `/user/me`,
         { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
       );
       return response.data; // Return the data from the response
@@ -158,17 +151,14 @@ export const searchVideo = async (
   pageSize: number
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/video/search`,
-      {
-        user_id: userId,
-        publish_date: publishDate,
-        opinion,
-        channel_title: channelTitle,
-        page_number: pageNumber,
-        page_size: pageSize,
-      }
-    );
+    const response = await apiClient.post(`/video/search`, {
+      user_id: userId,
+      publish_date: publishDate,
+      opinion,
+      channel_title: channelTitle,
+      page_number: pageNumber,
+      page_size: pageSize,
+    });
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
@@ -190,15 +180,12 @@ export const exportVideo = async (
   channelTitle: string
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/video/export`,
-      {
-        user_id: userId,
-        publish_date: publishDate,
-        opinion,
-        channel_title: channelTitle,
-      }
-    );
+    const response = await apiClient.post(`/video/export`, {
+      user_id: userId,
+      publish_date: publishDate,
+      opinion,
+      channel_title: channelTitle,
+    });
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
@@ -218,13 +205,10 @@ export const addYoutuberToDB = async (
   userId: string
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/save`,
-      {
-        youtuber: newYoutuber,
-        user_id: userId,
-      }
-    );
+    const response = await apiClient.post(`/youtuber/save`, {
+      youtuber: newYoutuber,
+      user_id: userId,
+    });
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
@@ -244,8 +228,8 @@ export const deleteYoutuberFromDB = async (
   userId: string
 ) => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/youtuber/del_relation/${channelId}/${userId}`
+    const response = await apiClient.get(
+      `/youtuber/del_relation/${channelId}/${userId}`
     );
     return response.data; // Return the data from the response
   } catch (error) {
@@ -262,11 +246,11 @@ export const deleteYoutuberFromDB = async (
 };
 
 export const createAuthCookie = async (token: string) => {
-  cookies().set("access_token", token, {
+  /*cookies().set("access_token", token, {
     secure: false,
     httpOnly: true,
     sameSite: "strict",
-  });
+  });*/
 };
 
 export const deleteAuthCookie = async () => {
