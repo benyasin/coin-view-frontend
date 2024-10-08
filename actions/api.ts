@@ -246,11 +246,11 @@ export const deleteYoutuberFromDB = async (
 };
 
 export const createAuthCookie = async (token: string) => {
-  /*cookies().set("access_token", token, {
-    secure: false,
+  cookies().set("access_token", token, {
+    secure: true,
     httpOnly: true,
     sameSite: "strict",
-  });*/
+  });
 };
 
 export const deleteAuthCookie = async () => {
