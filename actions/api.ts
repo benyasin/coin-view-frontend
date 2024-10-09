@@ -12,6 +12,11 @@ const apiClient = axios.create({
   withCredentials: true, // 全局设置 withCredentials 为 true
 });
 
+if (cookies().get("access_token")?.value) {
+  apiClient.defaults.headers["Authorization"] =
+    "Bearer " + cookies().get("access_token")?.value;
+}
+
 export const registerUser = async (values: RegisterFormType) => {
   try {
     const response = await apiClient.post(`/user/signup`, {
@@ -247,9 +252,9 @@ export const deleteYoutuberFromDB = async (
 
 export const createAuthCookie = async (token: string) => {
   cookies().set("access_token", token, {
-    secure: true,
+    secure: false,
     httpOnly: true,
-    sameSite: "strict",
+    //sameSite: "lax",
   });
 };
 
