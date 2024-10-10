@@ -109,5 +109,12 @@
   "continue_payment": "Continue Payment",
   "create_new_order": "Create New Order",
   "confirm_payment": "Open Payment Page",
-  "payment_window_message": "The system will open a new page for payment, do you confirm?"
+  "payment_window_message": "The system will open a new page for payment, do you confirm?",
+  "faq_question1": "What is CoinView? What are the platform’s key features?",
+  "faq_answer1": "CoinView Today is an AI-powered platform that extracts and analyzes sentiment from YouTube video content, aimed at helping users predict and analyze overall trends in the cryptocurrency market. Our core feature lies in utilizing advanced Natural Language Processing (NLP) technology to provide real-time, accurate sentiment analysis by interpreting YouTube creators’ opinions and market sentiment. In addition to summarizing the insights from multiple market analysts, the platform also provides you with daily Bitcoin prices, the Fear and Greed Index, and daily rise/fall probabilities, ensuring you receive the most up-to-date and comprehensive market information.",
+  "faq_question2": "Is the sentiment analysis data from YouTube videos reliable and timely?",
+  "faq_answer2": "We leverage advanced AI technology, using Natural Language Processing (NLP) to perform detailed analysis of video content. The content is translated into both Chinese and English, and the system ultimately provides a bullish, bearish, or neutral market sentiment with detailed reasoning. Our real-time analysis is typically completed within 5 to 10 minutes after the video is posted by the creator. Premium members also receive real-time notifications via email and Telegram, ensuring you stay updated on market trends as they happen.",
+  "faq_question3": "What are the differences between the free and premium versions in terms of platform services?",
+  "faq_answer3": "Both free and premium users receive daily real-time updates on market data, including Bitcoin prices, the Fear and Greed Index, and rise/fall probabilities. However, free users can only view the video analysis results of 4 analysts recommended by the platform’s algorithm on the homepage. In contrast, premium users can customize and track up to 10 or 50 preferred analysts and access detailed statistical reports in the dashboard to monitor their accuracy. Additionally, premium users will receive video sentiment analysis results via email or Telegram immediately after the analysts release their content, ensuring timely insights into market trends."
+
 }

@@ -1,17 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { useIntl } from "react-intl";
+import { CircleHelp } from "lucide-react";
 
 export const Faq = () => {
   const intl = useIntl();
-  const [defaultContent, setDefaultContent] = useState("");
-
-  useEffect(() => {
-    setDefaultContent(intl.formatMessage({ id: "faq_description" }));
-  }, [intl]);
-
+  const itemClasses = {
+    base: "py-0 w-full",
+    title:
+      "text-large font-light tracking-tighter sm:text-xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty",
+    trigger: "px-2 py-0 h-12 flex items-center",
+    content: "px-2 pb-6 text-balance text-foreground/60",
+  };
   return (
     <div id="faq">
       <section className="relative max-w-screen-xl mx-auto px-4 py-28 gap-12 md:px-8 flex flex-col justify-center items-center">
@@ -25,10 +27,10 @@ export const Faq = () => {
           transition={{ duration: 1, delay: 0.5 }}
           className="flex flex-col gap-3 justify-center items-center"
         >
-          <h4 className="text-2xl font-bold sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text">
+          <h4 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
             {intl.formatMessage({ id: "faq" })}
           </h4>
-          <p className="max-w-xl text-foreground/80 text-center">
+          <p className="mt-3 max-w-2xl text-foreground/80 text-balance">
             {intl.formatMessage({ id: "faq_description" })}
           </p>
         </motion.div>
@@ -40,7 +42,7 @@ export const Faq = () => {
           }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 1 }}
-          className="max-w-5xl text-foreground/50 w-full border border-foreground/35 rounded-md p-1"
+          className="max-w-6xl text-foreground/50 w-full border border-foreground/35 rounded-md p-1"
         >
           <Accordion
             motionProps={{
@@ -79,69 +81,35 @@ export const Faq = () => {
                 },
               },
             }}
+            defaultExpandedKeys={["1", "2"]}
+            itemClasses={itemClasses}
           >
             <AccordionItem
               key="1"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question1" })}
+              title={intl.formatMessage({ id: "faq_question1" })}
             >
-              {defaultContent}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer1" })}
             </AccordionItem>
             <AccordionItem
               key="2"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question2" })}
+              title={intl.formatMessage({ id: "faq_question2" })}
             >
-              {defaultContent}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer2" })}
             </AccordionItem>
             <AccordionItem
               key="3"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question3" })}
+              title={intl.formatMessage({ id: "faq_question3" })}
             >
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem
-              key="4"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
-            >
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem
-              key="5"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
-            >
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem
-              key="6"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
-            >
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem
-              key="7"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
-            >
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem
-              key="8"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
-            >
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem
-              key="9"
-              aria-label="Why NextUI Why NextUI Why NextUI Why NextUI"
-              title="Why NextUI Why NextUI Why NextUI Why NextUI"
-            >
-              {defaultContent}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer3" })}
             </AccordionItem>
           </Accordion>
         </motion.div>

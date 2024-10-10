@@ -183,7 +183,7 @@ const YouTubeTab = ({}) => {
                 key={video.video_id}
                 className={
                   locale == "zh"
-                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-36 gap-6 justify-between w-full"
+                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-48 pb-12 gap-6 justify-between w-full"
                     : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 pb-24 md:pb-0 gap-6 justify-between w-full"
                 }
               >
