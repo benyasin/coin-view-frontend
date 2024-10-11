@@ -13,7 +13,7 @@ export const LogoHxpay = () => {
   return (
     <div className="flex flex-row flex-nowrap justify-center items-center">
       <Image width={36} height={36} src={hxpay} alt="hxpay" loading="lazy" />
-      <span className="text-3xl font-semibold ml-2">
+      <span className="text-4xl font-semibold ml-2">
         {intl.formatMessage({ id: "collection_platform" })}
       </span>
     </div>

@@ -11,7 +11,7 @@ export const LogoBinance = () => {
   const isSSR = useIsSSR();
   return (
     <Image
-      width={intl.locale == "zh" ? 120 : 200}
+      width={intl.locale == "zh" ? 110 : 200}
       height={76}
       src={intl.locale == "zh" ? binance : binance_en}
       alt="binance"

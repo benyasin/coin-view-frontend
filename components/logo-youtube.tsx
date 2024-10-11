@@ -13,7 +13,7 @@ export const LogoYoutube = () => {
   const { theme } = useTheme();
   return (
     <Image
-      width={intl.locale == "zh" ? 130 : 130}
+      width={intl.locale == "zh" ? 120 : 130}
       height={76}
       src={theme == "dark" || isSSR ? youtube_dark : youtube}
       alt="youtube"
