@@ -11,7 +11,7 @@ export const Faq = () => {
     base: "py-0 w-full",
     title:
       "text-large font-light tracking-tighter sm:text-xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty",
-    trigger: "px-2 py-0 h-12 flex items-center",
+    trigger: "px-2 py-0 py-3 flex items-center",
     content: "px-2 pb-6 text-balance text-foreground/60",
   };
   return (
@@ -45,6 +45,7 @@ export const Faq = () => {
           className="max-w-6xl text-foreground/50 w-full border border-foreground/35 rounded-md p-1"
         >
           <Accordion
+            selectionMode="multiple"
             motionProps={{
               variants: {
                 enter: {
@@ -110,6 +111,15 @@ export const Faq = () => {
             >
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               {intl.formatMessage({ id: "faq_answer3" })}
+            </AccordionItem>
+            <AccordionItem
+              key="4"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question4" })}
+              title={intl.formatMessage({ id: "faq_question4" })}
+            >
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer4" })}
             </AccordionItem>
           </Accordion>
         </motion.div>

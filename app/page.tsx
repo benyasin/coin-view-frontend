@@ -13,12 +13,17 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { Hero } from "@/components/hero";
+import { Premium } from "@/components/premium";
+import { Faq } from "@/components/faq";
+import { Partner } from "@/components/partner";
 
 export default function Home() {
   const intl = useIntl();
   return (
     <>
-      <Hero />
+      <section>
+        <Hero />
+      </section>
       <section className="text-xl ml-2 md:ml-20 md:mt-16 flex justify-start items-center">
         <div className="text-default-400">
           {intl.formatMessage({ id: "bullish_bearish_probability" })}
@@ -72,6 +77,15 @@ export default function Home() {
         <div className="mt-8 md:px-16">
           <YoutubeTab />
         </div>
+      </section>
+      <section id="premium">
+        <Premium />
+      </section>
+      <section id="faq">
+        <Faq />
+      </section>
+      <section id="partner">
+        <Partner />
       </section>
     </>
   );

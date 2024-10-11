@@ -81,7 +81,7 @@ export default function RootLayout({
               defaultTheme: "dark",
             }}
           >
-            <div className="relative flex flex-col h-screen items-center">
+            <div className="relative flex flex-col h-full items-center">
               <Navbar />
               <main className="container mx-auto max-w-[1280px] pt-16 px-6 flex-grow">
                 {children}

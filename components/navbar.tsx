@@ -153,12 +153,12 @@ export const Navbar = () => {
       </Modal>
       <NextUINavbar
         classNames={{
-          base: ["nextui-navbar", "lg:px-16", "border-b-1"],
+          base: ["nextui-navbar", "lg:px-16", "border-b-1", "py-2"],
         }}
         position="sticky"
         isMenuOpen={isMenuOpen}
       >
-        <div className="sm:hidden h-auto mr-2" onClick={toggleMenu}>
+        <div className="sm:hidden h-auto mr-2 m-auto" onClick={toggleMenu}>
           <MenuIcon className="h-6 w-6" />
         </div>
         <NavbarContent
@@ -174,13 +174,18 @@ export const Navbar = () => {
           </NextLink>
           <ul className="hidden md:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
-              <Link color="foreground" className="text-large" href="/premium">
+              <Link color="foreground" className="text-large" href="#premium">
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
             </NavbarItem>
             <NavbarItem key="2" className="text-default-400">
-              <Link color="foreground" className="text-large" href="/faq">
+              <Link color="foreground" className="text-large" href="#faq">
                 {intl.formatMessage({ id: "faq" })}
+              </Link>
+            </NavbarItem>
+            <NavbarItem key="3" className="text-default-400">
+              <Link color="foreground" className="text-large" href="#partner">
+                {intl.formatMessage({ id: "eco_partner" })}
               </Link>
             </NavbarItem>
             {user ? (
