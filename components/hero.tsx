@@ -41,13 +41,13 @@ export const Hero = () => {
         >
           <div className="inline-block max-w-[690px] text-center justify-center">
             <h2
-              style={{ lineHeight: "1.2" }}
+              style={{ lineHeight: "1.6" }}
               className={title({ size: isMobile ? "xs" : "sm" })}
             >
               {intl.formatMessage({ id: "slogan_1" })}&nbsp;
             </h2>
             <h2
-              style={{ lineHeight: "1.2" }}
+              style={{ lineHeight: "1.6" }}
               className={title({
                 color: "violet",
                 size: isMobile ? "xs" : "sm",
@@ -56,13 +56,13 @@ export const Hero = () => {
               {intl.formatMessage({ id: "slogan_2" })}&nbsp;
             </h2>
             <h2
-              style={{ lineHeight: "1.2" }}
+              style={{ lineHeight: "1.6" }}
               className={title({ size: isMobile ? "xs" : "sm" })}
             >
               {intl.formatMessage({ id: "slogan_3" })}&nbsp;
             </h2>
             <h2
-              style={{ lineHeight: "1.2" }}
+              style={{ lineHeight: "1.6" }}
               className={title({
                 color: "violet",
                 size: isMobile ? "xs" : "sm",
@@ -71,7 +71,7 @@ export const Hero = () => {
               {intl.formatMessage({ id: "slogan_4" })}&nbsp;
             </h2>
             <h2
-              style={{ lineHeight: "1.2" }}
+              style={{ lineHeight: "1.6" }}
               className={title({ size: isMobile ? "xs" : "sm" })}
             >
               {intl.formatMessage({ id: "slogan_5" })}

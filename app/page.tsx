@@ -36,6 +36,7 @@ export default function Home() {
           classNames={{
             base: [
               // arrow color
+              "max-w-3xl",
               "before:bg-default-200",
             ],
             content: [
@@ -47,16 +48,15 @@ export default function Home() {
         >
           <PopoverTrigger>
             <Button isIconOnly variant="light" className="ml-2">
-              <QuestionIcon />
+              <QuestionIcon size={20} />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
             {(titleProps) => (
               <div className="px-1 py-2">
-                <h3 className="text-small font-bold" {...titleProps}>
-                  Popover Content
-                </h3>
-                <div className="text-tiny">This is the popover content</div>
+                <div className="text-large text-default-400">
+                  {intl.formatMessage({ id: "bullish_bearish_calc_desc" })}
+                </div>
               </div>
             )}
           </PopoverContent>

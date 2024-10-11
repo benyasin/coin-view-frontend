@@ -196,7 +196,7 @@ export const Premium = () => {
             opacity: 1,
           }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.5 }}
+          transition={{ duration: 1, delay: 0.3 }}
           className="max-w-screen-xl mx-auto px-4 md:px-8"
         >
           <div className="relative max-w-xl mx-auto sm:text-center">
@@ -210,7 +210,7 @@ export const Premium = () => {
           <motion.div
             initial={{ y: 5, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
             className="w-full h-full absolute -top-32 flex justify-end items-center"
           >
             <div className="w-3/4 flex justify-center items-center">
