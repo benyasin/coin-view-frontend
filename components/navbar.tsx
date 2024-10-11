@@ -251,7 +251,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href="/premium"
+              href="#premium"
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "upgrade_to_premium" })}
@@ -261,10 +261,20 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href="/faq"
+              href="#faq"
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "faq" })}
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem key="3" className="text-default-400">
+            <Link
+              color="foreground"
+              className="text-large"
+              href="#partner"
+              onPress={() => setIsMenuOpen(false)}
+            >
+              {intl.formatMessage({ id: "eco_partner" })}
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem key="4" className="text-default-400">
