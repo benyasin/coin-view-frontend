@@ -183,8 +183,8 @@ const YouTubeTab = ({}) => {
                 key={video.video_id}
                 className={
                   locale == "zh"
-                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-48 pb-12 gap-6 justify-between w-full"
-                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-36 pb-24 md:pb-0 gap-6 justify-between w-full"
+                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-32 md:mb-12 pb-12 gap-6 justify-between w-full"
+                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-24 pb-24 md:pb-0 gap-6 justify-between w-full"
                 }
               >
                 <Card key={video.video_id} className="w-full sm:w-1 md:w-1/2">
