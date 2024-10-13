@@ -65,11 +65,11 @@ export const Footer = () => {
                 {intl.formatMessage({ id: "disclaimer" })}
               </NextLink>
             </li>
-            <li>
+            {/*            <li>
               <NextLink href={process.env.DOMAIN_BASE_URL + "/terms"}>
                 {intl.formatMessage({ id: "terms_of_use" })}
               </NextLink>
-            </li>
+            </li>*/}
             <li>
               <NextLink href={process.env.DOMAIN_BASE_URL + "/privacy"}>
                 {intl.formatMessage({ id: "privacy_policy" })}

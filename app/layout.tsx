@@ -83,7 +83,7 @@ export default function RootLayout({
           >
             <div className="relative flex flex-col h-full items-center">
               <Navbar />
-              <main className="container mx-auto max-w-[1280px] pt-16 px-6 flex-grow">
+              <main className="container mx-auto max-w-[1280px] pt-16 px-6 flex-grow md:min-h-[800px]">
                 {children}
               </main>
               <Footer />
