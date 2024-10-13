@@ -117,7 +117,7 @@ export const Footer = () => {
           <ul className="text-default-400 flex flex-row justify-between md:flex-col flex-wrap">
             <li>
               <Link
-                className="text-default-500"
+                className="text-default-400"
                 aria-label="Twitter"
                 href="https://x.com/coinview_today"
               >
@@ -126,7 +126,7 @@ export const Footer = () => {
             </li>
             <li>
               <Link
-                className="text-default-500"
+                className="text-default-400"
                 aria-label="Telegram"
                 href="https://t.me/coinview_cs"
               >
