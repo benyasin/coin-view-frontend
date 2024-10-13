@@ -212,7 +212,7 @@ export const Premium = () => {
             initial={{ y: 5, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="w-full h-full absolute -top-26 flex justify-end items-center"
+            className="w-full h-full absolute left-0 -top-26 flex justify-end items-center"
           >
             <div className="w-3/4 flex justify-center items-center">
               <div className="w-12 h-[600px] bg-light blur-[100px] rounded-3xl max-sm:rotate-[15deg] sm:rotate-[35deg]"></div>
