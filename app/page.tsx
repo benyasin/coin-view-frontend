@@ -84,7 +84,7 @@ export default function Home() {
       <section id="faq">
         <Faq />
       </section>
-      <section id="partner">
+      <section className="mt-12" id="partner">
         <Partner />
       </section>
     </>

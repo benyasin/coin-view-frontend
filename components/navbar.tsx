@@ -174,17 +174,29 @@ export const Navbar = () => {
           </NextLink>
           <ul className="hidden md:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
-              <Link color="foreground" className="text-large" href="#premium">
+              <Link
+                color="foreground"
+                className="text-large"
+                href={process.env.DOMAIN_BASE_URL + "/#premium"}
+              >
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
             </NavbarItem>
             <NavbarItem key="2" className="text-default-400">
-              <Link color="foreground" className="text-large" href="#faq">
+              <Link
+                color="foreground"
+                className="text-large"
+                href={process.env.DOMAIN_BASE_URL + "/#faq"}
+              >
                 {intl.formatMessage({ id: "faq" })}
               </Link>
             </NavbarItem>
             <NavbarItem key="3" className="text-default-400">
-              <Link color="foreground" className="text-large" href="#partner">
+              <Link
+                color="foreground"
+                className="text-large"
+                href={process.env.DOMAIN_BASE_URL + "/#partner"}
+              >
                 {intl.formatMessage({ id: "eco_partner" })}
               </Link>
             </NavbarItem>
@@ -193,7 +205,7 @@ export const Navbar = () => {
                 <Link
                   color="foreground"
                   className="text-large"
-                  href="/dashboard"
+                  href={process.env.DOMAIN_BASE_URL + "/dashboard"}
                 >
                   {intl.formatMessage({ id: "dashboard" })}
                 </Link>
@@ -226,7 +238,7 @@ export const Navbar = () => {
               onSelectionChange={handleSelectionChange}
             >
               <DropdownItem key="en">English</DropdownItem>
-              <DropdownItem key="zh">中文</DropdownItem>
+              <DropdownItem key="zh">简体中文</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Link
@@ -251,7 +263,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href="#premium"
+              href={process.env.DOMAIN_BASE_URL + "/#premium"}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "upgrade_to_premium" })}
@@ -261,7 +273,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href="#faq"
+              href={process.env.DOMAIN_BASE_URL + "/#faq"}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "faq" })}
@@ -271,7 +283,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href="#partner"
+              href={process.env.DOMAIN_BASE_URL + "/#partner"}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "eco_partner" })}
@@ -282,7 +294,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href="/dashboard"
+                href={process.env.DOMAIN_BASE_URL + "/dashboard"}
                 onPress={() => setIsMenuOpen(false)}
               >
                 {intl.formatMessage({ id: "dashboard" })}

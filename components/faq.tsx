@@ -30,7 +30,7 @@ export const Faq = () => {
           <h4 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
             {intl.formatMessage({ id: "faq" })}
           </h4>
-          <p className="mt-3 w-4xl text-foreground/80 text-balance">
+          <p className="mt-3 w-4xl text-foreground/80">
             {intl.formatMessage({ id: "faq_description" })}
           </p>
         </motion.div>
@@ -120,6 +120,24 @@ export const Faq = () => {
             >
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               {intl.formatMessage({ id: "faq_answer4" })}
+            </AccordionItem>
+            <AccordionItem
+              key="5"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question5" })}
+              title={intl.formatMessage({ id: "faq_question5" })}
+            >
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer5" })}
+            </AccordionItem>
+            <AccordionItem
+              key="6"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question6" })}
+              title={intl.formatMessage({ id: "faq_question6" })}
+            >
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer6" })}
             </AccordionItem>
           </Accordion>
         </motion.div>

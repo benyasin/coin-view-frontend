@@ -2,25 +2,26 @@
 
 import { FC } from "react";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
-import { SwitchProps, useSwitch } from "@nextui-org/react";
+import { Switch, SwitchProps, useSwitch } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import clsx from "clsx";
 
 import { SunFilledIcon, MoonFilledIcon } from "@/components/icons";
+import { useIntl } from "react-intl";
 
 export interface ThemeSwitchProps {
   className?: string;
   classNames?: SwitchProps["classNames"];
 }
 
-export const ThemeSwitch: FC<ThemeSwitchProps> = ({
+export const ThemeSwitch2: FC<ThemeSwitchProps> = ({
   className,
   classNames,
 }) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
-
+  const intl = useIntl();
   const onChange = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
@@ -77,6 +78,12 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
         ) : (
           <MoonFilledIcon size={22} />
         )}
+        &nbsp;{intl.formatMessage({ id: "dark_mode" })}&nbsp;
+        <Switch
+          onChange={onChange}
+          isSelected={isSelected}
+          aria-label="Automatic updates"
+        />
       </div>
     </Component>
   );
