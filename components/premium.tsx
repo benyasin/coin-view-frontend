@@ -74,6 +74,7 @@ export const Premium = () => {
           { id: "custom_channel" },
           { plan_youtubers: ChannelLimits.EnterprisePlanChannels }
         ),
+        intl.formatMessage({ id: "limited_api_usage" }),
       ],
     },
   ];

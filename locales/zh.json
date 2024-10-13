@@ -89,6 +89,7 @@
   "daily_update": "大盘数据每日更新",
   "recommend_channel": "推荐博主频道展示",
   "statistic_push": "统计报表与邮件推送",
+  "limited_api_usage": "有限次的API使用",
   "custom_channel": "定制展示{plan_youtubers}个博主",
   "upgrade_tip": "请升级为付费会员以解锁更多功能",
   "order_no": "订单编号",
