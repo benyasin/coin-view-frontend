@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { UserInfo } from "@/types";
 import { Profile } from "@/components/profile";
 import { Customize } from "@/components/customize";
@@ -17,26 +17,28 @@ const Dashboard = () => {
   const [backdropTop, setBackdropTop] = React.useState("30%"); // 新增状态管理backdrop的top值
   const intl = useIntl();
 
-  const timeout: NodeJS.Timeout = setTimeout(() => {
+  useEffect(() => {
+    // 从缓存中获取用户信息
     const cachedUser = getCache("user");
+    console.log(cachedUser);
     if (cachedUser) {
       setUser(cachedUser);
       setIsMember(cachedUser.is_member);
     } else {
-      getUserInfo().then((data) => {
-        if (data.description === "Cookie token expired") {
+      // 如果缓存中没有用户信息，重新获取并更新状态
+      getUserInfo().then((result) => {
+        if (!result || result.description === "Cookie token expired") {
           console.log("Cookie token expired");
           deleteAuthCookie();
           location.href = "/";
+        } else {
+          setUser(result.data);
+          setIsMember(result.data.is_member);
+          setCache("user", result.data); // 缓存数据
         }
-        setUser(data.data);
-        setIsMember(data.data.is_member);
-        setCache("user", data.data); // 缓存数据
       });
     }
-
-    return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
-  }, 1000);
+  }, []);
 
   // 修改 backdrop 的函数
   const handleBackdropChange = (newTopValue: string) => {

@@ -43,6 +43,7 @@ export interface UserInfo {
   username: string;
   email: string;
   is_member: boolean;
+  is_admin?: boolean;
   membership_level: string;
   membership_expiry: string;
 }

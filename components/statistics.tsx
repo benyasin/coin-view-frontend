@@ -107,16 +107,16 @@ export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
     },
   ];
 
-  const fetchVideos = async (userId: string) => {
+  const fetchVideos = async (userId?: string) => {
     const opinionString = Array.from(opinionFilter).join(",");
     const dateStr = dateValue ? dateValue.toString() : "";
     const { data } = await searchVideo(
-      userId,
       dateStr,
       opinionString,
       filterValue,
       page,
-      rowsPerPage
+      rowsPerPage,
+      userId
     );
     setVideos(data?.videos || []);
     setPage(page);
@@ -129,7 +129,8 @@ export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
   React.useEffect(() => {
     // 创建一个定时器，300毫秒后触发fetchVideos
     const handler = setTimeout(() => {
-      user.is_member && fetchVideos(user.id); // 你的请求函数
+      (user.is_member && fetchVideos(user.id)) ||
+        (user.is_admin && fetchVideos()); // 你的请求函数
     }, 300);
 
     // 清除上一次的定时器

@@ -50,14 +50,22 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
 
   useEffect(() => {
     const userId = user.id;
-    fetchYoutubers(userId)
-      .then((data) => {
-        setYoutubers(data.data); // Assuming the API returns data in a "data" field
-      })
-      .catch((err) => {
-        console.error("Error fetching youtubers:", err);
-      });
-  }, [user]);
+    user.is_admin
+      ? fetchYoutubers()
+          .then((data) => {
+            setYoutubers(data.data); // Assuming the API returns data in a "data" field
+          })
+          .catch((err) => {
+            console.error("Error fetching youtubers:", err);
+          })
+      : fetchYoutubers(userId)
+          .then((data) => {
+            setYoutubers(data.data); // Assuming the API returns data in a "data" field
+          })
+          .catch((err) => {
+            console.error("Error fetching youtubers:", err);
+          });
+  }, [user.is_member, user.is_admin]);
 
   const findYoutuber = async () => {
     setSearchError("");
@@ -238,17 +246,33 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
             <h2 className="text-xl text-default-700">
               {intl.formatMessage({ id: "youtubers" })}
             </h2>
-            <h6 className="text-default-500">
+            <h6 className="text-default-400">
               {intl.formatMessage(
-                { id: "youtubers_left" },
+                { id: "youtubers_added" },
                 {
-                  youtubers_left:
-                    getChannelLimit(user.membership_level) - youtubers.length,
+                  youtuberAdded: youtubers.length,
                 }
               )}
             </h6>
+            {!user.is_admin && (
+              <h6 className="text-default-500">
+                {intl.formatMessage(
+                  { id: "youtubers_left" },
+                  {
+                    youtubers_left:
+                      getChannelLimit(user.membership_level) - youtubers.length,
+                  }
+                )}
+              </h6>
+            )}
           </div>
-          {getChannelLimit(user.membership_level) - youtubers.length > 0 && (
+          {!user.is_admin &&
+            getChannelLimit(user.membership_level) - youtubers.length > 0 && (
+              <Button variant="shadow" size="md" onClick={onOpen}>
+                {intl.formatMessage({ id: "add_youtuber" })}
+              </Button>
+            )}
+          {user.is_admin && (
             <Button variant="shadow" size="md" onClick={onOpen}>
               {intl.formatMessage({ id: "add_youtuber" })}
             </Button>

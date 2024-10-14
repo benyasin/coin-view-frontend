@@ -90,9 +90,11 @@ export const searchPendingOrder = async (userId: string) => {
   }
 };
 
-export const fetchYoutubers = async (userId: string) => {
+export const fetchYoutubers = async (userId?: string) => {
   try {
-    const response = await apiClient.get(`/youtuber/list/${userId}`);
+    const response = await apiClient.get(
+      userId ? `/youtuber/list/${userId}` : "/youtuber/list"
+    );
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
@@ -147,13 +149,36 @@ export const getUserInfo = async () => {
   }
 };
 
+export const whetherIsAdmin = async () => {
+  try {
+    if (cookies().get("access_token")?.value) {
+      const response = await apiClient.post(
+        `/user/is_admin`,
+        { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
+      );
+      return response.data; // Return the data from the response
+    }
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch UserInfo";
+      console.log(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching user info");
+    }
+  }
+};
+
 export const searchVideo = async (
-  userId: string,
   publishDate: string,
   opinion: string,
   channelTitle: string,
   pageNumber: number,
-  pageSize: number
+  pageSize: number,
+  userId?: string
 ) => {
   try {
     const response = await apiClient.post(`/video/search`, {

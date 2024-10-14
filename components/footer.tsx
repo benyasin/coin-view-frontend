@@ -48,7 +48,7 @@ export const Footer = () => {
     <footer className="max-w-[1280px] text-medium md:text-large w-full md:mt-32">
       <div className="flex flex-col md:flex-row justify-between py-8 px-6">
         <NextLink
-          className="hidden md:flex justify-start items-center gap-1 -mt-[5%]"
+          className="hidden md:flex justify-start items-center gap-1 -mt-[4%]"
           href={process.env.DOMAIN_BASE_URL + "/"}
         >
           <Logo />
