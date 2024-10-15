@@ -20,7 +20,6 @@ const Dashboard = () => {
   useEffect(() => {
     // 从缓存中获取用户信息
     const cachedUser = getCache("user");
-    console.log(cachedUser);
     if (cachedUser) {
       setUser(cachedUser);
       setIsMember(cachedUser.is_member);

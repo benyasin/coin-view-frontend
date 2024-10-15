@@ -50,21 +50,25 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
 
   useEffect(() => {
     const userId = user.id;
-    user.is_admin
-      ? fetchYoutubers()
-          .then((data) => {
-            setYoutubers(data.data); // Assuming the API returns data in a "data" field
-          })
-          .catch((err) => {
-            console.error("Error fetching youtubers:", err);
-          })
-      : fetchYoutubers(userId)
+    if (user.is_admin) {
+      fetchYoutubers()
+        .then((data) => {
+          setYoutubers(data.data); // Assuming the API returns data in a "data" field
+        })
+        .catch((err) => {
+          console.error("Error fetching youtubers:", err);
+        });
+    } else {
+      if (user.is_member) {
+        fetchYoutubers(userId)
           .then((data) => {
             setYoutubers(data.data); // Assuming the API returns data in a "data" field
           })
           .catch((err) => {
             console.error("Error fetching youtubers:", err);
           });
+      }
+    }
   }, [user.is_member, user.is_admin]);
 
   const findYoutuber = async () => {
