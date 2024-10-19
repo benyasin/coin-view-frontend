@@ -3,6 +3,8 @@
 import { subtitle } from "@/components/primitives";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/zh"; // 导入中文语言包
 import "dayjs/locale/en"; // 导入英文语言包
@@ -33,7 +35,11 @@ import { getCache, setCache } from "@/helpers/store";
 import { deleteAuthCookie, getUserInfo } from "@/actions/api";
 import { useRouter } from "next/navigation";
 
+// 启用插件
+dayjs.extend(utc);
 dayjs.extend(relativeTime);
+dayjs.extend(timezone);
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 const YouTubeTab = ({}) => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -222,7 +228,7 @@ const YouTubeTab = ({}) => {
                         {intl.formatMessage({ id: video.sentiment })}
                       </Chip>
                       <div className="text-small tracking-tight text-default-500">
-                        {dayjs(video.created_at).fromNow()}
+                        {dayjs(video.created_at).tz(userTimeZone).fromNow()}
                       </div>
                     </div>
                   </CardHeader>
