@@ -423,6 +423,7 @@ export const PieKline = () => {
         position: "relative",
       }}
     >
+      {/*价格趋势*/}
       <div
         ref={chartRef}
         style={{
@@ -434,18 +435,8 @@ export const PieKline = () => {
           height: "425px",
         }}
       ></div>
-      <div
-        ref={pieChartRef}
-        style={{
-          position: "absolute",
-          top: isMobile ? "200px" : 0, // Moved down
-          left: isMobile ? "50%" : "420px", // Moved left
-          transform: isMobile ? "translateX(-50%)" : "none",
-          width: "400px", // Smaller size
-          height: "280px",
-          zIndex: "1",
-        }}
-      ></div>
+
+      {/*贪婪恐惧图*/}
       <div
         ref={gaugeChartRef}
         style={{
@@ -455,6 +446,20 @@ export const PieKline = () => {
           transform: isMobile ? "translateX(-50%)" : "none",
           width: "280px",
           height: "280px",
+          zIndex: "1",
+        }}
+      ></div>
+
+      {/*涨跌图*/}
+      <div
+        ref={pieChartRef}
+        style={{
+          position: "absolute",
+          top: isMobile ? "200px" : "5px", // Moved down
+          right: isMobile ? "-52%" : 0, // Moved left
+          width: "400px", // Smaller size
+          height: "280px",
+          transform: isMobile ? "translateX(-50%)" : "none",
           zIndex: "1",
         }}
       ></div>

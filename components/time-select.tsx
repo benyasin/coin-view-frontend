@@ -12,8 +12,8 @@ export const TimeSelect = () => {
 
   let tabs = [
     {
-      id: "All",
-      label: intl.formatMessage({ id: "all" }),
+      id: "today",
+      label: intl.formatMessage({ id: "today" }),
       bullish: "8(80%)",
       bearish: "1(10%)",
       neutral: "1(10%)",
@@ -46,8 +46,18 @@ export const TimeSelect = () => {
   ];
 
   return (
-    <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-20 md:right-24 mt-16 md:mt-0 px-2">
-      <Tabs aria-label="tabs" items={tabs}>
+    <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-20 md:left-[40%] mt-16 md:mt-0 px-2">
+      <Tabs
+        aria-label="tabs"
+        items={tabs}
+        variant="bordered"
+        classNames={{
+          tabList:
+            "gap-3 w-full relative p-0 bg-background/70 border-0 border-b-1",
+          tabContent:
+            "group-data-[key=today]:text-large group-data-[key=today]:text-[#b249f8]",
+        }}
+      >
         {(item) => (
           <Tab key={item.id} title={item.label}>
             <Card className="bg-transparent shadow-none">
