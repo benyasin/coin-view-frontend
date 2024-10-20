@@ -46,7 +46,7 @@ export const TimeSelect = () => {
   ];
 
   return (
-    <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-20 md:left-[40%] mt-16 md:mt-0 px-2">
+    <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-10 md:left-[40%] mt-16 md:mt-0 px-2">
       <Tabs
         aria-label="tabs"
         items={tabs}

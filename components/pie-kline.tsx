@@ -437,32 +437,27 @@ export const PieKline = () => {
       ></div>
 
       {/*贪婪恐惧图*/}
-      <div
-        ref={gaugeChartRef}
-        style={{
-          position: "absolute",
-          top: "35px", // Moved up
-          left: isMobile ? "50%" : "55px", // Adjusted to avoid overlap
-          transform: isMobile ? "translateX(-50%)" : "none",
-          width: "280px",
-          height: "280px",
-          zIndex: "1",
-        }}
-      ></div>
+      <div className="flex flex-col  md:flex-row flex-wrap justify-between items-center">
+        <div
+          ref={gaugeChartRef}
+          style={{
+            width: "280px",
+            height: "280px",
+            zIndex: "1",
+          }}
+        ></div>
 
-      {/*涨跌图*/}
-      <div
-        ref={pieChartRef}
-        style={{
-          position: "absolute",
-          top: isMobile ? "200px" : "5px", // Moved down
-          right: isMobile ? "-52%" : 0, // Moved left
-          width: "400px", // Smaller size
-          height: "280px",
-          transform: isMobile ? "translateX(-50%)" : "none",
-          zIndex: "1",
-        }}
-      ></div>
+        {/*涨跌图*/}
+        <div
+          ref={pieChartRef}
+          style={{
+            width: "400px", // Smaller size
+            height: "280px",
+            marginTop: isMobile ? "-80px" : "-45px",
+            zIndex: "1",
+          }}
+        ></div>
+      </div>
     </div>
   );
 };
