@@ -147,7 +147,6 @@ export const Premium = () => {
 
     // 查询是否有进行中的订单
     const pendingOrder = await checkPendingOrder(user.id);
-    console.log(pendingOrder);
     if (pendingOrder) {
       setExistingOrder(pendingOrder);
       setPendingPayUrl(pendingOrder.pay_url); // 设置支付链接

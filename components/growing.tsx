@@ -3,31 +3,11 @@ import { useEffect, useState, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Card } from "@nextui-org/react";
 import anime from "animejs";
-import { title } from "@/components/primitives";
 
 // 动画组件
 // @ts-ignore
 const AnimatedNumber = ({ value, show }) => {
   const numberRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // 判断是否在mobile下（小于640px）
-    const handleResize = () => {
-      setIsMobile(
-        window.innerWidth < 640 ||
-          /Mobi|Android|iPhone/i.test(navigator.userAgent)
-      );
-    };
-
-    // 初始化判断
-    handleResize();
-
-    // 监听窗口大小变化
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     if (show) {
@@ -43,7 +23,7 @@ const AnimatedNumber = ({ value, show }) => {
 
   return (
     <div
-      className="text-6xl bg-gradient-to-b from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent"
+      className="text-4xl md:text-6xl bg-gradient-to-b from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent"
       ref={numberRef}
     >
       0
@@ -53,11 +33,29 @@ const AnimatedNumber = ({ value, show }) => {
 
 export const Growing = () => {
   const intl = useIntl();
-  const [isMobile, setIsMobile] = useState(false);
   const [showNumbers, setShowNumbers] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [youtuberCount, setYoutuberCount] = useState(0);
+  const [videoCount, setVideoCount] = useState(0);
+  const [memberCount, setMemberCount] = useState(0);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const numbersRef = useRef(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/index/count`);
+        const { data } = await response.json();
+        setYoutuberCount(data.youtuber_count);
+        setVideoCount(data.video_count);
+        setMemberCount(data.user_member_count);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+
     // 判断是否在 mobile 下（小于 640px）
     const handleResize = () => {
       setIsMobile(
@@ -98,7 +96,7 @@ export const Growing = () => {
     <div className="relative justify-center items-center">
       <section
         ref={numbersRef}
-        className="flex flex-col items-center justify-center gap-4 pt-0 pb-12 md:py-20"
+        className="flex flex-col items-center justify-center gap-4 pt-6 py-6 md:py-20"
       >
         <h2 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
           {intl.formatMessage({ id: "we_are_growing" })}
@@ -107,7 +105,7 @@ export const Growing = () => {
           <Card className="py-6 max-w-[400px] bg-transparent shadow-none">
             <h1 className="text-center">
               {showNumbers ? (
-                <AnimatedNumber value={102} show={showNumbers} />
+                <AnimatedNumber value={youtuberCount} show={showNumbers} />
               ) : (
                 "0"
               )}
@@ -119,7 +117,7 @@ export const Growing = () => {
           <Card className="py-6 max-w-[400px] bg-transparent shadow-none">
             <h1 className="text-center">
               {showNumbers ? (
-                <AnimatedNumber value={2500} show={showNumbers} />
+                <AnimatedNumber value={videoCount} show={showNumbers} />
               ) : (
                 "0"
               )}
@@ -131,7 +129,7 @@ export const Growing = () => {
           <Card className="py-6 max-w-[400px] bg-transparent shadow-none">
             <h1 className="text-center">
               {showNumbers ? (
-                <AnimatedNumber value={19} show={showNumbers} />
+                <AnimatedNumber value={memberCount} show={showNumbers} />
               ) : (
                 "0"
               )}
