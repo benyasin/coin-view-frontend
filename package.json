@@ -16,6 +16,7 @@
 		"@react-aria/i18n": "latest",
 		"@react-aria/ssr": "3.9.4",
 		"@react-aria/visually-hidden": "3.8.12",
+		"animejs": "^3.2.2",
 		"axios": "^1.7.3",
 		"clsx": "2.1.1",
 		"dayjs": "^1.11.12",
@@ -38,6 +39,7 @@
 		"yup": "^1.4.0"
 	},
 	"devDependencies": {
+		"@types/animejs": "^3.1.12",
 		"@types/node": "20.14.10",
 		"@types/react": "18.3.3",
 		"@types/react-dom": "18.3.0",

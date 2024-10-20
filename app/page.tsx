@@ -16,6 +16,7 @@ import { Hero } from "@/components/hero";
 import { Premium } from "@/components/premium";
 import { Faq } from "@/components/faq";
 import { Partner } from "@/components/partner";
+import { Growing } from "@/components/growing";
 
 export default function Home() {
   const intl = useIntl();
@@ -68,7 +69,12 @@ export default function Home() {
           <TimeSelect />
         </div>
       </section>
-      <section className="text-xl ml-2 md:ml-16 mt-10 md:mt-28 mb-8">
+      <section>
+        <div className="md:mt-16 md:relative">
+          <Growing />
+        </div>
+      </section>
+      <section className="text-xl ml-2 md:ml-16 mt-10 mb-8">
         <div className="text-default-400">
           {intl.formatMessage({ id: "youTube_analysis_results" })}
         </div>
