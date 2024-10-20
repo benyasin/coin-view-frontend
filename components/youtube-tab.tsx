@@ -48,8 +48,8 @@ const YouTubeTab = ({}) => {
   const intl = useIntl();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
-  const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+  const [fetchUserDone, setFetchUserDone] = useState(false);
 
   useEffect(() => {
     // 判断是否在mobile下（小于640px）
@@ -83,28 +83,24 @@ const YouTubeTab = ({}) => {
       setLocaleState(storedLang); // 更新状态中的语言
     }
 
-    const timeout = setTimeout(() => {
-      const cachedUser = getCache("user");
-      if (cachedUser) {
-        setUser(cachedUser);
-      } else {
-        getUserInfo().then((data) => {
-          if (data) {
-            if (data.description == "Cookie token expired") {
-              console.log("Cookie token expired");
-              deleteAuthCookie();
-              location.href = "/";
-            }
-
-            setUser(data.data);
-            setCache("user", data.data); // 缓存数据
+    const cachedUser = getCache("user");
+    if (cachedUser) {
+      setUser(cachedUser);
+    } else {
+      getUserInfo().then((data) => {
+        if (data) {
+          if (data.description == "Cookie token expired") {
+            console.log("Cookie token expired");
+            deleteAuthCookie();
+            location.href = "/";
           }
-        });
-      }
-    }, 1500);
-
-    return () => clearTimeout(timeout); // 清除定时器以避免内存泄漏
-  }, [intl, router]);
+          setUser(data.data);
+          setCache("user", data.data); // 缓存数据
+        }
+        setFetchUserDone(true);
+      });
+    }
+  }, [intl]);
 
   useEffect(() => {
     const fetchVideos = async (uid?: string, is_member?: boolean) => {
@@ -123,12 +119,14 @@ const YouTubeTab = ({}) => {
         console.error("Error fetching videos:", error);
       }
     };
-    if (user) {
-      fetchVideos(user.id, user.is_member).then((r) => {});
-    } else {
-      fetchVideos().then((r) => {});
+    if (fetchUserDone) {
+      if (user) {
+        fetchVideos(user.id, user.is_member).then((r) => {});
+      } else {
+        fetchVideos().then((r) => {});
+      }
     }
-  }, [user]);
+  }, [user, fetchUserDone]);
 
   const tabs = [
     {

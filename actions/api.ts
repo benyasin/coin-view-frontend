@@ -134,6 +134,8 @@ export const getUserInfo = async () => {
         { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
       );
       return response.data; // Return the data from the response
+    } else {
+      return false;
     }
   } catch (error) {
     // Check if the error is an Axios error
