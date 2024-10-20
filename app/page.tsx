@@ -17,6 +17,7 @@ import { Premium } from "@/components/premium";
 import { Faq } from "@/components/faq";
 import { Partner } from "@/components/partner";
 import { Growing } from "@/components/growing";
+import ScrollToTop from "@/components/scroll-to-top";
 
 export default function Home() {
   const intl = useIntl();
@@ -93,6 +94,7 @@ export default function Home() {
       <section className="mt-12" id="partner">
         <Partner />
       </section>
+      <ScrollToTop />
     </>
   );
 }
