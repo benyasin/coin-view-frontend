@@ -43,7 +43,7 @@ const AnimatedNumber = ({ value, show }) => {
 
   return (
     <div
-      className="text-4xl bg-gradient-to-b from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent"
+      className="text-6xl bg-gradient-to-b from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent"
       ref={numberRef}
     >
       0
@@ -112,7 +112,7 @@ export const Growing = () => {
                 "0"
               )}
             </h1>
-            <h3 className="text-center bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty mt-2">
+            <h3 className="text-center text-large bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty mt-2">
               {intl.formatMessage({ id: "growing_youtuber" })}
             </h3>
           </Card>
@@ -124,7 +124,7 @@ export const Growing = () => {
                 "0"
               )}
             </h1>
-            <h3 className="text-center bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty mt-2">
+            <h3 className="text-center text-large bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty mt-2">
               {intl.formatMessage({ id: "growing_video" })}
             </h3>
           </Card>
@@ -136,7 +136,7 @@ export const Growing = () => {
                 "0"
               )}
             </h1>
-            <h3 className="text-center bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty mt-2">
+            <h3 className="text-center text-large bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty mt-2">
               {intl.formatMessage({ id: "growing_member" })}
             </h3>
           </Card>
