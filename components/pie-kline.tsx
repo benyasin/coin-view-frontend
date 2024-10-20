@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import { useIntl } from "react-intl";
+import Loading from "@/components/loading";
 
 type TrendData = {
   date: string;
@@ -410,8 +411,8 @@ export const PieKline = () => {
   }, [intl.locale, data]);
 
   // 如果 isMobile 还未被初始化，返回空值或加载状态
-  if (isMobile === null) {
-    return <div>Loading...</div>; // 或者使用占位内容
+  if (isMobile === null || data.length == 0) {
+    return <Loading />; // 或者使用占位内容
   }
 
   return (
