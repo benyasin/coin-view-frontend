@@ -51,11 +51,11 @@ export const TimeSelect = () => {
         aria-label="tabs"
         items={tabs}
         variant="bordered"
+        color="secondary"
         classNames={{
-          tabList:
-            "gap-3 w-full relative p-0 bg-background/70 border-0 border-b-1",
+          tabList: "gap-3 w-full relative p-0 border-0 border-b-0",
           tabContent:
-            "group-data-[key=today]:text-large group-data-[key=today]:text-[#b249f8]",
+            "group-data-[key=today]:text-large group-data-[key=today]:text-[default]",
         }}
       >
         {(item) => (
