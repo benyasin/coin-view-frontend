@@ -437,7 +437,7 @@ export const PieKline = () => {
       ></div>
 
       {/*贪婪恐惧图*/}
-      <div className="flex flex-col  md:flex-row flex-wrap justify-between items-center">
+      <div className="flex flex-col  md:flex-row flex-wrap justify-between items-center pl-20 pr-4">
         <div
           ref={gaugeChartRef}
           style={{
