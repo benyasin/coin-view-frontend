@@ -1,49 +1,114 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useIsSSR } from "@react-aria/ssr";
 import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useIntl } from "react-intl";
+import { useEffect, useState } from "react";
+import { getIndexTotal } from "@/actions/api";
+
+type SentimentData = {
+  count: number;
+  percentage: number;
+};
+
+type TotalItemData = {
+  bullish: SentimentData;
+  bearish: SentimentData;
+  neutral: SentimentData;
+};
+
+type TotalData = {
+  today: TotalItemData;
+  week: TotalItemData;
+  month: TotalItemData;
+  year: TotalItemData;
+};
+
+type TabData = {
+  id: string;
+  label: string;
+  bullish: string;
+  bearish: string;
+  neutral: string;
+};
 
 export const TimeSelect = () => {
   const { theme } = useTheme();
-  const isSSR = useIsSSR();
+  const [tabs, setTabs] = useState<TabData[]>([]);
   const intl = useIntl();
 
-  let tabs = [
-    {
-      id: "today",
-      label: intl.formatMessage({ id: "today" }),
-      bullish: "8(80%)",
-      bearish: "1(10%)",
-      neutral: "1(10%)",
-      index: "43",
-    },
-    {
-      id: "1 Week",
-      label: intl.formatMessage({ id: "1_week" }),
-      bullish: "5(50%)",
-      bearish: "4(40%)",
-      neutral: "1(10%)",
-      index: "44",
-    },
-    {
-      id: "1 Month",
-      label: intl.formatMessage({ id: "1_month" }),
-      bullish: "7(70%)",
-      bearish: "2(20%)",
-      neutral: "1(10%)",
-      index: "68",
-    },
-    {
-      id: "1 Year",
-      label: intl.formatMessage({ id: "1_year" }),
-      bullish: "3(30%)",
-      bearish: "4(40%)",
-      neutral: "3(30%)",
-      index: "89",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await getIndexTotal();
+        if (data) {
+          const tabsTemp = [
+            {
+              id: "today",
+              label: intl.formatMessage({ id: "today" }),
+              bullish: `${data.today.bullish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.today.bullish.percentage)}% )`,
+              bearish: `${data.today.bearish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.today.bearish.percentage)}% )`,
+              neutral: `${data.today.neutral.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.today.neutral.percentage)}% )`,
+            },
+            {
+              id: "1 Week",
+              label: intl.formatMessage({ id: "1_week" }),
+              bullish: `${data.week.bullish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.week.bullish.percentage)}% )`,
+              bearish: `${data.week.bearish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.week.bearish.percentage)}% )`,
+              neutral: `${data.week.neutral.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.week.neutral.percentage)}% )`,
+            },
+            {
+              id: "1 Month",
+              label: intl.formatMessage({ id: "1_month" }),
+              bullish: `${data.month.bullish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.month.bullish.percentage)}% )`,
+              bearish: `${data.month.bearish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.month.bearish.percentage)}% )`,
+              neutral: `${data.month.neutral.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.month.neutral.percentage)}% )`,
+            },
+            {
+              id: "1 Year",
+              label: intl.formatMessage({ id: "1_year" }),
+              bullish: `${data.year.bullish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.year.bullish.percentage)}% )`,
+              bearish: `${data.year.bearish.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.year.bearish.percentage)}% )`,
+              neutral: `${data.year.neutral.count} ${intl.formatMessage({
+                id: "times",
+              })} ( ${Math.round(data.year.neutral.percentage)}% )`,
+            },
+          ];
+          setTabs(tabsTemp);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [intl.locale]);
+
+  if (tabs.length == 0) {
+    return null;
+  }
 
   return (
     <div className="flex md:w-[280px] sm:w-full flex-col md:absolute md:top-10 md:left-[39%] mt-16 md:mt-0 px-2">

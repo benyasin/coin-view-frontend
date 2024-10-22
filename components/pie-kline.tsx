@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import { useIntl } from "react-intl";
 import Loading from "@/components/loading";
+import { getIndexTrends } from "@/actions/api";
 
 type TrendData = {
   date: string;
@@ -19,16 +20,14 @@ export const PieKline = () => {
   const pieChartRef = useRef(null);
   const gaugeChartRef = useRef(null);
   const [data, setData] = useState<TrendData[]>([]);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/index/trends`);
-        const result = await response.json();
-        const dataArray: TrendData[] = result.data.map((d: any) => ({
+        const { data } = await getIndexTrends();
+        const dataArray: TrendData[] = data.map((d: any) => ({
           date: d.dates,
           price: parseFloat(d.price).toFixed(0),
           bullish: d.bullish || 0,

@@ -83,7 +83,7 @@ export const Premium = () => {
 
   useEffect(() => {
     setPlans(createPlans());
-  }, [intl, router]);
+  }, [intl.locale, router]);
 
   const handleCardMouseOver = (index: number) => {
     const updatedPlans = plans.map((plan, idx) => ({

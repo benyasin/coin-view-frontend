@@ -277,6 +277,112 @@ export const deleteYoutuberFromDB = async (
   }
 };
 
+export const getUserCaptcha = async () => {
+  try {
+    const response = await apiClient.get(`/user/captcha`, {
+      responseType: "blob", // 这会以 Blob 的形式获取响应数据
+    });
+    return response; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const getIndexTrends = async () => {
+  try {
+    const response = await apiClient.get(`/index/trends`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const getIndexCount = async () => {
+  try {
+    const response = await apiClient.get(`/index/count`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const getIndexTotal = async () => {
+  try {
+    const response = await apiClient.get(`/index/total`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const getVideosByUser = async (uid: string, is_member: boolean) => {
+  try {
+    const response = await apiClient.get(
+      `/video/list?user_id=${uid}&is_member=${is_member}`
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const getVideosPreset = async () => {
+  try {
+    const response = await apiClient.get(`/video/list`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
 export const createAuthCookie = async (token: string) => {
   cookies().set("access_token", token, {
     secure: false,

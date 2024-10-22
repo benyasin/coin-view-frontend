@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Card } from "@nextui-org/react";
 import anime from "animejs";
+import { getIndexCount } from "@/actions/api";
 
 // 动画组件
 // @ts-ignore
@@ -38,14 +39,12 @@ export const Growing = () => {
   const [youtuberCount, setYoutuberCount] = useState(0);
   const [videoCount, setVideoCount] = useState(0);
   const [memberCount, setMemberCount] = useState(0);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const numbersRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/index/count`);
-        const { data } = await response.json();
+        const { data } = await getIndexCount();
         setYoutuberCount(data.youtuber_count);
         setVideoCount(data.video_count);
         setMemberCount(data.user_member_count);
@@ -101,7 +100,7 @@ export const Growing = () => {
         <h2 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
           {intl.formatMessage({ id: "we_are_growing" })}
         </h2>
-        <div className="flex flex-wrap justify-around w-full max-w-screen-lg mt-8">
+        <div className="flex flex-wrap justify-between w-full max-w-screen-lg mt-8">
           <Card className="py-6 max-w-[400px] bg-transparent shadow-none">
             <h1 className="text-center">
               {showNumbers ? (

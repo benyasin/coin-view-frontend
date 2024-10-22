@@ -32,7 +32,12 @@ import "../styles/youtube-tab.css";
 import { UserInfo, Video } from "@/types";
 import { useIntl } from "react-intl";
 import { getCache, setCache } from "@/helpers/store";
-import { deleteAuthCookie, getUserInfo } from "@/actions/api";
+import {
+  deleteAuthCookie,
+  getUserInfo,
+  getVideosByUser,
+  getVideosPreset,
+} from "@/actions/api";
 import { useRouter } from "next/navigation";
 
 // 启用插件
@@ -44,7 +49,6 @@ const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const YouTubeTab = ({}) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>("all");
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const intl = useIntl();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
@@ -100,21 +104,16 @@ const YouTubeTab = ({}) => {
         setFetchUserDone(true);
       });
     }
-  }, [intl]);
+  }, [intl.locale]);
 
   useEffect(() => {
     const fetchVideos = async (uid?: string, is_member?: boolean) => {
       try {
-        const response = await fetch(
-          uid
-            ? `${apiUrl}/video/list?user_id=${uid}&is_member=${is_member}`
-            : `${apiUrl}/video/list`
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setVideos(data.data);
+        const { data } =
+          uid && typeof is_member !== "undefined"
+            ? await getVideosByUser(uid, is_member)
+            : await getVideosPreset();
+        setVideos(data);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
