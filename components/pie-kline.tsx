@@ -10,8 +10,11 @@ type TrendData = {
   date: string;
   price: number;
   bullish: number;
+  bullish_percentage: number;
   bearish: number;
+  bearish_percentage: number;
   neutral: number;
+  neutral_percentage: number;
   fearGreedIndex: number;
 };
 
@@ -31,8 +34,11 @@ export const PieKline = () => {
           date: d.dates,
           price: parseFloat(d.price).toFixed(0),
           bullish: d.bullish || 0,
+          bullish_percentage: d.bullish_percentage || 0,
           bearish: d.bearish || 0,
+          bearish_percentage: d.bearish_percentage || 0,
           neutral: d.neutral || 0,
+          neutral_percentage: d.neutral_percentage || 0,
           fearGreedIndex: d.fearGreedIndex || 0,
         }));
         setData(dataArray);
@@ -92,6 +98,16 @@ export const PieKline = () => {
     const pieOption = {
       tooltip: {
         trigger: "item",
+        formatter: function (params: {
+          value: any;
+          percent: any;
+          seriesName: any;
+          name: any;
+        }) {
+          const value = params.value; // 获取数值
+          const percent = params.percent; // 获取百分比
+          return `${params.name}: ${value} (${percent}%)`; // 格式化返回内容
+        },
       },
       series: [
         {
@@ -229,8 +245,14 @@ export const PieKline = () => {
           );
           const index = bullishData?.dataIndex;
           const bearish = index !== undefined ? data[index].bearish : 0;
+          const bearish_percentage =
+            index !== undefined ? data[index].bearish_percentage : 0;
           const neutral = index !== undefined ? data[index].neutral : 0;
+          const neutral_percentage =
+            index !== undefined ? data[index].neutral_percentage : 0;
           const bullish = index !== undefined ? data[index].bullish : 0;
+          const bullish_percentage =
+            index !== undefined ? data[index].bullish_percentage : 0;
           const fearGreedIndex = bullishData?.data ?? 0;
           return `
             <div>
@@ -240,13 +262,13 @@ export const PieKline = () => {
           )}</p>
               <p>${intl.formatMessage({ id: "bullish" })}: ${Math.round(
             bullish
-          )}(${Math.round(bullish)}%)</p>
+          )} (${Math.round(bullish_percentage)}%)</p>
               <p>${intl.formatMessage({ id: "neutral" })}: ${Math.round(
             neutral
-          )}(${Math.round(neutral)}%)</p>
+          )} (${Math.round(neutral_percentage)}%)</p>
               <p>${intl.formatMessage({ id: "bearish" })}: ${Math.round(
             bearish
-          )}(${Math.round(bearish)}%)</p>
+          )} (${Math.round(bearish_percentage)}%)</p>
               <p>${intl.formatMessage({
                 id: "fear_greed_index",
               })}: ${Math.round(fearGreedIndex)}</p>
@@ -369,8 +391,11 @@ export const PieKline = () => {
       if (params.componentType === "series") {
         const index = params.dataIndex;
         const bullish = data[index].bullish;
+        const bullish_percentage = data[index].bullish_percentage;
         const neutral = data[index].neutral;
+        const neutral_percentage = data[index].neutral_percentage;
         const bearish = data[index].bearish;
+        const bearish_percentage = data[index].bearish_percentage;
         const fearGreedIndex = data[index].fearGreedIndex;
 
         pieChart.setOption({
