@@ -248,11 +248,7 @@ export const Navbar = () => {
           >
             <TwitterIcon size={20} className="text-default-500" />
           </Link>
-          <Link
-            isExternal
-            aria-label="Telegram"
-            href="https://t.me/coinview_cs"
-          >
+          <Link isExternal aria-label="Telegram" href="https://t.me/CoinViewCS">
             <TelegramIcon size={20} className="text-default-500" />
           </Link>
           <ThemeSwitch />

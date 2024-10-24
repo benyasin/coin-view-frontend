@@ -128,7 +128,7 @@ export const Footer = () => {
               <Link
                 className="text-default-400"
                 aria-label="Telegram"
-                href="https://t.me/coinview_cs"
+                href="https://t.me/CoinViewCS"
               >
                 {intl.formatMessage({ id: "telegram" })}
               </Link>
