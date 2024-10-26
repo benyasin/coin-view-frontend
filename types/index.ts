@@ -44,6 +44,7 @@ export interface UserInfo {
   email: string;
   is_member: boolean;
   is_admin?: boolean;
+  telegram_username?: string;
   membership_level: string;
   membership_expiry: string;
 }

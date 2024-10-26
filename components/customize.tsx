@@ -247,7 +247,7 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
       <section className="p-12 rounded-lg shadow-lg dark:bg-gray-900">
         <div className="flex justify-between items-center mb-4">
           <div className="inline-block">
-            <h2 className="text-xl text-default-700">
+            <h2 className="text-2xl text-gray-400 font-bold">
               {intl.formatMessage({ id: "youtubers" })}
             </h2>
             <h6 className="text-default-400">

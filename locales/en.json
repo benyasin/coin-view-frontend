@@ -183,5 +183,14 @@
   "growing_video": "VIDEOS",
   "growing_member": "MEMBERS",
   "today": "Today",
-  "times": "times"
+  "times": "times",
+  "setting": "Setting",
+  "link_telegram": "Bind Telegram",
+  "bind": "Bind",
+  "has_bind": "Bind",
+  "update_password": "Update Password",
+  "update": "Update",
+  "got_it": "Got it",
+  "bind_telegram_step1": "Step 1: Click on <b><i><a href='https://t.me/CoinViewTGBot' target='_blank'>this link</a></i></b> to open directly or manually enter <i>@CoinViewTGBot</i> in Telegram. Find our official bot subscription channel and click on <i>/start</i> in the top right corner.",
+  "bind_telegram_step2": "Step 2: Send <i>bind:</i> followed by the email you used to register or log in on this platform, in the format <i>bind:abc123@gmail.com</i>, and wait for the success confirmation message."
 }

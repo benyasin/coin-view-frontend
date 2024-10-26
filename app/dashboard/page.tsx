@@ -8,6 +8,7 @@ import { Statistics } from "@/components/statistics";
 import { deleteAuthCookie, getUserInfo } from "@/actions/api";
 import { getCache, setCache } from "@/helpers/store";
 import { useIntl } from "react-intl";
+import { Setting } from "@/components/setting";
 
 const Dashboard = () => {
   const [user, setUser] = React.useState<UserInfo | null | undefined>(
@@ -51,6 +52,10 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container py-8 px-2">
       <Profile
+        user={user as UserInfo}
+        onBackdropChange={handleBackdropChange}
+      />
+      <Setting
         user={user as UserInfo}
         onBackdropChange={handleBackdropChange}
       />
