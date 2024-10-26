@@ -155,8 +155,8 @@ export const saveLang = async (lang: string) => {
   try {
     if (cookies().get("access_token")?.value) {
       const response = await apiClient.post(
-        `/user/save_lang`,
-        { access_token: cookies().get("access_token")?.value, lang } // Pass the token here as part of the data
+        `/user/save_lang/${lang}`,
+        { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
       );
       return response.data; // Return the data from the response
     } else {
