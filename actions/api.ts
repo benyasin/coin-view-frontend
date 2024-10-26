@@ -131,7 +131,7 @@ export const getUserInfo = async () => {
     if (cookies().get("access_token")?.value) {
       const response = await apiClient.post(
         `/user/me`,
-        { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
+        { access_token: cookies().get("access_token")?.value, lang: "en" } // Pass the token here as part of the data
       );
       return response.data; // Return the data from the response
     } else {
@@ -147,6 +147,31 @@ export const getUserInfo = async () => {
     } else {
       // Handle other types of errors (non-Axios errors)
       throw new Error("An unexpected error occurred while fetching user info");
+    }
+  }
+};
+
+export const saveLang = async (lang: string) => {
+  try {
+    if (cookies().get("access_token")?.value) {
+      const response = await apiClient.post(
+        `/user/save_lang`,
+        { access_token: cookies().get("access_token")?.value, lang } // Pass the token here as part of the data
+      );
+      return response.data; // Return the data from the response
+    } else {
+      return false;
+    }
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to save user lang";
+      console.log(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while save lang");
     }
   }
 };

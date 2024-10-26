@@ -30,7 +30,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Register } from "@/components/register";
 import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
-import { deleteAuthCookie, getUserInfo } from "@/actions/api";
+import { deleteAuthCookie, getUserInfo, saveLang } from "@/actions/api";
 import { getCache, setCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
 import { MenuIcon } from "lucide-react"; // 导入MenuIcon
@@ -94,12 +94,15 @@ export const Navbar = () => {
     };
   }, []);
 
-  const handleSelectionChange = (keys: any) => {
+  const handleSelectionChange = async (keys: any) => {
     const selectedKeys = new Set<string>(keys);
     setSelectedKeys(selectedKeys);
     const selectedLocale = Array.from(keys)[0];
     setLocale(selectedLocale as any);
     localStorage.setItem("coinViewLang", selectedLocale as string);
+
+    //保存到user表中
+    await saveLang(selectedLocale as string);
   };
 
   const toggleMenu = () => {
