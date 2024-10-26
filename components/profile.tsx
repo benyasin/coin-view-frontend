@@ -76,10 +76,10 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
   // 当展开订单时，调用回调函数
   const handleAccordionOpen = (keys: any) => {
     if (keys.size) {
-      onBackdropChange("44%"); // 修改backdrop的top值
+      onBackdropChange("53%"); // 修改backdrop的top值
       setShowTable(true);
     } else {
-      onBackdropChange("30%"); // 修改backdrop的top值
+      onBackdropChange("43%"); // 修改backdrop的top值
       setShowTable(false);
     }
   };

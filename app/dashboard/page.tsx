@@ -15,7 +15,7 @@ const Dashboard = () => {
     undefined
   );
   const [isMember, setIsMember] = React.useState(true);
-  const [backdropTop, setBackdropTop] = React.useState("30%"); // 新增状态管理backdrop的top值
+  const [backdropTop, setBackdropTop] = React.useState("43%"); // 新增状态管理backdrop的top值
   const intl = useIntl();
 
   useEffect(() => {

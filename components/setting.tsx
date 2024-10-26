@@ -40,6 +40,7 @@ export const Setting: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
     <>
       <Modal
         size="4xl"
+        className="z-30"
         backdrop="blur"
         isOpen={isBindOpen}
         onOpenChange={onBindOpenChange}
