@@ -13,6 +13,7 @@ const apiClient = axios.create({
 });
 
 if (cookies().get("access_token")?.value) {
+  console.log(cookies().get("access_token")?.value);
   apiClient.defaults.headers["Authorization"] =
     "Bearer " + cookies().get("access_token")?.value;
 }
