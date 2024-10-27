@@ -139,6 +139,27 @@ export const Faq = () => {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               {intl.formatMessage({ id: "faq_answer6" })}
             </AccordionItem>
+            <AccordionItem
+              key="7"
+              startContent={<CircleHelp size={18} />}
+              aria-label={intl.formatMessage({ id: "faq_question7" })}
+              title={intl.formatMessage({ id: "faq_question7" })}
+            >
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {intl.formatMessage({ id: "faq_answer7" })}
+              <div className="flex flex-wrap justify-between items-center">
+                <img
+                  src="/telegram-notify-1.png"
+                  alt="telegram notify step1"
+                  className="my-2 w-[45%]"
+                />
+                <img
+                  src="/telegram-notify-2.png"
+                  alt="telegram notify step2"
+                  className="my-2 w-[45%]"
+                />
+              </div>
+            </AccordionItem>
           </Accordion>
         </motion.div>
       </section>
