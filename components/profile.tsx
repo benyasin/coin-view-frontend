@@ -62,7 +62,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
   }, [user.id, page, intl]); // 依赖项为这些值
 
   const handleUpgrade = async () => {
-    location.href = "/premium";
+    location.href = process.env.DOMAIN_BASE_URL + "/#premium";
   };
 
   const itemClasses = {

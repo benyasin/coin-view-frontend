@@ -9,9 +9,13 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
+  Switch,
+  SwitchProps,
+  useSwitch,
   useDisclosure,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import { VisuallyHidden } from "@react-aria/visually-hidden";
+import React, { useEffect, useState } from "react";
 import { UserInfo, Youtuber } from "@/types";
 
 type ProfileProps = {
@@ -26,6 +30,17 @@ export const Setting: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
     onOpen: onBindOpen,
     onOpenChange: onBindOpenChange,
   } = useDisclosure();
+  const [isTelegramReceiveSelected, setIsTelegramReceiveSelected] =
+    useState(true);
+
+  const onTelegramReceiveChange = () => {
+    setIsTelegramReceiveSelected(!isTelegramReceiveSelected);
+  };
+
+  const { isSelected } = useSwitch({
+    isSelected: isTelegramReceiveSelected,
+    onChange: onTelegramReceiveChange,
+  });
 
   const handleBind = async () => {
     onBindOpen();
@@ -87,13 +102,16 @@ export const Setting: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
             {intl.formatMessage({ id: "setting" })}
           </div>
           <div className="rounded-lg border-1 border-gray-200 dark:border-gray-800">
-            <div className="flex items-center justify-between px-4">
+            <div className="flex items-center justify-between px-4 my-2">
               <div className="text-gray-500">
                 {intl.formatMessage({ id: "link_telegram" })}
               </div>
               {user.telegram_username ? (
                 <div className="my-3 text-gray-500">
                   {user.telegram_username}
+                  <Button onClick={handleBind} color="primary" variant="light">
+                    {intl.formatMessage({ id: "change_bind" })}
+                  </Button>
                 </div>
               ) : (
                 <Button onClick={handleBind} color="primary" variant="light">
@@ -101,7 +119,19 @@ export const Setting: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                 </Button>
               )}
             </div>
-            <div className="flex items-center justify-between px-4">
+
+            {/*<div className="flex items-center justify-between px-4 my-2">
+              <div className="text-gray-500">
+                {intl.formatMessage({ id: "receive_telegram_notify" })}
+              </div>
+              <Switch
+                onChange={onTelegramReceiveChange}
+                isSelected={isTelegramReceiveSelected}
+                aria-label="Automatic updates"
+              />
+            </div>*/}
+
+            <div className="flex items-center justify-between px-4 my-2">
               <div className="text-gray-500">
                 {intl.formatMessage({ id: "update_password" })}
               </div>

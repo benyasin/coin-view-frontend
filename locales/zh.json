@@ -190,7 +190,9 @@
   "update_password": "修改密码",
   "update": "修改",
   "got_it": "知道了",
+  "change_bind": "换绑",
   "bind_telegram_step1": "第一步：通过 <b><i><a href='https://t.me/CoinViewTGBot' target='_blank'>该链接</a></i></b> 直接打开或在Telegram中手动输入 <i>@CoinViewTGBot</i>，找到我们的官方机器人订阅频道，点击右上角的 <i>/start</i>。",
-  "bind_telegram_step2": "第二步：发送 <i>bind:</i> 加你在该平台注册或登录时使用的邮箱，格式如 <i>bind:abc123@gmail.com</i> , 并返回成功绑定的消息。"
+  "bind_telegram_step2": "第二步：发送 <i>bind:</i> 加你在该平台注册或登录时使用的邮箱，格式如 <i>bind:abc123@gmail.com</i> , 并返回成功绑定的消息。",
+  "receive_telegram_notify": "接收电报通知"
 
 }
