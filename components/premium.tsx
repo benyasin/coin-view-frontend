@@ -13,9 +13,12 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
+  RadioGroup,
+  Radio,
+  cn,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, ThumbsUp } from "lucide-react";
 import { useIntl } from "react-intl";
 import { ChannelLimits, getPaymentPlan, PriceSettings } from "@/config/enums";
 import { getCache } from "@/helpers/store";
@@ -23,17 +26,40 @@ import { EventBus } from "@/helpers/events";
 import { createOrder, searchPendingOrder } from "@/actions/api";
 import { useDebounce } from "@/helpers/utils";
 import { useRouter } from "next/navigation"; // 引入你的防抖工具
+import toast, { Toaster } from "react-hot-toast";
+
+export const CustomRadio = (props: any) => {
+  const { children, ...otherProps } = props;
+
+  return (
+    <Radio
+      {...otherProps}
+      classNames={{
+        base: cn(
+          "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+          "flex-row-reverse max-w-[500px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
+          "data-[selected=true]:border-primary"
+        ),
+      }}
+    >
+      {children}
+    </Radio>
+  );
+};
 
 export const Premium = () => {
   const intl = useIntl();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isPayWayOpen,
+    onOpen: onPayWayOpen,
+    onOpenChange: onPayWayOpenChange,
+  } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false); // 控制 loading 状态
   const [existingOrder, setExistingOrder] = useState(null); // 用于存储用户的进行中订单
-  const [showPendingModal, setShowPendingModal] = useState(false); // 控制弹出框显示
-  const [showPaymentModal, setShowPaymentModal] = useState(false); // 控制弹出框显示
   const [pendingPayUrl, setPendingPayUrl] = useState(""); // 存储待支付订单的支付链接
+  const [planType, setPlanType] = useState(""); // 存储待支付订单的支付链接
   const router = useRouter();
-
+  const [selectedPayWay, setSelectedPayWay] = useState("binance_pay"); // 默认值可以设置为 binance_pay 或其他值
   const createPlans = () => [
     {
       type: "free_plan",
@@ -78,7 +104,6 @@ export const Premium = () => {
       ],
     },
   ];
-
   const [plans, setPlans] = useState(createPlans);
 
   useEffect(() => {
@@ -95,73 +120,79 @@ export const Premium = () => {
 
   const createNewOrder = async (
     user: { id: string; email: string },
-    type: string
+    selectedPayWay: string,
+    type: string,
+    callback: any
   ): Promise<void> => {
-    const { data } = await createOrder(
+    //close the modal
+    callback();
+    setIsLoading(true);
+
+    const { data, description } = await createOrder(
       user.id,
       user.email,
       getPaymentPlan(type) * 12 + ".0000",
+      selectedPayWay,
       type
     );
-    console.log(data);
-
-    if (data && data._id) {
-      // 显示确认 Modal
-      setShowPaymentModal(true); // 打开确认支付的 Modal
-      setPendingPayUrl(data.pay_url); // 保存支付链接
+    if (data) {
+      window.open(data);
     } else {
-      setIsLoading(false); // 如果订单创建失败，停止 loading
-      alert("订单创建失败，请稍后重试。");
+      description && toast.error(description);
     }
   };
 
   // 点击确认支付时的处理函数
   const handleConfirmPayment = () => {
     window.open(pendingPayUrl); // 打开支付链接
-    setShowPaymentModal(false); // 关闭 Modal
-    document.location.href = "/dashboard";
+    //setShowPaymentModal(false); // 关闭 Modal
+    document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
   };
 
   // 点击取消时的处理函数
   const handleCancelPayment = () => {
-    setShowPaymentModal(false); // 关闭 Modal
-    document.location.href = "/dashboard"; // 跳转到 dashboard
+    //setShowPaymentModal(false); // 关闭 Modal
+    document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard"; // 跳转到 dashboard
   };
 
   // 使用自定义防抖函数
-  const handleStartClick = useDebounce(async (type: string) => {
+  const handleStartBtnClick = useDebounce(async (type: string) => {
     if (isLoading) return; // 如果当前正在加载，阻止重复点击
 
     const user = getCache("user");
+    console.log(user);
     if (!user) {
       EventBus.emit("showLoginDialog", true);
       return;
     }
 
     if (type === "free_plan") {
-      document.location.href = "/dashboard";
+      document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
       return;
     }
 
-    setIsLoading(true); // 开始加载状态
+    //setIsLoading(true); // 开始加载状态
 
     // 查询是否有进行中的订单
-    const pendingOrder = await checkPendingOrder(user.id);
+    /*const pendingOrder = await checkPendingOrder(user.id);
+    console.log(pendingOrder);
     if (pendingOrder) {
       setExistingOrder(pendingOrder);
       setPendingPayUrl(pendingOrder.pay_url); // 设置支付链接
-      setShowPendingModal(true); // 显示弹出框
+      //setShowPendingModal(true); // 显示弹出框
       return;
-    }
+    }*/
 
     // 创建订单
-    await createNewOrder(user, type);
+    //await createNewOrder(user, type);
+    onPayWayOpen();
+    setPlanType(type);
   }, 300); // 设置防抖的延时为 300ms
 
   const checkPendingOrder = async (userId: string) => {
     // 调用接口查询用户是否有进行中的订单
     const { data } = await searchPendingOrder(userId); // 需要实现的API请求
-    console.log(data);
+    //console.log(data);
     if (data) {
       return data[0]; // 返回进行中的订单
     }
@@ -170,20 +201,34 @@ export const Premium = () => {
 
   const handleContinuePayment = () => {
     window.open(pendingPayUrl); // 打开支付链接
-    setShowPendingModal(false); // 关闭弹出框
+    //setShowPendingModal(false); // 关闭弹出框
     document.location.href = "/dashboard"; // 跳转到 dashboard
   };
 
-  const handleCreateNewOrder = async () => {
-    setShowPendingModal(false); // 关闭弹出框
+  const handleCreateNewOrder = async (callback: any) => {
+    //setShowPendingModal(false); // 关闭弹出框
 
+    const user = getCache("user");
+    console.log(user);
+    if (!user) {
+      EventBus.emit("showLoginDialog", true);
+      return;
+    }
+    /*await createNewOrder(
+      user,
+      existingOrder["pay_way"],
+      existingOrder.member_plan,
+      callback
+    );*/
+  };
+
+  const handlePayWaySelect = async (callback: any) => {
     const user = getCache("user");
     if (!user) {
       EventBus.emit("showLoginDialog", true);
       return;
     }
-    // @ts-ignore
-    await createNewOrder(user, existingOrder.member_plan);
+    await createNewOrder(user, selectedPayWay, planType, callback);
   };
 
   return (
@@ -260,7 +305,7 @@ export const Premium = () => {
                     className="w-full"
                     variant="solid"
                     isLoading={isLoading}
-                    onClick={() => handleStartClick(item.type)}
+                    onClick={() => handleStartBtnClick(item.type)}
                     color={item.isMostPop ? "primary" : "default"}
                   >
                     {intl.formatMessage({ id: "get_started" })}
@@ -273,11 +318,7 @@ export const Premium = () => {
       </section>
 
       {/* Pending Order Modal */}
-      <Modal
-        backdrop="blur"
-        isOpen={showPendingModal}
-        onOpenChange={onOpenChange}
-      >
+      <Modal backdrop="blur">
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
             {intl.formatMessage({ id: "pending_order_found" })}
@@ -297,11 +338,7 @@ export const Premium = () => {
       </Modal>
 
       {/* Payment Modal */}
-      <Modal
-        backdrop="blur"
-        isOpen={showPaymentModal}
-        onOpenChange={onOpenChange}
-      >
+      <Modal backdrop="blur">
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
             {intl.formatMessage({ id: "confirm_payment" })}
@@ -319,6 +356,58 @@ export const Premium = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {/* Payment Way Select Modal */}
+      <Modal isOpen={isPayWayOpen} onOpenChange={onPayWayOpenChange} size="md">
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 text-xl pl-6">
+                {intl.formatMessage({ id: "choose_payment_platform" })}
+              </ModalHeader>
+              <ModalBody>
+                <RadioGroup
+                  defaultValue="binance_pay"
+                  value={selectedPayWay}
+                  onChange={(target: any) => {
+                    setSelectedPayWay(target.target.value);
+                  }}
+                  className="w-full justify-center"
+                >
+                  <CustomRadio
+                    description={intl.formatMessage({ id: "binance_pay_desc" })}
+                    value="binance_pay"
+                  >
+                    <div className="w-full flex justify-start items-center">
+                      <span className="text-xl mr-3">
+                        {intl.formatMessage({ id: "binance_pay" })}
+                      </span>
+                      <ThumbsUp size={16} color="gold" />
+                    </div>
+                  </CustomRadio>
+                  <CustomRadio
+                    description={intl.formatMessage({ id: "hx_pay_desc" })}
+                    value="hx_pay"
+                  >
+                    <span className="text-xl">
+                      {intl.formatMessage({ id: "hx_pay" })}
+                    </span>
+                  </CustomRadio>
+                </RadioGroup>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="primary"
+                  onPress={() => handlePayWaySelect(onClose)}
+                >
+                  {intl.formatMessage({ id: "confirm" })}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Toaster />
     </div>
   );
 };

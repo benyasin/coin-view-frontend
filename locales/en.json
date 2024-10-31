@@ -88,7 +88,7 @@
   "export": "Export",
   "daily_update": "Daily Market Data Update",
   "recommend_channel": "Display Recommended YouTuber Channels",
-  "statistic_push": "Statistical Reports and Email Push",
+  "statistic_push": "Statistical Reports and Telegram Push",
   "limited_api_usage": "Limited API Usage",
   "custom_channel": "Customize Display for {plan_youtubers} YouTubers",
   "upgrade_tip": "Please upgrade to paying membership to unlock more features",
@@ -196,5 +196,11 @@
   "change_bind": "Change Bind",
   "bind_telegram_step1": "Step 1: Click on <b><i><a href='https://t.me/CoinViewTGBot' target='_blank'>this link</a></i></b> to open directly or manually enter <i>@CoinViewTGBot</i> in Telegram. Find our official bot subscription channel and click on <i>/start</i> in the top right corner.",
   "bind_telegram_step2": "Step 2: Send <i>bind:</i> followed by the email you used to register or log in on this platform, in the format <i>bind:abc123@gmail.com</i>, and wait for the success confirmation message.",
-  "receive_telegram_notify": "Receive Telegram Notify"
+  "receive_telegram_notify": "Receive Telegram Notify",
+  "choose_payment_platform": "Select Payment Platform",
+  "choose_payment_platform_desc": "Please select a payment collection platform that suits you.",
+  "binance_pay": "Binance Pay Platform",
+  "hx_pay": "HxPay Collection Platform",
+  "binance_pay_desc": "It is recommended that Binance wallet users use this option for payment.",
+  "hx_pay_desc": "For non-Binance wallet users, please use this option for support."
 }

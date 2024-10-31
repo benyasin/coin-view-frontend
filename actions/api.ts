@@ -50,6 +50,7 @@ export const createOrder = async (
   userId: string,
   email: string,
   amount: string,
+  payWay: string,
   memberPlan: string
 ) => {
   try {
@@ -57,6 +58,7 @@ export const createOrder = async (
       user_id: userId,
       email,
       amount,
+      pay_way: payWay,
       member_plan: memberPlan,
     });
     return response.data;

@@ -88,7 +88,7 @@
   "export": "导出",
   "daily_update": "大盘数据每日更新",
   "recommend_channel": "推荐博主频道展示",
-  "statistic_push": "统计报表与邮件推送",
+  "statistic_push": "统计报表与电报推送",
   "limited_api_usage": "有限次的API使用",
   "custom_channel": "定制展示{plan_youtubers}个博主",
   "upgrade_tip": "请升级为付费会员以解锁更多功能",
@@ -195,6 +195,12 @@
   "change_bind": "换绑",
   "bind_telegram_step1": "第一步：通过 <b><i><a href='https://t.me/CoinViewTGBot' target='_blank'>该链接</a></i></b> 直接打开或在Telegram中手动输入 <i>@CoinViewTGBot</i>，找到我们的官方机器人订阅频道，点击右上角的 <i>/start</i>。",
   "bind_telegram_step2": "第二步：发送 <i>bind:</i> 加你在该平台注册或登录时使用的邮箱，格式如 <i>bind:abc123@gmail.com</i> , 并返回成功绑定的消息。",
-  "receive_telegram_notify": "接收电报通知"
+  "receive_telegram_notify": "接收电报通知",
+  "choose_payment_platform": "选择收款平台",
+  "choose_payment_platform_desc": "请选择适合您的收款平台",
+  "binance_pay": "币安支付平台",
+  "hx_pay": "HxPay收款支付平台",
+  "binance_pay_desc": "推荐币安钱包用户使用该选项支付",
+  "hx_pay_desc": "非币安钱包用户请使用这个选项支持"
 
 }
