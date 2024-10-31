@@ -13,7 +13,9 @@ const apiClient = axios.create({
   withCredentials: true, // 全局设置 withCredentials 为 true
 });
 
+console.log("111");
 if (cookies().get("access_token")?.value) {
+  console.log("222");
   console.log(cookies().get("access_token")?.value);
   apiClient.defaults.headers["Authorization"] =
     "Bearer " + cookies().get("access_token")?.value;
