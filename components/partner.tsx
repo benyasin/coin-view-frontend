@@ -3,7 +3,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { LogoBinance } from "@/components/logo-binance";
 import { LogoYoutube } from "@/components/logo-youtube";
-import { LogoHxpay } from "@/components/logo-hxpay";
+import { LogoUsdtpay } from "@/components/logo-usdtpay";
 import { LogoOpenai } from "@/components/logo-openai";
 import { motion } from "framer-motion";
 
@@ -40,7 +40,7 @@ export const Partner = () => {
         <div className="gap-16 w-full flex flex-row justify-center flex-wrap items-center place-content-center">
           <LogoBinance />
           <LogoYoutube />
-          <LogoHxpay />
+          <LogoUsdtpay />
           <LogoOpenai />
         </div>
       </motion.div>
