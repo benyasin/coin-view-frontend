@@ -386,11 +386,11 @@ export const Premium = () => {
                     </div>
                   </CustomRadio>
                   <CustomRadio
-                    description={intl.formatMessage({ id: "hx_pay_desc" })}
-                    value="hx_pay"
+                    description={intl.formatMessage({ id: "usdtpay_desc" })}
+                    value="usdt_pay"
                   >
                     <span className="text-xl">
-                      {intl.formatMessage({ id: "hx_pay" })}
+                      {intl.formatMessage({ id: "usdtpay" })}
                     </span>
                   </CustomRadio>
                 </RadioGroup>

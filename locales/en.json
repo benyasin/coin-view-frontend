@@ -199,8 +199,8 @@
   "receive_telegram_notify": "Receive Telegram Notify",
   "choose_payment_platform": "Select Payment Platform",
   "choose_payment_platform_desc": "Please select a payment collection platform that suits you.",
-  "binance_pay": "Binance Pay Platform",
-  "hx_pay": "HxPay Collection Platform",
+  "binance_pay": "Binance Pay",
+  "usdtpay": "USDTPAY",
   "binance_pay_desc": "It is recommended that Binance wallet users use this option for payment.",
-  "hx_pay_desc": "For non-Binance wallet users, please use this option for support."
+  "usdtpay_desc": "For non-Binance wallet users, please use this option for support."
 }

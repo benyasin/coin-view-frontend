@@ -198,9 +198,9 @@
   "receive_telegram_notify": "接收电报通知",
   "choose_payment_platform": "选择收款平台",
   "choose_payment_platform_desc": "请选择适合您的收款平台",
-  "binance_pay": "币安支付平台",
-  "hx_pay": "HxPay收款支付平台",
+  "binance_pay": "币安支付",
+  "usdtpay": "USDT收款",
   "binance_pay_desc": "推荐币安钱包用户使用该选项支付",
-  "hx_pay_desc": "非币安钱包用户请使用这个选项支持"
+  "usdtpay_desc": "非币安钱包用户请使用这个选项支持"
 
 }
