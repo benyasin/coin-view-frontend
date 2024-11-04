@@ -200,6 +200,9 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                     <TableCell>
                       {intl.formatMessage({ id: item.member_plan })}
                     </TableCell>
+                    <TableCell>
+                      {intl.formatMessage({ id: item.pay_way })}
+                    </TableCell>
                     <TableCell>${item.amount}</TableCell>
                     <TableCell>
                       {dayjs(item.created_at).format("YYYY-MM-DD HH:mm:ss")}
