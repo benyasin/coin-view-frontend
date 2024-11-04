@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Card } from "@nextui-org/react";
 import anime from "animejs";
@@ -97,10 +97,10 @@ export const Growing = () => {
         ref={numbersRef}
         className="flex flex-col items-center justify-center gap-4 pt-6 py-6 md:py-20"
       >
-        <h2 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
+        <h3 className="text-3xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
           {intl.formatMessage({ id: "we_are_growing" })}
-        </h2>
-        <div className="flex flex-wrap justify-between w-full max-w-screen-lg mt-8">
+        </h3>
+        <div className="flex flex-wrap justify-between w-full max-w-screen-lg mt-12">
           <Card className="py-6 max-w-[400px] bg-transparent shadow-none">
             <h1 className="text-center">
               {showNumbers ? (

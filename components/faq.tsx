@@ -27,7 +27,7 @@ export const Faq = () => {
           transition={{ duration: 1, delay: 0.3 }}
           className="flex flex-col gap-3 justify-center items-center"
         >
-          <h4 className="text-2xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
+          <h4 className="text-3xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
             {intl.formatMessage({ id: "faq" })}
           </h4>
           <p className="mt-3 w-4xl text-foreground/80">
