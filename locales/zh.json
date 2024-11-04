@@ -100,7 +100,7 @@
   "created_at": "下单时间",
   "expiration_time": "会员过期时间",
   "charged_annually": "按年收费",
-  "pay_url": "支付链接",
+  "checkout_url": "支付链接",
   "status0": "待支付",
   "status1": "支付成功",
   "status2": "支付超时",
@@ -201,6 +201,7 @@
   "binance_pay": "币安支付",
   "usdtpay": "USDT收款",
   "binance_pay_desc": "推荐币安钱包用户使用该选项支付",
-  "usdtpay_desc": "非币安钱包用户请使用这个选项支持"
+  "usdtpay_desc": "非币安钱包用户请使用这个选项支持",
+  "pay_way": "支付方式"
 
 }

@@ -174,6 +174,9 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                 <TableColumn key="member_plan" className="bg-transparent">
                   {intl.formatMessage({ id: "member_plan" })}
                 </TableColumn>
+                <TableColumn key="pay_way" className="bg-transparent">
+                  {intl.formatMessage({ id: "pay_way" })}
+                </TableColumn>
                 <TableColumn key="amount" className="bg-transparent">
                   {intl.formatMessage({ id: "amount" })}
                 </TableColumn>
@@ -183,8 +186,8 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                 <TableColumn key="expiration_time" className="bg-transparent">
                   {intl.formatMessage({ id: "expiration_time" })}
                 </TableColumn>
-                <TableColumn key="pay_url" className="bg-transparent">
-                  {intl.formatMessage({ id: "pay_url" })}
+                <TableColumn key="checkout_url" className="bg-transparent">
+                  {intl.formatMessage({ id: "checkout_url" })}
                 </TableColumn>
                 <TableColumn key="status" className="bg-transparent">
                   {intl.formatMessage({ id: "status" })}
@@ -208,7 +211,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
                     </TableCell>
                     <TableCell>
                       <Link
-                        href={item.pay_url}
+                        href={item.checkout_url}
                         target="_blank"
                         className="text-sm"
                       >

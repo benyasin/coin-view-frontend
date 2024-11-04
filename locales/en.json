@@ -100,7 +100,7 @@
   "created_at": "Ordered Time",
   "expiration_time": "Membership Expiration Time",
   "charged_annually": "charged annually",
-  "pay_url": "Payment Url",
+  "checkout_url": "Payment Url",
   "status0": "Pending Payment",
   "status1": "Payment Successful",
   "status2": "Payment Timeout",
@@ -202,5 +202,6 @@
   "binance_pay": "Binance Pay",
   "usdtpay": "USDTPAY",
   "binance_pay_desc": "It is recommended that Binance wallet users use this option for payment.",
-  "usdtpay_desc": "For non-Binance wallet users, please use this option for support."
+  "usdtpay_desc": "For non-Binance wallet users, please use this option for support.",
+  "pay_way": "Pay Way"
 }
