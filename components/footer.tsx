@@ -103,9 +103,9 @@ export const Footer = () => {
             {intl.formatMessage({ id: "donation" })}
           </h3>
           <ul className="text-default-400 flex flex-row justify-between md:flex-col flex-wrap">
-            <li>BTC</li>
-            <li>ETH</li>
-            <li>USDT</li>
+            <li>
+              <NextLink href="/donate?coin=USDT">USDT</NextLink>
+            </li>
           </ul>
         </div>
 

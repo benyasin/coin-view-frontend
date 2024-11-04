@@ -203,5 +203,7 @@
   "usdtpay": "USDTPAY",
   "binance_pay_desc": "It is recommended that Binance wallet users use this option for payment.",
   "usdtpay_desc": "For non-Binance wallet users, please use this option for support.",
-  "pay_way": "Pay Way"
+  "pay_way": "Pay Way",
+  "receive_donate": "Receive Donate",
+  "receive_donate_desc": "Thank you for your support! Your contribution is the driving force behind our continuous pursuit of excellence and product improvement. Thank you for joining us in creating a better future together!"
 }

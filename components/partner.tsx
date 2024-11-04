@@ -3,7 +3,6 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { LogoBinance } from "@/components/logo-binance";
 import { LogoYoutube } from "@/components/logo-youtube";
-import { LogoUsdtpay } from "@/components/logo-usdtpay";
 import { LogoOpenai } from "@/components/logo-openai";
 import { motion } from "framer-motion";
 
@@ -27,21 +26,26 @@ export const Partner = () => {
             {intl.formatMessage({ id: "eco_partner" })}
           </h3>
         </div>
-        <motion.div
-          initial={{ y: 5, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="w-full h-full absolute -top-20 -left-10 flex justify-end items-center"
-        >
-          <div className="w-3/4 flex justify-center items-center">
-            <div className="w-12 h-[480px] bg-light blur-[100px] rounded-3xl max-sm:rotate-[15deg] sm:rotate-[35deg]"></div>
-          </div>
-        </motion.div>
+
         <div className="gap-16 w-full flex flex-row justify-center flex-wrap items-center place-content-center">
-          <LogoBinance />
-          <LogoYoutube />
-          {/*<LogoUsdtpay />*/}
-          <LogoOpenai />
+          <motion.div
+            whileHover={{ y: -10 }} // 鼠标悬停时上移10像素
+            transition={{ type: "spring", stiffness: 300, damping: 20 }} // 悬停效果
+          >
+            <LogoBinance />
+          </motion.div>
+          <motion.div
+            whileHover={{ y: -10 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <LogoYoutube />
+          </motion.div>
+          <motion.div
+            whileHover={{ y: -10 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <LogoOpenai />
+          </motion.div>
         </div>
       </motion.div>
     </section>

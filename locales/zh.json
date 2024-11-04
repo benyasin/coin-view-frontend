@@ -202,6 +202,8 @@
   "usdtpay": "USDT收款",
   "binance_pay_desc": "推荐币安钱包用户使用该选项支付",
   "usdtpay_desc": "非币安钱包用户请使用这个选项支持",
-  "pay_way": "支付方式"
+  "pay_way": "支付方式",
+  "receive_donate": "接受捐赠",
+  "receive_donate_desc": "感谢您的支持！您的赞助是我们不断优化产品体验、追求卓越的动力。谢谢您与我们携手共创未来！"
 
 }
