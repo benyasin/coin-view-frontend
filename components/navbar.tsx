@@ -60,23 +60,16 @@ export const Navbar = () => {
     }
 
     const timeout = setTimeout(() => {
-      const cachedUser = getCache("user");
-      if (cachedUser) {
-        setUser(cachedUser);
-      } else {
-        getUserInfo().then((data) => {
-          if (data) {
-            if (data.description == "Cookie token expired") {
-              console.log("Cookie token expired");
-              deleteAuthCookie();
-              location.href = "/";
-            }
-
-            setUser(data.data);
-            setCache("user", data.data); // 缓存数据
+      getUserInfo().then((data) => {
+        if (data) {
+          if (data.description == "Cookie token expired") {
+            console.log("Cookie token expired");
+            deleteAuthCookie();
+            location.href = "/";
           }
-        });
-      }
+          setUser(data.data);
+        }
+      });
     }, 10); // 延迟 10ms 获取缓存
 
     // 定义监听器函数

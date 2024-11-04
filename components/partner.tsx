@@ -40,7 +40,7 @@ export const Partner = () => {
         <div className="gap-16 w-full flex flex-row justify-center flex-wrap items-center place-content-center">
           <LogoBinance />
           <LogoYoutube />
-          <LogoUsdtpay />
+          {/*<LogoUsdtpay />*/}
           <LogoOpenai />
         </div>
       </motion.div>

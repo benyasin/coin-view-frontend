@@ -23,7 +23,12 @@ import { useIntl } from "react-intl";
 import { ChannelLimits, getPaymentPlan, PriceSettings } from "@/config/enums";
 import { getCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
-import { createOrder, searchPendingOrder } from "@/actions/api";
+import {
+  createOrder,
+  deleteAuthCookie,
+  getUserInfo,
+  searchPendingOrder,
+} from "@/actions/api";
 import { useDebounce } from "@/helpers/utils";
 import { useRouter } from "next/navigation"; // 引入你的防抖工具
 import toast, { Toaster } from "react-hot-toast";
@@ -50,14 +55,18 @@ export const CustomRadio = (props: any) => {
 export const Premium = () => {
   const intl = useIntl();
   const {
-    isOpen: isPayWayOpen,
-    onOpen: onPayWayOpen,
-    onOpenChange: onPayWayOpenChange,
+    isOpen: isPendingOpen,
+    onOpen: onPendingOpen,
+    onOpenChange: onPendingOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: isPaymentOpen,
+    onOpen: onPaymentOpen,
+    onOpenChange: onPaymentOpenChange,
   } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false); // 控制 loading 状态
   const [existingOrder, setExistingOrder] = useState(null); // 用于存储用户的进行中订单
   const [pendingPayUrl, setPendingPayUrl] = useState(""); // 存储待支付订单的支付链接
-  const [planType, setPlanType] = useState(""); // 存储待支付订单的支付链接
   const router = useRouter();
   const [selectedPayWay, setSelectedPayWay] = useState("binance_pay"); // 默认值可以设置为 binance_pay 或其他值
   const createPlans = () => [
@@ -121,13 +130,8 @@ export const Premium = () => {
   const createNewOrder = async (
     user: { id: string; email: string },
     selectedPayWay: string,
-    type: string,
-    callback: any
+    type: string
   ): Promise<void> => {
-    //close the modal
-    callback();
-    setIsLoading(true);
-
     const { data, description } = await createOrder(
       user.id,
       user.email,
@@ -143,15 +147,15 @@ export const Premium = () => {
   };
 
   // 点击确认支付时的处理函数
-  const handleConfirmPayment = () => {
+  const handleConfirmPayment = (callback: any) => {
     window.open(pendingPayUrl); // 打开支付链接
-    //setShowPaymentModal(false); // 关闭 Modal
+    callback();
     document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
   };
 
   // 点击取消时的处理函数
-  const handleCancelPayment = () => {
-    //setShowPaymentModal(false); // 关闭 Modal
+  const handleCancelPayment = (callback: any) => {
+    callback();
     document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard"; // 跳转到 dashboard
   };
 
@@ -159,76 +163,66 @@ export const Premium = () => {
   const handleStartBtnClick = useDebounce(async (type: string) => {
     if (isLoading) return; // 如果当前正在加载，阻止重复点击
 
-    const user = getCache("user");
-    console.log(user);
-    if (!user) {
-      EventBus.emit("showLoginDialog", true);
-      return;
-    }
+    getUserInfo().then(async ({ data: user }) => {
+      if (!user) {
+        EventBus.emit("showLoginDialog", true);
+        return;
+      }
 
-    if (type === "free_plan") {
-      document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
-      return;
-    }
+      if (type === "free_plan") {
+        document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
+        return;
+      }
 
-    //setIsLoading(true); // 开始加载状态
+      setIsLoading(true); // 开始加载状态
 
-    // 查询是否有进行中的订单
-    /*const pendingOrder = await checkPendingOrder(user.id);
-    console.log(pendingOrder);
-    if (pendingOrder) {
-      setExistingOrder(pendingOrder);
-      setPendingPayUrl(pendingOrder.pay_url); // 设置支付链接
-      //setShowPendingModal(true); // 显示弹出框
-      return;
-    }*/
+      // 查询是否有进行中的订单
+      const pendingOrder = await checkPendingOrder(user.id);
+      console.log(pendingOrder);
+      if (pendingOrder) {
+        setExistingOrder(pendingOrder);
+        setPendingPayUrl(pendingOrder.checkout_url); // 设置支付链接
+        onPendingOpenChange();
+        return;
+      }
 
-    // 创建订单
-    //await createNewOrder(user, type);
-    onPayWayOpen();
-    setPlanType(type);
+      // 创建订单
+      await createNewOrder(user, selectedPayWay, type);
+    });
   }, 300); // 设置防抖的延时为 300ms
 
   const checkPendingOrder = async (userId: string) => {
     // 调用接口查询用户是否有进行中的订单
     const { data } = await searchPendingOrder(userId); // 需要实现的API请求
-    //console.log(data);
     if (data) {
       return data[0]; // 返回进行中的订单
     }
     return null;
   };
 
-  const handleContinuePayment = () => {
+  const handleContinuePayment = (callback: any) => {
     window.open(pendingPayUrl); // 打开支付链接
-    //setShowPendingModal(false); // 关闭弹出框
-    document.location.href = "/dashboard"; // 跳转到 dashboard
+    callback();
+    document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard"; // 跳转到 dashboard
   };
 
   const handleCreateNewOrder = async (callback: any) => {
-    //setShowPendingModal(false); // 关闭弹出框
+    getUserInfo().then(async ({ data: user }) => {
+      if (!user) {
+        EventBus.emit("showLoginDialog", true);
+        return;
+      }
 
-    const user = getCache("user");
-    console.log(user);
-    if (!user) {
-      EventBus.emit("showLoginDialog", true);
-      return;
-    }
-    /*await createNewOrder(
-      user,
-      existingOrder["pay_way"],
-      existingOrder.member_plan,
-      callback
-    );*/
-  };
+      callback();
 
-  const handlePayWaySelect = async (callback: any) => {
-    const user = getCache("user");
-    if (!user) {
-      EventBus.emit("showLoginDialog", true);
-      return;
-    }
-    await createNewOrder(user, selectedPayWay, planType, callback);
+      // 创建订单
+      existingOrder &&
+        (await createNewOrder(
+          user,
+          existingOrder["pay_way"],
+          existingOrder["member_plan"]
+        ));
+    });
   };
 
   return (
@@ -318,95 +312,65 @@ export const Premium = () => {
       </section>
 
       {/* Pending Order Modal */}
-      <Modal backdrop="blur">
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">
-            {intl.formatMessage({ id: "pending_order_found" })}
-          </ModalHeader>
-          <ModalBody>
-            {intl.formatMessage({ id: "pending_order_message" })}
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={handleContinuePayment} color="primary">
-              {intl.formatMessage({ id: "continue_payment" })}
-            </Button>
-            <Button onClick={handleCreateNewOrder} color="default">
-              {intl.formatMessage({ id: "create_new_order" })}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* Payment Modal */}
-      <Modal backdrop="blur">
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">
-            {intl.formatMessage({ id: "confirm_payment" })}
-          </ModalHeader>
-          <ModalBody>
-            {intl.formatMessage({ id: "payment_window_message" })}
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={handleConfirmPayment} color="primary">
-              {intl.formatMessage({ id: "confirm" })}
-            </Button>
-            <Button onClick={handleCancelPayment} color="default">
-              {intl.formatMessage({ id: "cancel" })}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* Payment Way Select Modal */}
-      <Modal isOpen={isPayWayOpen} onOpenChange={onPayWayOpenChange} size="md">
+      <Modal isOpen={isPendingOpen} onOpenChange={onPendingOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-xl pl-6">
-                {intl.formatMessage({ id: "choose_payment_platform" })}
+              <ModalHeader className="flex flex-col gap-1">
+                {intl.formatMessage({ id: "pending_order_found" })}
               </ModalHeader>
               <ModalBody>
-                <RadioGroup
-                  defaultValue="binance_pay"
-                  value={selectedPayWay}
-                  onChange={(target: any) => {
-                    setSelectedPayWay(target.target.value);
-                  }}
-                  className="w-full justify-center"
-                >
-                  <CustomRadio
-                    description={intl.formatMessage({ id: "binance_pay_desc" })}
-                    value="binance_pay"
-                  >
-                    <div className="w-full flex justify-start items-center">
-                      <span className="text-xl mr-3">
-                        {intl.formatMessage({ id: "binance_pay" })}
-                      </span>
-                      <ThumbsUp size={16} color="gold" />
-                    </div>
-                  </CustomRadio>
-                  <CustomRadio
-                    description={intl.formatMessage({ id: "usdtpay_desc" })}
-                    value="usdt_pay"
-                  >
-                    <span className="text-xl">
-                      {intl.formatMessage({ id: "usdtpay" })}
-                    </span>
-                  </CustomRadio>
-                </RadioGroup>
+                {intl.formatMessage({ id: "pending_order_message" })}
               </ModalBody>
               <ModalFooter>
                 <Button
+                  onClick={() => handleContinuePayment(onClose)}
                   color="primary"
-                  onPress={() => handlePayWaySelect(onClose)}
                 >
-                  {intl.formatMessage({ id: "confirm" })}
+                  {intl.formatMessage({ id: "continue_payment" })}
+                </Button>
+                <Button
+                  onClick={() => handleCreateNewOrder(onClose)}
+                  color="default"
+                >
+                  {intl.formatMessage({ id: "create_new_order" })}
                 </Button>
               </ModalFooter>
             </>
           )}
         </ModalContent>
       </Modal>
+
+      {/* Payment Modal */}
+      <Modal isOpen={isPaymentOpen} onOpenChange={onPaymentOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                {intl.formatMessage({ id: "confirm_payment" })}
+              </ModalHeader>
+              <ModalBody>
+                {intl.formatMessage({ id: "payment_window_message" })}
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  onClick={() => handleConfirmPayment(onClose)}
+                  color="primary"
+                >
+                  {intl.formatMessage({ id: "confirm" })}
+                </Button>
+                <Button
+                  onClick={() => handleCancelPayment(onClose)}
+                  color="default"
+                >
+                  {intl.formatMessage({ id: "cancel" })}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
       <Toaster />
     </div>
   );
