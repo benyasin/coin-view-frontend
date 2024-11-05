@@ -230,7 +230,7 @@ export const PieKline = () => {
         textStyle: {
           color: "#FFF",
         },
-        borderColor: "transparent", //
+        borderColor: "transparent",
         formatter: (params: any[]) => {
           const date = params[0].axisValue;
           const price =
@@ -255,37 +255,38 @@ export const PieKline = () => {
             index !== undefined ? data[index].bullish_percentage : 0;
           const fearGreedIndex = bullishData?.data ?? 0;
           return `
-            <div>
-              <p>${intl.formatMessage({ id: "date" })}: ${date}</p>
-              <p>${intl.formatMessage({ id: "bitcoin_price" })}: $${Math.round(
+        <div>
+          <p>${intl.formatMessage({ id: "date" })}: ${date}</p>
+          <p>${intl.formatMessage({ id: "bitcoin_price" })}: $${Math.round(
             price
           )}</p>
-              <p>${intl.formatMessage({ id: "bullish" })}: ${Math.round(
+          <p>${intl.formatMessage({ id: "bullish" })}: ${Math.round(
             bullish
           )} (${Math.round(bullish_percentage)}%)</p>
-              <p>${intl.formatMessage({ id: "neutral" })}: ${Math.round(
+          <p>${intl.formatMessage({ id: "neutral" })}: ${Math.round(
             neutral
           )} (${Math.round(neutral_percentage)}%)</p>
-              <p>${intl.formatMessage({ id: "bearish" })}: ${Math.round(
+          <p>${intl.formatMessage({ id: "bearish" })}: ${Math.round(
             bearish
           )} (${Math.round(bearish_percentage)}%)</p>
-              <p>${intl.formatMessage({
-                id: "fear_greed_index",
-              })}: ${Math.round(fearGreedIndex)}</p>
-            </div>
-          `;
+          <p>${intl.formatMessage({
+            id: "fear_greed_index",
+          })}: ${Math.round(fearGreedIndex)}</p>
+        </div>
+      `;
         },
       },
       legend: {
         data: [
           intl.formatMessage({ id: "fear_greed_index" }),
           intl.formatMessage({ id: "bitcoin_price" }),
+          intl.formatMessage({ id: "bullish_percentage" }), // New legend entry
         ],
         top: "10%",
       },
       grid: {
-        left: "10%",
-        right: "14%",
+        left: isMobile ? "10%" : "8%",
+        right: isMobile ? "14%" : "10%",
         top: "30%",
         bottom: "20%",
       },
@@ -373,6 +374,26 @@ export const PieKline = () => {
           lineStyle: {
             color: "#FFD700",
             width: 3,
+          },
+          emphasis: {
+            itemStyle: {
+              opacity: 1,
+            },
+          },
+        },
+        {
+          name: intl.formatMessage({ id: "bullish_percentage" }), // New series
+          type: "line",
+          yAxisIndex: 0,
+          data: data.map((item) => item.bullish_percentage), // Use bullish_percentage data
+          itemStyle: {
+            color: "#8A2BE2", // nextui-secondary color
+            opacity: 0,
+          },
+          lineStyle: {
+            color: "#8A2BE2", // nextui-secondary color
+            width: 2,
+            //type: "dashed",
           },
           emphasis: {
             itemStyle: {

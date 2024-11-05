@@ -26,7 +26,7 @@ export default function Home() {
       <section>
         <Hero />
       </section>
-      <section className="text-xl ml-2 md:ml-20 md:mt-16 flex justify-start items-center">
+      <section className="text-xl ml-2 md:ml-16 md:mt-16 flex justify-start items-center">
         <div className="text-default-400">
           {intl.formatMessage({ id: "bullish_bearish_probability" })}
         </div>

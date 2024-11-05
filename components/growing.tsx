@@ -4,6 +4,7 @@ import { useIntl } from "react-intl";
 import { Card } from "@nextui-org/react";
 import anime from "animejs";
 import { getIndexCount } from "@/actions/api";
+import { motion } from "framer-motion";
 
 // 动画组件
 // @ts-ignore
@@ -22,13 +23,17 @@ const AnimatedNumber = ({ value, show }) => {
     }
   }, [show, value]);
 
+  const hoverEffect = { y: -10 }; // 鼠标移上去上移10像素
+
   return (
-    <div
+    <motion.div
       className="text-4xl md:text-6xl bg-gradient-to-b from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent"
       ref={numberRef}
+      whileHover={hoverEffect}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }} // 悬停效果
     >
       0
-    </div>
+    </motion.div>
   );
 };
 
