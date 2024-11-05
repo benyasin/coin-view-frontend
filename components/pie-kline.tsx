@@ -351,15 +351,15 @@ export const PieKline = () => {
       series: [
         {
           name: intl.formatMessage({ id: "fear_greed_index" }),
-          type: "bar",
+          type: "line",
           yAxisIndex: 0,
           data: data.map((item) => item.fearGreedIndex),
           itemStyle: {
-            color: "rgba(30,129,255,0.3)",
+            color: "rgba(30,129,255,0.5)",
           },
           lineStyle: {
-            color: "rgba(30,129,255,0.3)",
-            width: 2,
+            color: "rgba(30,129,255,0.5)",
+            width: 2.5,
           },
         },
         {
@@ -373,7 +373,7 @@ export const PieKline = () => {
           },
           lineStyle: {
             color: "rgba(105,1,197,0.9)",
-            width: 3,
+            width: 3.5,
           },
           emphasis: {
             itemStyle: {
@@ -383,20 +383,21 @@ export const PieKline = () => {
         },
         {
           name: intl.formatMessage({ id: "bullish_percentage" }), // New series
-          type: "line",
+          type: "bar",
           yAxisIndex: 0,
           data: data.map((item) => item.bullish_percentage), // Use bullish_percentage data
-          symbol: "none", // Removes the points from the line
+          //symbol: "none", // Removes the points from the line
           itemStyle: {
-            color: "rgba(255,215,0,0.5)", // nextui-secondary color for area
+            color: "rgba(255,215,0,0.3)", // nextui-secondary color for area
           },
           lineStyle: {
             width: 0.1, // Set width for the small yellow line
-            color: "rgba(255,215,0,0.5)", // Yellow color for the line
+            color: "rgba(255,215,0,0.3)", // Yellow color for the line
           },
-          areaStyle: {
-            color: "rgba(255,215,0,0.4)", // Transparent area color
-          },
+          /*      areaStyle: {
+            width: 1,
+            color: "rgba(255,215,0,0.5)", // Transparent area color
+          },*/
           emphasis: {
             itemStyle: {
               opacity: 1,
@@ -444,7 +445,6 @@ export const PieKline = () => {
             },
           ],
         });
-
         gaugeOption.series[0].data[0].value = fearGreedIndex;
         gaugeChart.setOption(gaugeOption);
       }
