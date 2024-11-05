@@ -94,6 +94,15 @@ export const PieKline = () => {
         itemStyle: { color: "rgba(124,255,178,0.7)" }, // Green color
       },
     ];
+    // 更新“看涨概率”显示的百分比
+    const bullishDisplay = document.getElementById(
+      "bullish-percentage-display"
+    );
+    if (bullishDisplay) {
+      bullishDisplay.innerHTML = `${Math.round(
+        data[lastIndex].bullish_percentage
+      )}%`;
+    }
 
     const pieOption = {
       tooltip: {
@@ -422,6 +431,14 @@ export const PieKline = () => {
         const bearish_percentage = data[index].bearish_percentage;
         const fearGreedIndex = data[index].fearGreedIndex;
 
+        // 更新“看涨概率”显示的百分比
+        const bullishDisplay = document.getElementById(
+          "bullish-percentage-display"
+        );
+        if (bullishDisplay) {
+          bullishDisplay.innerHTML = `${Math.round(bullish_percentage)}%`;
+        }
+
         pieChart.setOption({
           series: [
             {
@@ -470,6 +487,22 @@ export const PieKline = () => {
         position: "relative",
       }}
     >
+      {/* 显示看涨概率百分比的容器 */}
+      <div
+        id="bullish-percentage-display"
+        style={{
+          position: "absolute",
+          top: isMobile ? "340px" : "120px", // 设置到红色方框位置
+          right: isMobile ? "115px" : "165px", // 设置到红色方框位置
+          padding: "10px",
+          borderRadius: "5px",
+          color: "rgba(124,255,178,0.7)",
+          fontSize: "28px",
+          fontWeight: "bold",
+          zIndex: "3",
+        }}
+      ></div>
+
       {/*价格趋势*/}
       <div
         ref={chartRef}
