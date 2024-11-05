@@ -388,11 +388,11 @@ export const PieKline = () => {
           data: data.map((item) => item.bullish_percentage), // Use bullish_percentage data
           symbol: "none", // Removes the points from the line
           itemStyle: {
-            color: "rgba(255,215,0,0.6)", // nextui-secondary color for area
+            color: "rgba(255,215,0,0.5)", // nextui-secondary color for area
           },
           lineStyle: {
             width: 0.1, // Set width for the small yellow line
-            color: "rgba(255,215,0,0.6)", // Yellow color for the line
+            color: "rgba(255,215,0,0.5)", // Yellow color for the line
           },
           areaStyle: {
             color: "rgba(255,215,0,0.4)", // Transparent area color
