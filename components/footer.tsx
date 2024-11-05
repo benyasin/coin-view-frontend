@@ -32,6 +32,8 @@ export const Footer = () => {
         setLocale(storedLang as any);
         setLocaleState(storedLang); // 更新状态中的语言
         setSelectedKeys(new Set([storedLang]));
+
+        document.documentElement.lang = storedLang;
       }
     }
   }, []);
@@ -42,6 +44,11 @@ export const Footer = () => {
     const selectedLocale = Array.from(keys)[0];
     setLocale(selectedLocale as any);
     localStorage.setItem("coinViewLang", selectedLocale as string);
+
+    // 更新 HTML 标签的 lang 属性
+    if (typeof selectedLocale === "string") {
+      document.documentElement.lang = selectedLocale;
+    }
   };
 
   return (
