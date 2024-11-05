@@ -23,7 +23,7 @@ export const Feature = () => {
         }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="max-w-screen-xl mx-auto px-4 md:px-8"
+        className="max-w-screen-xl mx-auto"
       >
         <div className="relative max-w-xl mx-auto text-center">
           <h3 className="text-3xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
