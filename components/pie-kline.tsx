@@ -493,7 +493,7 @@ export const PieKline = () => {
         style={{
           position: "absolute",
           top: isMobile ? "340px" : "120px", // 设置到红色方框位置
-          right: isMobile ? "115px" : "165px", // 设置到红色方框位置
+          right: isMobile ? "125px" : "165px", // 设置到红色方框位置
           padding: "10px",
           borderRadius: "5px",
           color: "rgba(124,255,178,0.7)",
