@@ -43,19 +43,19 @@ export const Feature = () => {
             <div className="text-2xl font-light tracking-tighter sm:text-xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
               {intl.formatMessage({ id: "market_overview" })}
             </div>
-            <div className="pb-12 pt-3 text-balance text-foreground/60">
+            <div className="pb-12 pt-3 text-foreground/60">
               {intl.formatMessage({ id: "market_overview_content" })}
             </div>
             <div className="text-2xl font-light tracking-tighter sm:text-xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
               {intl.formatMessage({ id: "accurate_extraction" })}
             </div>
-            <div className="pb-12 pt-3 text-balance text-foreground/60">
+            <div className="pb-12 pt-3 text-foreground/60">
               {intl.formatMessage({ id: "accurate_extraction_content" })}
             </div>
             <div className="text-2xl font-light tracking-tighter sm:text-xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
               {intl.formatMessage({ id: "realtime_notifications" })}
             </div>
-            <div className="pt-3 text-balance text-foreground/60">
+            <div className="pt-3 text-foreground/60">
               {intl.formatMessage({ id: "realtime_notifications_content" })}
             </div>
           </div>
