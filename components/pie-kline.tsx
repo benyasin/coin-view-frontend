@@ -94,15 +94,6 @@ export const PieKline = () => {
         itemStyle: { color: "rgba(124,255,178,0.7)" }, // Green color
       },
     ];
-    // 更新“看涨概率”显示的百分比
-    const bullishDisplay = document.getElementById(
-      "bullish-percentage-display"
-    );
-    if (bullishDisplay) {
-      bullishDisplay.innerHTML = `${Math.round(
-        data[lastIndex].bullish_percentage
-      )}%`;
-    }
 
     const pieOption = {
       tooltip: {
@@ -139,6 +130,22 @@ export const PieKline = () => {
           data: initialPieData,
         },
       ],
+      // 添加 graphic 配置
+      graphic: {
+        elements: [
+          {
+            type: "text",
+            left: "center",
+            top: "57%",
+            style: {
+              text: `${data[lastIndex].bullish_percentage}%`, // 使用最后一个数据点的看涨百分比
+              font: "bold 28px Arial", // 字体样式可以根据需要调整
+              fill: "rgba(124,255,178,0.7)", // 字体颜色
+            },
+            z: 10, // 确保 zIndex 高于其他元素
+          },
+        ],
+      },
     };
 
     const gaugeOption = {
@@ -461,6 +468,21 @@ export const PieKline = () => {
               ],
             },
           ],
+          graphic: {
+            elements: [
+              {
+                type: "text",
+                left: "center",
+                top: "57%",
+                style: {
+                  text: `${bullish_percentage}%`, // 使用最后一个数据点的看涨百分比
+                  font: "bold 28px Arial", // 字体样式可以根据需要调整
+                  fill: "rgba(124,255,178,0.7)", // 字体颜色
+                },
+                z: 10, // 确保 zIndex 高于其他元素
+              },
+            ],
+          },
         });
         gaugeOption.series[0].data[0].value = fearGreedIndex;
         gaugeChart.setOption(gaugeOption);
@@ -487,22 +509,6 @@ export const PieKline = () => {
         position: "relative",
       }}
     >
-      {/* 显示看涨概率百分比的容器 */}
-      <div
-        id="bullish-percentage-display"
-        style={{
-          position: "absolute",
-          top: isMobile ? "340px" : "120px", // 设置到红色方框位置
-          right: isMobile ? "130px" : "165px", // 设置到红色方框位置
-          padding: "10px",
-          borderRadius: "5px",
-          color: "rgba(124,255,178,0.7)",
-          fontSize: "28px",
-          fontWeight: "bold",
-          zIndex: "3",
-        }}
-      ></div>
-
       {/*价格趋势*/}
       <div
         ref={chartRef}
