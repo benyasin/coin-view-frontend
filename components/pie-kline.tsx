@@ -368,11 +368,11 @@ export const PieKline = () => {
           yAxisIndex: 1,
           data: data.map((item) => item.price),
           itemStyle: {
-            color: "#FFD700",
+            color: "rgba(105,1,197,0.9)",
             opacity: 0,
           },
           lineStyle: {
-            color: "#FFD700",
+            color: "rgba(105,1,197,0.9)",
             width: 3,
           },
           emphasis: {
@@ -386,14 +386,16 @@ export const PieKline = () => {
           type: "line",
           yAxisIndex: 0,
           data: data.map((item) => item.bullish_percentage), // Use bullish_percentage data
+          symbol: "none", // Removes the points from the line
           itemStyle: {
-            color: "#8A2BE2", // nextui-secondary color
-            opacity: 0,
+            color: "rgba(255,215,0,0.6)", // nextui-secondary color for area
           },
           lineStyle: {
-            color: "#8A2BE2", // nextui-secondary color
-            width: 2,
-            //type: "dashed",
+            width: 0.1, // Set width for the small yellow line
+            color: "rgba(255,215,0,0.6)", // Yellow color for the line
+          },
+          areaStyle: {
+            color: "rgba(255,215,0,0.4)", // Transparent area color
           },
           emphasis: {
             itemStyle: {
