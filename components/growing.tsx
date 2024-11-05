@@ -105,7 +105,7 @@ export const Growing = () => {
         <h3 className="text-3xl font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
           {intl.formatMessage({ id: "we_are_growing" })}
         </h3>
-        <div className="flex flex-wrap justify-between w-full max-w-screen-lg mt-12">
+        <div className="flex flex-wrap justify-between w-full max-w-screen-lg mt-12 md:px-16">
           <Card className="py-6 max-w-[400px] bg-transparent shadow-none">
             <h1 className="text-center">
               {showNumbers ? (

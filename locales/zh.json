@@ -205,6 +205,13 @@
   "pay_way": "支付方式",
   "receive_donate": "接受捐赠",
   "bullish_percentage": "看涨的概率",
-  "receive_donate_desc": "感谢您的支持！您的赞助是我们不断优化产品体验、追求卓越的动力。谢谢您与我们携手共创未来！"
+  "receive_donate_desc": "感谢您的支持！您的赞助是我们不断优化产品体验、追求卓越的动力。谢谢您与我们携手共创未来！",
+  "why_choose_us": "为什么选择 CoinView",
+  "market_overview": "纵观市场",
+  "market_overview_content": "综合市场上100+位加密分析师的观点，从不同的时间维度计算涨跌概率，纵观市场整体趋势。",
+  "accurate_extraction": "精准提炼",
+  "accurate_extraction_content": "依托强大的AI模型与自然语言处理技术，精准提炼分析师的观点与情绪，并给出涨跌的结论。",
+  "realtime_notifications": "实时推送",
+  "realtime_notifications_content": "绑定电报机器人，平台实时将您关注的分析师的最新观点推送到你的手机和其它电报终端。"
 
 }

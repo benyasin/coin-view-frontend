@@ -206,5 +206,12 @@
   "pay_way": "Pay Way",
   "receive_donate": "Receive Donate",
   "bullish_percentage": "Bullish Percentage",
-  "receive_donate_desc": "Thank you for your support! Your contribution is the driving force behind our continuous pursuit of excellence and product improvement. Thank you for joining us in creating a better future together!"
+  "receive_donate_desc": "Thank you for your support! Your contribution is the driving force behind our continuous pursuit of excellence and product improvement. Thank you for joining us in creating a better future together!",
+  "why_choose_us": "WHY CHOOSE COINVIEW",
+  "market_overview": "Market Overview",
+  "market_overview_content": "Summarizes the perspectives of 100+ crypto analysts, calculating the probability of price increases and decreases across various timeframes to give a comprehensive view of the overall market trend.",
+  "accurate_extraction": "Accurate Extraction",
+  "accurate_extraction_content": "Powered by advanced AI models and natural language processing technology, accurately extracts analysts’ viewpoints and sentiment, providing clear conclusions on market direction.",
+  "realtime_notifications": "Real-Time Notifications",
+  "realtime_notifications_content": "Connect with our Telegram bot to receive real-time updates of your preferred analysts’ latest opinions directly on your phone and other Telegram-enabled devices."
 }

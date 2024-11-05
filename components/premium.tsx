@@ -21,14 +21,8 @@ import { motion } from "framer-motion";
 import { Check, ThumbsUp } from "lucide-react";
 import { useIntl } from "react-intl";
 import { ChannelLimits, getPaymentPlan, PriceSettings } from "@/config/enums";
-import { getCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
-import {
-  createOrder,
-  deleteAuthCookie,
-  getUserInfo,
-  searchPendingOrder,
-} from "@/actions/api";
+import { createOrder, getUserInfo, searchPendingOrder } from "@/actions/api";
 import { useDebounce } from "@/helpers/utils";
 import { useRouter } from "next/navigation"; // 引入你的防抖工具
 import toast, { Toaster } from "react-hot-toast";

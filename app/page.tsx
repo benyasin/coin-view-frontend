@@ -18,6 +18,7 @@ import { Faq } from "@/components/faq";
 import { Partner } from "@/components/partner";
 import { Growing } from "@/components/growing";
 import ScrollToTop from "@/components/scroll-to-top";
+import { Feature } from "@/components/feature";
 
 export default function Home() {
   const intl = useIntl();
@@ -73,6 +74,11 @@ export default function Home() {
       <section>
         <div className="md:mt-16 md:relative">
           <Growing />
+        </div>
+      </section>
+      <section>
+        <div className="md:mt-16 md:relative">
+          <Feature />
         </div>
       </section>
       <section className="text-xl ml-2 md:ml-16 mt-10 mb-8">
