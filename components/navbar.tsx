@@ -31,7 +31,6 @@ import { Register } from "@/components/register";
 import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
 import { deleteAuthCookie, getUserInfo, saveLang } from "@/actions/api";
-import { getCache, setCache } from "@/helpers/store";
 import { EventBus } from "@/helpers/events";
 import { MenuIcon } from "lucide-react"; // 导入MenuIcon
 
