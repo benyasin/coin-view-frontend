@@ -1,9 +1,9 @@
 "use client";
 
-import Image from 'next/image';
-import logo from '../public/logo.png';
-import logoDark from '../public/logo-dark.png';
-import { useTheme } from 'next-themes';
+import Image from "next/image";
+import logo from "../public/logo.png";
+import logoDark from "../public/logo-dark.png";
+import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 
 export const Logo = () => {
@@ -12,10 +12,9 @@ export const Logo = () => {
   return (
     <Image
       width={120}
-      height={76}
-      src={theme === 'dark' || isSSR ? logo : logoDark}
+      src={theme === "dark" || isSSR ? logo : logoDark}
       alt="Logo"
-      loading="lazy"
+      priority
     />
   );
 };

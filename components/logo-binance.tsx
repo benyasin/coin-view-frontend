@@ -12,7 +12,6 @@ export const LogoBinance = () => {
   return (
     <Image
       width={intl.locale == "zh" ? 110 : 200}
-      height={76}
       src={intl.locale == "zh" ? binance : binance_en}
       alt="binance"
       loading="lazy"

@@ -14,7 +14,6 @@ export const LogoOpenai = () => {
   return (
     <Image
       width={intl.locale == "zh" ? 120 : 120}
-      height={76}
       src={theme == "dark" || isSSR ? openai_dark : openai}
       alt="openai"
       loading="lazy"

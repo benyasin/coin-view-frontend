@@ -34,7 +34,6 @@ export const Feature = () => {
         <div className="gap-16 w-full flex flex-row justify-center flex-wrap items-center place-content-center mt-8">
           <Image
             width={500}
-            height={200}
             src={theme == "dark" || isSSR ? features_dark : features}
             alt="features"
             loading="lazy"

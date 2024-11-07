@@ -14,7 +14,6 @@ export const LogoYoutube = () => {
   return (
     <Image
       width={intl.locale == "zh" ? 120 : 130}
-      height={76}
       src={theme == "dark" || isSSR ? youtube_dark : youtube}
       alt="youtube"
       loading="lazy"

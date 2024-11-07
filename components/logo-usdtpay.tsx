@@ -13,7 +13,6 @@ export const LogoUsdtpay = () => {
   return (
     <Image
       width={180}
-      height={36}
       src={theme == "dark" || isSSR ? usdtpay_dark : usdtpay}
       alt="usdtpay"
       loading="lazy"
