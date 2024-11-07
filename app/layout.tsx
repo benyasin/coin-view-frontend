@@ -48,7 +48,11 @@ export default function RootLayout({
         <meta property="og:site_name" content={messages["title"]} />
         <meta
           property="og:image"
-          content={"https://www.coinview.today/coinview-home.png"}
+          content={
+            locale == "zh"
+              ? "https://www.coinview.today/coinview-home-zh.png"
+              : "https://www.coinview.today/coinview-home.png"
+          }
         />
         <meta property="og:image:width" content={"800"} />
         <meta property="og:image:height" content={"800"} />
