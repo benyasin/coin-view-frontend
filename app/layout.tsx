@@ -62,7 +62,11 @@ export default function RootLayout({
         <meta name="twitter:description" content={messages["slogan"]} />
         <meta
           name="twitter:image"
-          content={"https://www.coinview.today/coinview-x.png"}
+          content={
+            locale == "zh"
+              ? "https://www.coinview.today/coinview-home-zh.png"
+              : "https://www.coinview.today/coinview-home.png"
+          }
         />
       </head>
       <body
