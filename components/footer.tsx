@@ -14,7 +14,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "@/components/language-provider";
 import { ThemeSwitch2 } from "@/components/theme-switch2";
 import { Logo } from "@/components/logo";
-import NextLink from "next/link"; // 假设你已经有 Logo 组件
+import NextLink from "next/link";
+import { saveLang } from "@/actions/api";
+import { getLocalizedUrl } from "@/helpers/getLocalizedUrl"; // 假设你已经有 Logo 组件
 
 export const Footer = () => {
   const intl = useIntl();
@@ -24,31 +26,30 @@ export const Footer = () => {
     new Set([intl.locale])
   );
 
-  // 使用 useEffect 确保在客户端执行 localStorage 操作
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedLang = localStorage.getItem("coinViewLang");
-      if (storedLang) {
-        setLocale(storedLang as any);
-        setLocaleState(storedLang); // 更新状态中的语言
-        setSelectedKeys(new Set([storedLang]));
-
-        document.documentElement.lang = storedLang;
-      }
-    }
-  }, []);
-
-  const handleSelectionChange = (keys: any) => {
+  const handleSelectionChange = async (keys: any) => {
     const selectedKeys = new Set<string>(keys);
     setSelectedKeys(selectedKeys);
     const selectedLocale = Array.from(keys)[0];
     setLocale(selectedLocale as any);
-    localStorage.setItem("coinViewLang", selectedLocale as string);
 
-    // 更新 HTML 标签的 lang 属性
-    if (typeof selectedLocale === "string") {
-      document.documentElement.lang = selectedLocale;
+    // 保存到用户表中
+    await saveLang(selectedLocale as string);
+    // 重新构建 URL，防止重复添加 /zh 前缀
+    const currentPath: string = window.location.pathname;
+    let newPath: string;
+
+    if (selectedLocale === "zh") {
+      // 如果当前路径已经以 /zh 开头，就不重复添加
+      newPath = currentPath.startsWith("/zh")
+        ? currentPath
+        : `/zh${currentPath}`;
+    } else {
+      // 如果选择了英文，移除现有的 /zh 前缀
+      newPath = currentPath.replace(/^\/zh/, "");
     }
+
+    // 重定向到新路径
+    window.location.href = getLocalizedUrl(newPath, selectedLocale as string);
   };
 
   return (
@@ -56,7 +57,7 @@ export const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between py-8 px-6">
         <NextLink
           className="hidden md:flex justify-start items-center gap-1 -mt-[4%]"
-          href={process.env.DOMAIN_BASE_URL + "/"}
+          href={getLocalizedUrl("/", locale)}
         >
           <Logo />
         </NextLink>
@@ -68,7 +69,7 @@ export const Footer = () => {
           </h3>
           <ul className="text-default-400 flex flex-row justify-between md:flex-col flex-wrap">
             <li>
-              <NextLink href={process.env.DOMAIN_BASE_URL + "/disclaimer"}>
+              <NextLink href={getLocalizedUrl("/disclaimer", locale)}>
                 {intl.formatMessage({ id: "disclaimer" })}
               </NextLink>
             </li>
@@ -78,7 +79,7 @@ export const Footer = () => {
               </NextLink>
             </li>*/}
             <li>
-              <NextLink href={process.env.DOMAIN_BASE_URL + "/privacy"}>
+              <NextLink href={getLocalizedUrl("/privacy", locale)}>
                 {intl.formatMessage({ id: "privacy_policy" })}
               </NextLink>
             </li>

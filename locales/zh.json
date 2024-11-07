@@ -7,6 +7,8 @@
   "login": "登录",
   "logout": "退出",
   "register": "注册",
+  "title": "今日币看",
+  "net_url": "https://coinview.today/zh",
   "slogan": "一个基于AI对YouTube加密分析师进行观点提炼与情绪分析, 从而预测加密市场整体走势的工具",
   "slogan_1": "一个",
   "slogan_2": "基于AI",

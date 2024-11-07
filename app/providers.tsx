@@ -5,17 +5,23 @@ import { NextUIProvider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
-import { LanguageContext } from "@/components/language-provider";
 import { IntlProvider } from "@/components/IntlProvider";
+import { MessageFormatElement } from "react-intl";
 
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
+  locale: string;
+  messages: Record<string, string> | Record<string, MessageFormatElement[]>;
 }
 
-export function Providers({ children, themeProps }: ProvidersProps) {
+export function Providers({
+  children,
+  themeProps,
+  locale,
+  messages,
+}: ProvidersProps) {
   const router = useRouter();
-  const { locale } = React.useContext(LanguageContext);
 
   return (
     <NextUIProvider navigate={router.push}>

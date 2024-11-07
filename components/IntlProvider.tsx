@@ -12,8 +12,9 @@ interface Props {
 }
 
 export const IntlProvider = ({ children, locale }: Props) => {
+  const currentMessages = messages[locale as keyof typeof messages];
   return (
-    <ReactIntlProvider locale={locale} messages={messages[locale]}>
+    <ReactIntlProvider locale={locale} messages={currentMessages}>
       {children}
     </ReactIntlProvider>
   );

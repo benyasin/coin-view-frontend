@@ -33,6 +33,7 @@ import { LanguageContext } from "@/components/language-provider";
 import { deleteAuthCookie, getUserInfo, saveLang } from "@/actions/api";
 import { EventBus } from "@/helpers/events";
 import { MenuIcon } from "lucide-react"; // 导入MenuIcon
+import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -49,17 +50,6 @@ export const Navbar = () => {
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedLang = localStorage.getItem("coinViewLang");
-      if (storedLang) {
-        setLocale(storedLang as any);
-        setLocaleState(storedLang); // 更新状态中的语言
-        setSelectedKeys(new Set([storedLang]));
-
-        document.documentElement.lang = storedLang;
-      }
-    }
-
     const timeout = setTimeout(() => {
       getUserInfo().then((data) => {
         if (data) {
@@ -88,20 +78,30 @@ export const Navbar = () => {
     };
   }, []);
 
-  const handleSelectionChange = async (keys: any) => {
+  const handleSelectionChange = async (keys: any): Promise<void> => {
     const selectedKeys = new Set<string>(keys);
     setSelectedKeys(selectedKeys);
     const selectedLocale = Array.from(keys)[0];
     setLocale(selectedLocale as any);
-    localStorage.setItem("coinViewLang", selectedLocale as string);
 
-    // 更新 HTML 标签的 lang 属性
-    if (typeof selectedLocale === "string") {
-      document.documentElement.lang = selectedLocale;
+    // 保存到用户表中
+    await saveLang(selectedLocale as string);
+    // 重新构建 URL，防止重复添加 /zh 前缀
+    const currentPath: string = window.location.pathname;
+    let newPath: string;
+
+    if (selectedLocale === "zh") {
+      // 如果当前路径已经以 /zh 开头，就不重复添加
+      newPath = currentPath.startsWith("/zh")
+        ? currentPath
+        : `/zh${currentPath}`;
+    } else {
+      // 如果选择了英文，移除现有的 /zh 前缀
+      newPath = currentPath.replace(/^\/zh/, "");
     }
 
-    //保存到user表中
-    await saveLang(selectedLocale as string);
+    // 重定向到新路径
+    window.location.href = getLocalizedUrl(newPath, selectedLocale as string);
   };
 
   const toggleMenu = () => {
@@ -168,8 +168,8 @@ export const Navbar = () => {
           justify="start"
         >
           <NextLink
-            className="flex justify-start items-center gap-1"
-            href="/"
+            className="flex justify-start items-center min-w-[120px]"
+            href={getLocalizedUrl("/", locale)}
             onClick={() => setIsMenuOpen(false)}
           >
             <Logo />
@@ -179,7 +179,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={process.env.DOMAIN_BASE_URL + "/#premium"}
+                href={getLocalizedUrl("/#premium", locale)}
               >
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
@@ -188,7 +188,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={process.env.DOMAIN_BASE_URL + "/#faq"}
+                href={getLocalizedUrl("/#faq", locale)}
               >
                 {intl.formatMessage({ id: "faq" })}
               </Link>
@@ -197,7 +197,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={process.env.DOMAIN_BASE_URL + "/#partner"}
+                href={getLocalizedUrl("/#partner", locale)}
               >
                 {intl.formatMessage({ id: "eco_partner" })}
               </Link>
@@ -207,7 +207,7 @@ export const Navbar = () => {
                 <Link
                   color="foreground"
                   className="text-large"
-                  href={process.env.DOMAIN_BASE_URL + "/dashboard"}
+                  href={getLocalizedUrl("/dashboard", locale)}
                 >
                   {intl.formatMessage({ id: "dashboard" })}
                 </Link>
@@ -261,7 +261,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href={process.env.DOMAIN_BASE_URL + "/#premium"}
+              href={getLocalizedUrl("/#premium", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "upgrade_to_premium" })}
@@ -271,7 +271,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href={process.env.DOMAIN_BASE_URL + "/#faq"}
+              href={getLocalizedUrl("/#faq", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "faq" })}
@@ -281,7 +281,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large"
-              href={process.env.DOMAIN_BASE_URL + "/#partner"}
+              href={getLocalizedUrl("/#partner", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "eco_partner" })}
@@ -292,7 +292,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={process.env.DOMAIN_BASE_URL + "/dashboard"}
+                href={getLocalizedUrl("/dashboard", locale)}
                 onPress={() => setIsMenuOpen(false)}
               >
                 {intl.formatMessage({ id: "dashboard" })}

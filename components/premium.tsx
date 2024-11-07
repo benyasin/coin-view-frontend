@@ -26,6 +26,7 @@ import { createOrder, getUserInfo, searchPendingOrder } from "@/actions/api";
 import { useDebounce } from "@/helpers/utils";
 import { useRouter } from "next/navigation"; // 引入你的防抖工具
 import toast, { Toaster } from "react-hot-toast";
+import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 
 export const CustomRadio = (props: any) => {
   const { children, ...otherProps } = props;
@@ -48,6 +49,7 @@ export const CustomRadio = (props: any) => {
 
 export const Premium = () => {
   const intl = useIntl();
+  const locale = intl.locale;
   const {
     isOpen: isPendingOpen,
     onOpen: onPendingOpen,
@@ -144,13 +146,13 @@ export const Premium = () => {
   const handleConfirmPayment = (callback: any) => {
     window.open(pendingPayUrl); // 打开支付链接
     callback();
-    document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
+    document.location.href = getLocalizedUrl("/dashboard", locale);
   };
 
   // 点击取消时的处理函数
   const handleCancelPayment = (callback: any) => {
     callback();
-    document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard"; // 跳转到 dashboard
+    document.location.href = getLocalizedUrl("/dashboard", locale); // 跳转到 dashboard
   };
 
   // 使用自定义防抖函数
@@ -164,7 +166,7 @@ export const Premium = () => {
       }
 
       if (type === "free_plan") {
-        document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard";
+        document.location.href = getLocalizedUrl("/dashboard", locale);
         return;
       }
 
@@ -197,7 +199,7 @@ export const Premium = () => {
   const handleContinuePayment = (callback: any) => {
     window.open(pendingPayUrl); // 打开支付链接
     callback();
-    document.location.href = process.env.DOMAIN_BASE_URL + "/dashboard"; // 跳转到 dashboard
+    document.location.href = getLocalizedUrl("/dashboard", locale); // 跳转到 dashboard
   };
 
   const handleCreateNewOrder = async (callback: any) => {

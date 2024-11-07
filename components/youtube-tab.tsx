@@ -82,11 +82,6 @@ const YouTubeTab = ({}) => {
 
   // 从后端 API 获取视频数据
   useEffect(() => {
-    const storedLang = localStorage.getItem("coinViewLang");
-    if (storedLang) {
-      setLocaleState(storedLang); // 更新状态中的语言
-    }
-
     const cachedUser = getCache("user");
     if (cachedUser) {
       setUser(cachedUser);

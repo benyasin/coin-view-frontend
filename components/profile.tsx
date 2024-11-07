@@ -23,6 +23,7 @@ import {
 } from "@nextui-org/react";
 import { ChevronDownIcon, ChevronRightIcon } from "@/components/icons";
 import dayjs from "dayjs";
+import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 
 type ProfileProps = {
   user: UserInfo; // Ensure that user is of type UserInfo
@@ -62,7 +63,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
   }, [user.id, page, intl]); // 依赖项为这些值
 
   const handleUpgrade = async () => {
-    location.href = process.env.DOMAIN_BASE_URL + "/#premium";
+    location.href = getLocalizedUrl("/#premium", intl.locale);
   };
 
   const itemClasses = {

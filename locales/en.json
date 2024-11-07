@@ -7,6 +7,8 @@
   "login": "Login",
   "logout": "Logout",
   "register": "Register",
+  "title": "CoinView Today",
+  "net_url": "https://coinview.today",
   "slogan": "An AI-powered tool for extracting insights & analyzing sentiment from YouTube analysts, predicting the overall trend of the crypto market",
   "slogan_1": "An",
   "slogan_2": "AI-powered",

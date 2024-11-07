@@ -16,7 +16,7 @@ const apiClient = axios.create({
 console.log("111");
 if (cookies().get("access_token")?.value) {
   console.log("222");
-  console.log(cookies().get("access_token")?.value);
+  //console.log(cookies().get("access_token")?.value);
   apiClient.defaults.headers["Authorization"] =
     "Bearer " + cookies().get("access_token")?.value;
 }
@@ -408,7 +408,6 @@ export const getVideosByUser = async (uid: string, is_member: boolean) => {
     const response = await apiClient.get(
       `/video/list?user_id=${uid}&is_member=${is_member}`
     );
-    console.log(response.data);
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error

@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
+import { Viewport } from "next";
 import clsx from "clsx";
 import { LanguageProvider } from "@/components/language-provider";
 import { Providers } from "./providers";
@@ -7,36 +7,7 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Script from "next/script";
-
-export const metadata: Metadata = {
-  title: "CoinView Today",
-  description:
-    "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
-  openGraph: {
-    title: "CoinView",
-    description:
-      "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
-    url: "https://www.coinview.today",
-    siteName: "CoinView Today",
-    images: [
-      {
-        url: "https://www.coinview.today/coinview-home.png",
-        width: 800,
-        height: 800,
-        alt: "CoinView Logo",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "CoinView",
-    description:
-      "An AI-powered tool for extracting and analyzing sentiment from YouTube videos to predict cryptocurrency market trends.",
-    images: ["https://www.coinview.today/coinview-x.png"],
-  },
-};
+import { headers } from "next/headers";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -45,13 +16,16 @@ export const viewport: Viewport = {
   ],
 };
 
+// @ts-ignore
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = headers().get("x-locale") || "en";
+  const messages = require(`../locales/${locale}.json`); // 动态加载 messages
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning lang={locale}>
       <head>
         <Script
           async
@@ -66,6 +40,26 @@ export default function RootLayout({
             gtag('config', 'G-VJ4FV2QGY0');
           `}
         </Script>
+        <title>{messages["title"]}</title>
+        <meta name="description" content={messages["slogan"]} />
+        <meta property="og:title" content={messages["title"]} />
+        <meta property="og:description" content={messages["slogan"]} />
+        <meta property="og:url" content={messages["net_url"]} />
+        <meta property="og:site_name" content={messages["title"]} />
+        <meta
+          property="og:image"
+          content={"https://www.coinview.today/coinview-home.png"}
+        />
+        <meta property="og:image:width" content={"800"} />
+        <meta property="og:image:height" content={"800"} />
+        <meta property="og:type" content={"website"} />
+        <meta name="twitter:card" content={"summary_large_image"} />
+        <meta name="twitter:title" content={messages["title"]} />
+        <meta name="twitter:description" content={messages["slogan"]} />
+        <meta
+          name="twitter:image"
+          content={"https://www.coinview.today/coinview-x.png"}
+        />
       </head>
       <body
         className={clsx(
@@ -75,6 +69,8 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <Providers
+            locale={locale}
+            messages={messages}
             themeProps={{
               children: null,
               attribute: "class",
