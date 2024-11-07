@@ -115,6 +115,7 @@ export const Navbar = () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}
+        placement={"center"}
         isKeyboardDismissDisabled={true}
       >
         <ModalContent>

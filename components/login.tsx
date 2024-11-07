@@ -6,7 +6,7 @@ import { LoginFormType } from "@/types";
 import { Button, Input } from "@nextui-org/react";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MailIcon } from "@nextui-org/shared-icons";
 import { useIntl } from "react-intl";
 
@@ -72,6 +72,7 @@ export const Login = () => {
                 variant="bordered"
                 label={intl.formatMessage({ id: "email" })}
                 type="email"
+                style={{ fontSize: "16px" }}
                 value={values.email}
                 isInvalid={!!errors.email && !!touched.email}
                 errorMessage={errors.email}
@@ -84,6 +85,7 @@ export const Login = () => {
                 variant="bordered"
                 label={intl.formatMessage({ id: "password" })}
                 type="password"
+                style={{ fontSize: "16px" }}
                 value={values.password}
                 isInvalid={!!errors.password && !!touched.password}
                 errorMessage={errors.password}
