@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { useIntl } from "react-intl";
 import features from "@/public/features.png";
@@ -7,11 +6,32 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
+import anime from "animejs";
 
 export const Feature = () => {
   const intl = useIntl();
   const { theme } = useTheme();
   const isSSR = useIsSSR();
+
+  // 处理鼠标移入事件
+  const handleMouseEnter = (event: { currentTarget: any }) => {
+    anime({
+      targets: event.currentTarget,
+      translateY: -10,
+      duration: 300,
+      easing: "easeOutQuad",
+    });
+  };
+
+  // 处理鼠标移出事件
+  const handleMouseLeave = (event: { currentTarget: any }) => {
+    anime({
+      targets: event.currentTarget,
+      translateY: 0,
+      duration: 600,
+      easing: "easeOutElastic(1, .5)",
+    });
+  };
 
   return (
     <section className="relative max-w-screen-xl w-full mx-auto px-4 pt-0 pb-12 gap-12 md:px-8 flex flex-col justify-center items-center">
@@ -67,11 +87,14 @@ export const Feature = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 * index }}
+                onMouseEnter={handleMouseEnter} // 绑定鼠标移入事件
+                onMouseLeave={handleMouseLeave} // 绑定鼠标移出事件
+                className="hover:cursor-pointer"
               >
-                <div className="text-2xl font-light tracking-tighter sm:text-xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
+                <div className="text-2xl font-light tracking-tighter sm:text-2xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
                   {intl.formatMessage({ id: item.id })}
                 </div>
-                <div className="pb-12 pt-3 text-foreground/60">
+                <div className="pb-12 pt-1 text-foreground/60">
                   {intl.formatMessage({ id: item.content })}
                 </div>
               </motion.div>
