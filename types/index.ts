@@ -35,6 +35,10 @@ export interface Video {
   channel_title: string;
   subscribers: string;
   channel_url: string;
+  likes?: number;
+  dislikes?: number;
+  comments?: number;
+  views?: number;
 }
 
 // 类型定义

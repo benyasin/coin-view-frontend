@@ -4,3 +4,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.custom-radius {
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+}

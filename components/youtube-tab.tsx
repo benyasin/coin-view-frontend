@@ -20,6 +20,10 @@ import {
   Accordion,
   AccordionItem,
   Chip,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import YouTubeEmbed from "@/components/youtube-embed";
 import {
@@ -38,7 +42,17 @@ import {
   getVideosByUser,
   getVideosPreset,
 } from "@/actions/api";
-import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
+import {
+  Eye,
+  Link2,
+  MessageCircle,
+  Share2,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
+import { TwitterIcon, TelegramIcon } from "@/components/icons";
+import toast, { Toaster } from "react-hot-toast";
 
 // 启用插件
 dayjs.extend(utc);
@@ -54,6 +68,15 @@ const YouTubeTab = ({}) => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const [isMobile, setIsMobile] = useState(false);
   const [fetchUserDone, setFetchUserDone] = useState(false);
+  const { theme } = useTheme();
+
+  const notify = () =>
+    toast.success(intl.formatMessage({ id: "copied_to_clipboard" }));
+
+  const handleCopyLink = (url: string) => {
+    navigator.clipboard.writeText(url);
+    notify();
+  };
 
   useEffect(() => {
     // 判断是否在mobile下（小于640px）
@@ -142,17 +165,25 @@ const YouTubeTab = ({}) => {
   ];
 
   const filterVideos = (tab: string) => {
+    videos.forEach((video) => {
+      video.likes = 11;
+      video.dislikes = 3;
+      video.comments = 5;
+      video.views = 423;
+    });
     if (tab === "all") return videos;
     return videos.filter((video) => video.sentiment.toLowerCase() === tab);
   };
 
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + "M";
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + "k";
-    } else {
-      return num.toString();
+  const formatNumber = (num?: number) => {
+    if (num) {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + "M";
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + "k";
+      } else {
+        return num.toString();
+      }
     }
   };
 
@@ -176,7 +207,7 @@ const YouTubeTab = ({}) => {
       >
         {tabs.map((item) => (
           <Tab key={item.id} title={item.label} value={item.id}>
-            {filterVideos(selectedTab).map((video) => (
+            {filterVideos(selectedTab).map((video: Video) => (
               <div
                 key={video.video_id}
                 className={
@@ -232,7 +263,7 @@ const YouTubeTab = ({}) => {
                     />
                   </CardBody>
                 </Card>
-                <div className="sm:w-1 md:w-1/2 h-[275px]">
+                <div className="sm:w-1 md:w-1/2 relative">
                   <Link
                     className={subtitle({
                       className: "text-default-600 line-clamp-2 pl-2 mb-0",
@@ -287,12 +318,91 @@ const YouTubeTab = ({}) => {
                         : video.sentiment_explanation}
                     </AccordionItem>
                   </Accordion>
+                  {/* 工具条 */}
+                  <div
+                    className={`absolute left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
+                      theme === "dark"
+                        ? "bg-gray-900/45 text-white"
+                        : "bg-gray-50/45 text-gray-500"
+                    } rounded-b-lg transition-all duration-300`}
+                  >
+                    {/* Like Button */}
+                    <div className="flex items-center gap-1 cursor-pointer hover:text-primary-500">
+                      <ThumbsUp size={16} />
+                      <span>{formatNumber(video.likes)}</span>
+                    </div>
+
+                    {/* Dislike Button */}
+                    <div className="flex items-center gap-1 cursor-pointer hover:text-red-500">
+                      <ThumbsDown size={16} />
+                      <span>{formatNumber(video.dislikes)}</span>
+                    </div>
+
+                    {/* Comment Button */}
+                    <div className="flex items-center gap-1 cursor-pointer hover:text-blue-500">
+                      <MessageCircle size={16} />
+                      <span>{formatNumber(video.comments)}</span>
+                    </div>
+
+                    {/* View Count */}
+                    <div className="flex items-center gap-1">
+                      <Eye size={16} />
+                      <span>{formatNumber(video.views)}</span>
+                    </div>
+
+                    {/* Share Button */}
+                    <div className="flex items-center gap-1 cursor-pointer hover:text-green-500">
+                      <Dropdown backdrop="blur">
+                        <DropdownTrigger>
+                          <Share2 size={16} />
+                        </DropdownTrigger>
+                        <DropdownMenu variant="faded">
+                          <DropdownItem
+                            key="copy_link"
+                            startContent={<Link2 size={16} />}
+                            onClick={() => handleCopyLink(video.url)}
+                          >
+                            {intl.formatMessage({ id: "copy_link" })}
+                          </DropdownItem>
+                          <DropdownItem
+                            key="share_on_x"
+                            startContent={<TwitterIcon size={16} />}
+                            onClick={() =>
+                              window.open(
+                                `https://twitter.com/share?url=${encodeURIComponent(
+                                  video.url
+                                )}`,
+                                "_blank"
+                              )
+                            }
+                          >
+                            {intl.formatMessage({ id: "share_on_x" })}
+                          </DropdownItem>
+                          <DropdownItem
+                            key="share_on_telegram"
+                            startContent={<TelegramIcon size={16} />}
+                            onClick={() =>
+                              window.open(
+                                `https://t.me/share/url?url=${encodeURIComponent(
+                                  video.url
+                                )}`,
+                                "_blank"
+                              )
+                            }
+                          >
+                            {intl.formatMessage({ id: "share_on_telegram" })}
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </Tab>
         ))}
       </Tabs>
+      <Toaster />
     </div>
   );
 };

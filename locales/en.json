@@ -214,7 +214,11 @@
   "market_overview": "Market Overview",
   "market_overview_content": "Summarizes the perspectives of 100+ crypto analysts, calculating the probability of price increases and decreases across various timeframes to give a comprehensive view of the overall market trend.",
   "accurate_extraction": "Accurate Extraction",
-  "accurate_extraction_content": "Powered by advanced AI models and natural language processing technology, accurately extracts analysts’ viewpoints and sentiment, providing clear conclusions on market direction.",
+  "accurate_extraction_content": "Powered by advanced AI natural language processing technology, accurately extracts analysts’ viewpoints in Chinese and English, providing clear conclusions on market direction.",
   "realtime_notifications": "Real-Time Notifications",
-  "realtime_notifications_content": "Connect with our Telegram bot to receive real-time updates of your preferred analysts’ latest opinions directly on your phone and other Telegram-enabled devices."
+  "realtime_notifications_content": "Connect with our Telegram bot to receive real-time updates of your preferred analysts’ latest opinions directly on your phone and other Telegram-enabled devices.",
+  "copy_link": "Copy link",
+  "share_on_x": "Share on X",
+  "share_on_telegram": "Share on Telegram",
+  "copied_to_clipboard": "Copied to clipboard successfully"
 }
