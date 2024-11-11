@@ -41,6 +41,7 @@ import {
   getUserInfo,
   getVideosByUser,
   getVideosPreset,
+  userVideoInteract, // Import the interact API
 } from "@/actions/api";
 import { useTheme } from "next-themes";
 import {
@@ -76,6 +77,33 @@ const YouTubeTab = ({}) => {
   const handleCopyLink = (url: string) => {
     navigator.clipboard.writeText(url);
     notify();
+  };
+
+  const handleInteract = async (
+    videoId: string,
+    action: "like" | "dislike" | "share"
+  ) => {
+    try {
+      console.log(videoId);
+      const result = await userVideoInteract(videoId, user?.id || "", action);
+
+      setVideos((prevVideos) =>
+        prevVideos.map((video) =>
+          video.video_id === videoId
+            ? {
+                ...video,
+                likes: action === "like" ? result.likes : video.likes,
+                dislikes:
+                  action === "dislike" ? result.dislikes : video.dislikes,
+                liked: action === "like" ? !video.liked : false,
+                disliked: action === "dislike" ? !video.disliked : false,
+              }
+            : video
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update interaction:", error);
+    }
   };
 
   useEffect(() => {
@@ -131,7 +159,9 @@ const YouTubeTab = ({}) => {
           uid && typeof is_member !== "undefined"
             ? await getVideosByUser(uid, is_member)
             : await getVideosPreset();
+
         setVideos(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
@@ -165,12 +195,6 @@ const YouTubeTab = ({}) => {
   ];
 
   const filterVideos = (tab: string) => {
-    videos.forEach((video) => {
-      video.likes = 11;
-      video.dislikes = 3;
-      video.comments = 5;
-      video.views = 423;
-    });
     if (tab === "all") return videos;
     return videos.filter((video) => video.sentiment.toLowerCase() === tab);
   };
@@ -318,7 +342,7 @@ const YouTubeTab = ({}) => {
                         : video.sentiment_explanation}
                     </AccordionItem>
                   </Accordion>
-                  {/* 工具条 */}
+                  {/* Tool Bar */}
                   <div
                     className={`absolute left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
                       theme === "dark"
@@ -327,14 +351,34 @@ const YouTubeTab = ({}) => {
                     } rounded-b-lg transition-all duration-300`}
                   >
                     {/* Like Button */}
-                    <div className="flex items-center gap-1 cursor-pointer hover:text-primary-500">
-                      <ThumbsUp size={16} />
+                    <div
+                      className={`flex items-center gap-1 cursor-pointer ${
+                        video.liked
+                          ? "text-primary-500"
+                          : "hover:text-primary-500"
+                      }`}
+                      onClick={() => handleInteract(video.id, "like")}
+                    >
+                      <ThumbsUp
+                        size={16}
+                        color={
+                          video.liked ? "rgb(0, 111, 238)" : "currentColor"
+                        }
+                      />
                       <span>{formatNumber(video.likes)}</span>
                     </div>
 
                     {/* Dislike Button */}
-                    <div className="flex items-center gap-1 cursor-pointer hover:text-red-500">
-                      <ThumbsDown size={16} />
+                    <div
+                      className={`flex items-center gap-1 cursor-pointer ${
+                        video.disliked ? "text-red-500" : "hover:text-red-500"
+                      }`}
+                      onClick={() => handleInteract(video.id, "dislike")}
+                    >
+                      <ThumbsDown
+                        size={16}
+                        color={video.disliked ? "red" : "currentColor"}
+                      />
                       <span>{formatNumber(video.dislikes)}</span>
                     </div>
 

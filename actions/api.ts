@@ -288,6 +288,40 @@ export const exportVideo = async (
   }
 };
 
+/**
+ * Interact with a video by liking, disliking, or sharing it.
+ * @param videoId - ID of the video to interact with
+ * @param userId - ID of the user performing the interaction
+ * @param action - The action to perform (like, dislike, or share)
+ * @returns - The updated interaction status from the server
+ */
+export const userVideoInteract = async (
+  videoId: string,
+  userId: string,
+  action: "like" | "dislike" | "share"
+): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/video/interaction`, {
+      video_id: videoId,
+      user_id: userId,
+      action: action,
+    });
+    return response.data; // Return the data from the response
+  } catch (error: any) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to interact with the video";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while interacting with the video"
+      );
+    }
+  }
+};
+
 export const addYoutuberToDB = async (
   newYoutuber: Youtuber,
   userId: string
@@ -408,6 +442,7 @@ export const getVideosByUser = async (uid: string, is_member: boolean) => {
     const response = await apiClient.get(
       `/video/list?user_id=${uid}&is_member=${is_member}`
     );
+    //console.log(response.data);
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error

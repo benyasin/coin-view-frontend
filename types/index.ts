@@ -20,6 +20,7 @@ export type RegisterFormType = {
 
 // 类型定义
 export interface Video {
+  id: string;
   video_id: string;
   title: string;
   summary: string;
@@ -39,6 +40,10 @@ export interface Video {
   dislikes?: number;
   comments?: number;
   views?: number;
+  shares?: number;
+  liked?: boolean;
+  disliked?: boolean;
+  shared?: boolean;
 }
 
 // 类型定义
