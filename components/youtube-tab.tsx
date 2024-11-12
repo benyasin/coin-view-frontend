@@ -38,9 +38,11 @@ import { useIntl } from "react-intl";
 import { getCache, setCache } from "@/helpers/store";
 import {
   deleteAuthCookie,
+  exportVideo,
   getUserInfo,
   getVideosByUser,
   getVideosPreset,
+  incrementViews,
   userVideoInteract, // Import the interact API
 } from "@/actions/api";
 import { useTheme } from "next-themes";
@@ -69,6 +71,9 @@ const YouTubeTab = ({}) => {
   const [user, setUser] = useState<UserInfo | null | undefined>(undefined);
   const [isMobile, setIsMobile] = useState(false);
   const [fetchUserDone, setFetchUserDone] = useState(false);
+  const [likeAnimation, setLikeAnimation] = useState("");
+  const [dislikeAnimation, setDislikeAnimation] = useState("");
+  const [hasIncrementedViews, setHasIncrementedViews] = useState(false);
   const { theme } = useTheme();
 
   const notify = () =>
@@ -79,31 +84,60 @@ const YouTubeTab = ({}) => {
     notify();
   };
 
+  let debounceTimeout: NodeJS.Timeout | null = null;
+
   const handleInteract = async (
     videoId: string,
     action: "like" | "dislike" | "share"
   ) => {
-    try {
-      console.log(videoId);
-      const result = await userVideoInteract(videoId, user?.id || "", action);
-
-      setVideos((prevVideos) =>
-        prevVideos.map((video) =>
-          video.video_id === videoId
-            ? {
-                ...video,
-                likes: action === "like" ? result.likes : video.likes,
-                dislikes:
-                  action === "dislike" ? result.dislikes : video.dislikes,
-                liked: action === "like" ? !video.liked : false,
-                disliked: action === "dislike" ? !video.disliked : false,
-              }
-            : video
-        )
-      );
-    } catch (error) {
-      console.error("Failed to update interaction:", error);
+    // 如果之前的请求还在进行，取消之前的操作
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
     }
+
+    // 设置新的防抖计时器，等待300ms后执行导出操作
+    debounceTimeout = setTimeout(async () => {
+      try {
+        const { status_code, description, data } = await userVideoInteract(
+          videoId,
+          user?.id || "",
+          action
+        );
+        if (status_code == 200) {
+          // 根据操作类型设置动画
+          if (action === "like") {
+            setLikeAnimation(data.liked ? "move-up" : "move-down");
+          } else if (action === "dislike") {
+            setDislikeAnimation(data.disliked ? "move-up" : "move-down");
+          }
+
+          setTimeout(() => {
+            setLikeAnimation("");
+            setDislikeAnimation("");
+          }, 300); // 动画结束后清除类名
+
+          setVideos((prevVideos) =>
+            prevVideos.map((video) =>
+              video.id === videoId
+                ? {
+                    ...video,
+                    likes: data.likes,
+                    dislikes: data.dislikes,
+                    liked: data.liked,
+                    disliked: data.disliked,
+                  }
+                : video
+            )
+          );
+        } else {
+          console.error(description);
+        }
+      } catch (error) {
+        console.error("Failed to update interaction:", error);
+      }
+
+      debounceTimeout = null; // 清除防抖计时器
+    }, 300); // 设置300ms的防抖时间
   };
 
   useEffect(() => {
@@ -152,6 +186,34 @@ const YouTubeTab = ({}) => {
     }
   }, [intl.locale]);
 
+  // 批量更新 views 的函数
+  const batchIncrementViews = async () => {
+    const videoIds = videos.map((video) => video.id);
+    try {
+      const { status_code, data } = await incrementViews(videoIds);
+      if (status_code === 200) {
+        // 更新视频列表中的 views 数量
+        setVideos((prevVideos) =>
+          prevVideos.map((video) => ({
+            ...video,
+            views:
+              data.find((v: { id: string }) => v.id === video.id)?.views ||
+              video.views,
+          }))
+        );
+      }
+    } catch (error) {
+      console.error("Failed to increment views:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (videos.length > 0 && !hasIncrementedViews) {
+      batchIncrementViews();
+      setHasIncrementedViews(true); // 防止重复执行
+    }
+  }, [videos]);
+
   useEffect(() => {
     const fetchVideos = async (uid?: string, is_member?: boolean) => {
       try {
@@ -161,7 +223,6 @@ const YouTubeTab = ({}) => {
             : await getVideosPreset();
 
         setVideos(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
@@ -344,7 +405,7 @@ const YouTubeTab = ({}) => {
                   </Accordion>
                   {/* Tool Bar */}
                   <div
-                    className={`absolute left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
+                    className={`absolute h-[30px] left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
                       theme === "dark"
                         ? "bg-gray-900/45 text-white"
                         : "bg-gray-50/45 text-gray-500"
@@ -365,7 +426,9 @@ const YouTubeTab = ({}) => {
                           video.liked ? "rgb(0, 111, 238)" : "currentColor"
                         }
                       />
-                      <span>{formatNumber(video.likes)}</span>
+                      <span className={likeAnimation}>
+                        {formatNumber(video.likes)}
+                      </span>
                     </div>
 
                     {/* Dislike Button */}
@@ -379,7 +442,9 @@ const YouTubeTab = ({}) => {
                         size={16}
                         color={video.disliked ? "red" : "currentColor"}
                       />
-                      <span>{formatNumber(video.dislikes)}</span>
+                      <span className={dislikeAnimation}>
+                        {formatNumber(video.dislikes)}
+                      </span>
                     </div>
 
                     {/* Comment Button */}
