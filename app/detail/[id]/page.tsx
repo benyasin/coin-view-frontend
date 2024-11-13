@@ -115,7 +115,6 @@ const Detail = ({ params }: { params: { id: string } }) => {
             ? await getAVideoByUser(video_id, uid, is_member)
             : await getAVideo(video_id);
 
-        console.log(data);
         setVideo(data);
       } catch (error) {
         console.error("Error fetching videos:", error);
