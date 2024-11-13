@@ -23,5 +23,5 @@ export function middleware(request: NextRequest) {
 
 // 配置匹配的路径
 export const config = {
-  matcher: "/:path*", // 使中间件匹配所有路径
+  matcher: ["/:path*", "/detail/:path*"], // 使中间件匹配所有路径
 };

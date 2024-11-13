@@ -56,6 +56,7 @@ import {
 } from "lucide-react";
 import { TwitterIcon, TelegramIcon } from "@/components/icons";
 import toast, { Toaster } from "react-hot-toast";
+import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 
 // 启用插件
 dayjs.extend(utc);
@@ -353,7 +354,7 @@ const YouTubeTab = ({}) => {
                     className={subtitle({
                       className: "text-default-600 line-clamp-2 pl-2 mb-0",
                     })}
-                    href={video.url}
+                    href={getLocalizedUrl(`/detail/${video.id}`, locale)}
                     target="_blank"
                   >
                     {video.title}
@@ -469,7 +470,11 @@ const YouTubeTab = ({}) => {
                           <DropdownItem
                             key="copy_link"
                             startContent={<Link2 size={16} />}
-                            onClick={() => handleCopyLink(video.url)}
+                            onClick={() =>
+                              handleCopyLink(
+                                getLocalizedUrl(`/detail/${video.id}`, locale)
+                              )
+                            }
                           >
                             {intl.formatMessage({ id: "copy_link" })}
                           </DropdownItem>
@@ -479,7 +484,7 @@ const YouTubeTab = ({}) => {
                             onClick={() =>
                               window.open(
                                 `https://twitter.com/share?url=${encodeURIComponent(
-                                  video.url
+                                  getLocalizedUrl(`/detail/${video.id}`, locale)
                                 )}`,
                                 "_blank"
                               )
@@ -493,7 +498,7 @@ const YouTubeTab = ({}) => {
                             onClick={() =>
                               window.open(
                                 `https://t.me/share/url?url=${encodeURIComponent(
-                                  video.url
+                                  getLocalizedUrl(`/detail/${video.id}`, locale)
                                 )}`,
                                 "_blank"
                               )

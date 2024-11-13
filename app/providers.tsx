@@ -15,12 +15,7 @@ export interface ProvidersProps {
   messages: Record<string, string> | Record<string, MessageFormatElement[]>;
 }
 
-export function Providers({
-  children,
-  themeProps,
-  locale,
-  messages,
-}: ProvidersProps) {
+export function Providers({ children, themeProps, locale }: ProvidersProps) {
   const router = useRouter();
 
   return (
