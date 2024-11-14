@@ -12,34 +12,35 @@
 
 @keyframes moveUp {
     0% {
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
         opacity: 1;
     }
     100% {
-        transform: translateY(-10px);
+        transform: translate3d(0, -10px, 0);
         opacity: 0;
     }
 }
 
 @keyframes moveDown {
     0% {
-        transform: translateY(-10px);
+        transform: translate3d(0, -10px, 0);
         opacity: 0;
     }
     100% {
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
         opacity: 1;
     }
 }
 
 .move-up {
     animation: moveUp 0.3s ease forwards;
+    will-change: transform, opacity;
 }
 
 .move-down {
     animation: moveDown 0.3s ease forwards;
+    will-change: transform, opacity;
 }
-
 
 .card-hover-effect {
     position: relative;
