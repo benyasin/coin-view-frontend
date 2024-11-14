@@ -298,8 +298,8 @@ const YouTubeTab = ({}) => {
                 key={video.video_id}
                 className={
                   locale == "zh"
-                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 sm:pb-12 mb-32 md:mb-12 gap-6 justify-between w-full card-hover-effect"
-                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 sm:pb-24 mb-96 md:mb-24 md:pb-0 gap-6 justify-between w-full card-hover-effect"
+                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 pb-0 sm:pb-12 mb-32 md:mb-12 gap-6 justify-between w-full card-hover-effect"
+                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 pb-0 sm:pb-24 mb-96 md:mb-24 md:pb-0 gap-6 justify-between w-full card-hover-effect"
                 }
               >
                 <Card key={video.video_id} className="w-full sm:w-1 md:w-1/2">
@@ -349,7 +349,7 @@ const YouTubeTab = ({}) => {
                     />
                   </CardBody>
                 </Card>
-                <div className="sm:w-1 md:w-1/2 relative sm:pb-12 md:pb-0">
+                <div className="sm:w-1 md:w-1/2 relative sm:pb-12">
                   <Link
                     className={subtitle({
                       className: "text-default-600 line-clamp-2 pl-2 mb-0",
