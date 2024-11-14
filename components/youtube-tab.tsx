@@ -449,10 +449,10 @@ const YouTubeTab = ({}) => {
                     </div>
 
                     {/* Comment Button */}
-                    <div className="flex items-center gap-1 cursor-pointer hover:text-blue-500">
+                    {/*<div className="flex items-center gap-1 cursor-pointer hover:text-blue-500">
                       <MessageCircle size={16} />
                       <span>{formatNumber(video.comments)}</span>
-                    </div>
+                    </div>*/}
 
                     {/* View Count */}
                     <div className="flex items-center gap-1">

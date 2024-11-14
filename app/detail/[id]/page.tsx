@@ -23,7 +23,6 @@ import {
   Link,
 } from "@nextui-org/react";
 import YouTubeEmbed from "@/components/youtube-embed";
-import { subtitle } from "@/components/primitives";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 import {
   BearishIcon,
@@ -56,6 +55,7 @@ import {
 } from "@/actions/api";
 import { useTheme } from "next-themes";
 import toast from "react-hot-toast";
+import Head from "next/head";
 // 启用插件
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -255,203 +255,221 @@ const Detail = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="detail-container py-8 px-4 max-w-6xl mx-auto text-default-600">
-      <div
-        key={video.video_id}
-        className={
-          locale == "zh"
-            ? "flex flex-col mt-2 mb-32 md:mb-12 pb-12 gap-6 justify-between w-full"
-            : "flex flex-col mt-2 mb-96 md:mb-24 pb-24 md:pb-0 gap-6 justify-between w-full"
-        }
-      >
-        <Card key={video.video_id} className="w-full">
-          <CardHeader className="pt-4 px-4 justify-between items-center">
-            <div className="flex items-center gap-5 h-[45px]">
-              <Link href={video.channel_url} target="_blank">
-                <Avatar isBordered radius="full" size="md" src={video.avatar} />
-              </Link>
-              <div className="flex flex-col h-[35px] items-start justify-between">
-                <h4 className="font-semibold leading-none text-large">
-                  {video.channel_title}
-                </h4>
-                <h5 className="text-small tracking-tight text-default-400">
-                  {formatNumber(Number.parseInt(video.subscribers))}{" "}
-                  {intl.formatMessage({ id: "subscribers" })}
-                </h5>
+    <>
+      {/*<head>
+        <meta property="og:title" content={video.title} />
+        <meta property="og:description" content={video.summary} />
+        <meta property="og:image" content={video.avatar} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={video.title} />
+        <meta name="twitter:description" content={video.summary} />
+        <meta name="twitter:image" content={video.avatar} />
+      </head>*/}
+      <div className="detail-container py-8 px-4 max-w-6xl mx-auto text-default-600">
+        <div
+          key={video.video_id}
+          className={
+            locale == "zh"
+              ? "flex flex-col mt-2 mb-32 md:mb-12 pb-12 gap-6 justify-between w-full"
+              : "flex flex-col mt-2 mb-96 md:mb-24 pb-24 md:pb-0 gap-6 justify-between w-full"
+          }
+        >
+          <Card key={video.video_id} className="w-full">
+            <CardHeader className="pt-4 px-4 justify-between items-center">
+              <div className="flex items-center gap-5 h-[45px]">
+                <Link href={video.channel_url} target="_blank">
+                  <Avatar
+                    isBordered
+                    radius="full"
+                    size="md"
+                    src={video.avatar}
+                  />
+                </Link>
+                <div className="flex flex-col h-[35px] items-start justify-between">
+                  <h4 className="font-semibold leading-none text-large">
+                    {video.channel_title}
+                  </h4>
+                  <h5 className="text-small tracking-tight text-default-400">
+                    {formatNumber(Number.parseInt(video.subscribers))}{" "}
+                    {intl.formatMessage({ id: "subscribers" })}
+                  </h5>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col items-center">
-              <Chip
-                size="md"
-                className={`text-medium ${
-                  video.sentiment === "bullish"
-                    ? "bg-green-500"
-                    : video.sentiment === "bearish"
-                    ? "bg-red-500"
-                    : "bg-primary-500"
-                }`}
+              <div className="flex flex-col items-center">
+                <Chip
+                  size="md"
+                  className={`text-medium ${
+                    video.sentiment === "bullish"
+                      ? "bg-green-500"
+                      : video.sentiment === "bearish"
+                      ? "bg-red-500"
+                      : "bg-primary-500"
+                  }`}
+                >
+                  {intl.formatMessage({ id: video.sentiment })}
+                </Chip>
+                <div className="text-small tracking-tight text-default-500">
+                  {dayjs(video.created_at).tz(userTimeZone).fromNow()}
+                </div>
+              </div>
+            </CardHeader>
+            <CardBody className="overflow-visible !p-0">
+              <YouTubeEmbed height={425} width={920} videoId={video.video_id} />
+            </CardBody>
+          </Card>
+          <div className="w-full min-h-[380px] relative">
+            {video.title}
+            <Accordion
+              isCompact
+              className="youtube-accordion"
+              itemClasses={{
+                base: "py-2 w-full",
+                title: "font-normal text-default-400 text-lg pt-1",
+                trigger: "py-0 rounded-lg h-10 flex items-center",
+                indicator: "text-medium",
+                content: "pb-2 text-default-500",
+              }}
+              defaultExpandedKeys={["1"]}
+            >
+              <AccordionItem
+                className="accordion-item"
+                key="1"
+                aria-label="Theme"
+                title={intl.formatMessage({ id: "core_viewpoint" })}
+                startContent={<SummaryIcon size={18} />}
               >
-                {intl.formatMessage({ id: video.sentiment })}
-              </Chip>
-              <div className="text-small tracking-tight text-default-500">
-                {dayjs(video.created_at).tz(userTimeZone).fromNow()}
+                {locale == "zh" ? video.summary_chinese : video.summary}
+              </AccordionItem>
+              <AccordionItem
+                className="accordion-item"
+                key="2"
+                aria-label="Theme"
+                title={
+                  intl.formatMessage({ id: video.sentiment }) +
+                  (intl.locale === "en" ? " " : "") +
+                  intl.formatMessage({ id: "reason" })
+                }
+                startContent={
+                  video.sentiment === "bullish" ? (
+                    <BullishIcon size={18} />
+                  ) : video.sentiment === "bearish" ? (
+                    <BearishIcon size={18} />
+                  ) : (
+                    <NeutralIcon size={18} />
+                  )
+                }
+              >
+                {locale == "zh"
+                  ? video.sentiment_explanation_chinese
+                  : video.sentiment_explanation}
+              </AccordionItem>
+            </Accordion>
+            {/* Tool Bar */}
+            <div
+              className={`absolute h-[30px] left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
+                theme === "dark"
+                  ? "bg-gray-900/45 text-white"
+                  : "bg-gray-50/45 text-gray-500"
+              } rounded-b-lg transition-all duration-300`}
+            >
+              {/* Like Button */}
+              <div
+                className={`flex items-center gap-1 cursor-pointer ${
+                  video.liked ? "text-primary-500" : "hover:text-primary-500"
+                }`}
+                onClick={() => handleInteract(video.id, "like")}
+              >
+                <ThumbsUp
+                  size={16}
+                  color={video.liked ? "rgb(0, 111, 238)" : "currentColor"}
+                />
+                <span className={likeAnimation}>
+                  {formatNumber(video.likes)}
+                </span>
               </div>
-            </div>
-          </CardHeader>
-          <CardBody className="overflow-visible !p-0">
-            <YouTubeEmbed height={425} width={920} videoId={video.video_id} />
-          </CardBody>
-        </Card>
-        <div className="w-full min-h-[380px] relative">
-          {video.title}
-          <Accordion
-            isCompact
-            className="youtube-accordion"
-            itemClasses={{
-              base: "py-2 w-full",
-              title: "font-normal text-default-400 text-lg pt-1",
-              trigger: "py-0 rounded-lg h-10 flex items-center",
-              indicator: "text-medium",
-              content: "pb-2 text-default-500",
-            }}
-            defaultExpandedKeys={["1"]}
-          >
-            <AccordionItem
-              className="accordion-item"
-              key="1"
-              aria-label="Theme"
-              title={intl.formatMessage({ id: "core_viewpoint" })}
-              startContent={<SummaryIcon size={18} />}
-            >
-              {locale == "zh" ? video.summary_chinese : video.summary}
-            </AccordionItem>
-            <AccordionItem
-              className="accordion-item"
-              key="2"
-              aria-label="Theme"
-              title={
-                intl.formatMessage({ id: video.sentiment }) +
-                (intl.locale === "en" ? " " : "") +
-                intl.formatMessage({ id: "reason" })
-              }
-              startContent={
-                video.sentiment === "bullish" ? (
-                  <BullishIcon size={18} />
-                ) : video.sentiment === "bearish" ? (
-                  <BearishIcon size={18} />
-                ) : (
-                  <NeutralIcon size={18} />
-                )
-              }
-            >
-              {locale == "zh"
-                ? video.sentiment_explanation_chinese
-                : video.sentiment_explanation}
-            </AccordionItem>
-          </Accordion>
-          {/* Tool Bar */}
-          <div
-            className={`absolute h-[30px] left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
-              theme === "dark"
-                ? "bg-gray-900/45 text-white"
-                : "bg-gray-50/45 text-gray-500"
-            } rounded-b-lg transition-all duration-300`}
-          >
-            {/* Like Button */}
-            <div
-              className={`flex items-center gap-1 cursor-pointer ${
-                video.liked ? "text-primary-500" : "hover:text-primary-500"
-              }`}
-              onClick={() => handleInteract(video.id, "like")}
-            >
-              <ThumbsUp
-                size={16}
-                color={video.liked ? "rgb(0, 111, 238)" : "currentColor"}
-              />
-              <span className={likeAnimation}>{formatNumber(video.likes)}</span>
-            </div>
 
-            {/* Dislike Button */}
-            <div
-              className={`flex items-center gap-1 cursor-pointer ${
-                video.disliked ? "text-red-500" : "hover:text-red-500"
-              }`}
-              onClick={() => handleInteract(video.id, "dislike")}
-            >
-              <ThumbsDown
-                size={16}
-                color={video.disliked ? "red" : "currentColor"}
-              />
-              <span className={dislikeAnimation}>
-                {formatNumber(video.dislikes)}
-              </span>
-            </div>
+              {/* Dislike Button */}
+              <div
+                className={`flex items-center gap-1 cursor-pointer ${
+                  video.disliked ? "text-red-500" : "hover:text-red-500"
+                }`}
+                onClick={() => handleInteract(video.id, "dislike")}
+              >
+                <ThumbsDown
+                  size={16}
+                  color={video.disliked ? "red" : "currentColor"}
+                />
+                <span className={dislikeAnimation}>
+                  {formatNumber(video.dislikes)}
+                </span>
+              </div>
 
-            {/* Comment Button */}
-            <div className="flex items-center gap-1 cursor-pointer hover:text-blue-500">
-              <MessageCircle size={16} />
-              <span>{formatNumber(video.comments)}</span>
-            </div>
+              {/* Comment Button */}
+              {/*<div className="flex items-center gap-1 cursor-pointer hover:text-blue-500">
+                <MessageCircle size={16} />
+                <span>{formatNumber(video.comments)}</span>
+              </div>*/}
 
-            {/* View Count */}
-            <div className="flex items-center gap-1">
-              <Eye size={16} />
-              <span>{formatNumber(video.views)}</span>
-            </div>
+              {/* View Count */}
+              <div className="flex items-center gap-1">
+                <Eye size={16} />
+                <span>{formatNumber(video.views)}</span>
+              </div>
 
-            {/* Share Button */}
-            <div className="flex items-center gap-1 cursor-pointer hover:text-green-500">
-              <Dropdown backdrop="blur">
-                <DropdownTrigger>
-                  <Share2 size={16} />
-                </DropdownTrigger>
-                <DropdownMenu variant="faded">
-                  <DropdownItem
-                    key="copy_link"
-                    startContent={<Link2 size={16} />}
-                    onClick={() =>
-                      handleCopyLink(
-                        getLocalizedUrl(`/detail/${video.id}`, locale)
-                      )
-                    }
-                  >
-                    {intl.formatMessage({ id: "copy_link" })}
-                  </DropdownItem>
-                  <DropdownItem
-                    key="share_on_x"
-                    startContent={<TwitterIcon size={16} />}
-                    onClick={() =>
-                      window.open(
-                        `https://twitter.com/share?url=${encodeURIComponent(
+              {/* Share Button */}
+              <div className="flex items-center gap-1 cursor-pointer hover:text-green-500">
+                <Dropdown backdrop="blur">
+                  <DropdownTrigger>
+                    <Share2 size={16} />
+                  </DropdownTrigger>
+                  <DropdownMenu variant="faded">
+                    <DropdownItem
+                      key="copy_link"
+                      startContent={<Link2 size={16} />}
+                      onClick={() =>
+                        handleCopyLink(
                           getLocalizedUrl(`/detail/${video.id}`, locale)
-                        )}`,
-                        "_blank"
-                      )
-                    }
-                  >
-                    {intl.formatMessage({ id: "share_on_x" })}
-                  </DropdownItem>
-                  <DropdownItem
-                    key="share_on_telegram"
-                    startContent={<TelegramIcon size={16} />}
-                    onClick={() =>
-                      window.open(
-                        `https://t.me/share/url?url=${encodeURIComponent(
-                          getLocalizedUrl(`/detail/${video.id}`, locale)
-                        )}`,
-                        "_blank"
-                      )
-                    }
-                  >
-                    {intl.formatMessage({ id: "share_on_telegram" })}
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+                        )
+                      }
+                    >
+                      {intl.formatMessage({ id: "copy_link" })}
+                    </DropdownItem>
+                    <DropdownItem
+                      key="share_on_x"
+                      startContent={<TwitterIcon size={16} />}
+                      onClick={() =>
+                        window.open(
+                          `https://twitter.com/share?url=${encodeURIComponent(
+                            getLocalizedUrl(`/detail/${video.id}`, locale)
+                          )}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      {intl.formatMessage({ id: "share_on_x" })}
+                    </DropdownItem>
+                    <DropdownItem
+                      key="share_on_telegram"
+                      startContent={<TelegramIcon size={16} />}
+                      onClick={() =>
+                        window.open(
+                          `https://t.me/share/url?url=${encodeURIComponent(
+                            getLocalizedUrl(`/detail/${video.id}`, locale)
+                          )}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      {intl.formatMessage({ id: "share_on_telegram" })}
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
