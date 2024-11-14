@@ -46,14 +46,7 @@ import {
   userVideoInteract, // Import the interact API
 } from "@/actions/api";
 import { useTheme } from "next-themes";
-import {
-  Eye,
-  Link2,
-  MessageCircle,
-  Share2,
-  ThumbsDown,
-  ThumbsUp,
-} from "lucide-react";
+import { Eye, Link2, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import { TwitterIcon, TelegramIcon } from "@/components/icons";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
@@ -337,6 +330,7 @@ const YouTubeTab = ({}) => {
                         {intl.formatMessage({ id: video.sentiment })}
                       </Chip>
                       <div className="text-small tracking-tight text-default-500">
+                        {dayjs(video.created_at).tz(userTimeZone).format()}
                         {dayjs(video.created_at).tz(userTimeZone).fromNow()}
                       </div>
                     </div>
