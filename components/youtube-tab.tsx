@@ -100,9 +100,9 @@ const YouTubeTab = ({}) => {
         if (status_code == 200) {
           // 根据操作类型设置动画
           if (action === "like") {
-            setLikeAnimation(data.liked ? "move-up" : "move-down");
+            setLikeAnimation(data.liked ? "bounce-in" : "bounce-out");
           } else if (action === "dislike") {
-            setDislikeAnimation(data.disliked ? "move-up" : "move-down");
+            setDislikeAnimation(data.disliked ? "bounce-in" : "bounce-out");
           }
 
           setTimeout(() => {
