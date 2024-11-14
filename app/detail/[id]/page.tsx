@@ -256,16 +256,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      {/*<head>
-        <meta property="og:title" content={video.title} />
-        <meta property="og:description" content={video.summary} />
-        <meta property="og:image" content={video.avatar} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={video.title} />
-        <meta name="twitter:description" content={video.summary} />
-        <meta name="twitter:image" content={video.avatar} />
-      </head>*/}
-      <div className="detail-container py-8 px-4 max-w-6xl mx-auto text-default-600">
+      <div className="detail-container py-8 max-w-6xl mx-auto text-default-600">
         <div
           key={video.video_id}
           className={
@@ -317,7 +308,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
               <YouTubeEmbed height={425} width={920} videoId={video.video_id} />
             </CardBody>
           </Card>
-          <div className="w-full min-h-[380px] relative">
+          <div className="w-full min-h-[380px] relative pb-12 md:pb-0">
             {video.title}
             <Accordion
               isCompact
