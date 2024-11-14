@@ -50,6 +50,7 @@ import { Eye, Link2, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import { TwitterIcon, TelegramIcon } from "@/components/icons";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
+import { EventBus } from "@/helpers/events";
 
 // 启用插件
 dayjs.extend(utc);
@@ -92,40 +93,47 @@ const YouTubeTab = ({}) => {
     // 设置新的防抖计时器，等待300ms后执行导出操作
     debounceTimeout = setTimeout(async () => {
       try {
-        const { status_code, description, data } = await userVideoInteract(
-          videoId,
-          user?.id || "",
-          action
-        );
-        if (status_code == 200) {
-          // 根据操作类型设置动画
-          if (action === "like") {
-            setLikeAnimation(data.liked ? "bounce-in" : "bounce-out");
-          } else if (action === "dislike") {
-            setDislikeAnimation(data.disliked ? "bounce-in" : "bounce-out");
+        getUserInfo().then(async ({ data: user }) => {
+          if (!user) {
+            EventBus.emit("showLoginDialog", true);
+            return;
           }
 
-          setTimeout(() => {
-            setLikeAnimation("");
-            setDislikeAnimation("");
-          }, 300); // 动画结束后清除类名
-
-          setVideos((prevVideos) =>
-            prevVideos.map((video) =>
-              video.id === videoId
-                ? {
-                    ...video,
-                    likes: data.likes,
-                    dislikes: data.dislikes,
-                    liked: data.liked,
-                    disliked: data.disliked,
-                  }
-                : video
-            )
+          const { status_code, description, data } = await userVideoInteract(
+            videoId,
+            user?.id || "",
+            action
           );
-        } else {
-          console.error(description);
-        }
+          if (status_code == 200) {
+            // 根据操作类型设置动画
+            if (action === "like") {
+              setLikeAnimation(data.liked ? "bounce-in" : "bounce-out");
+            } else if (action === "dislike") {
+              setDislikeAnimation(data.disliked ? "bounce-in" : "bounce-out");
+            }
+
+            setTimeout(() => {
+              setLikeAnimation("");
+              setDislikeAnimation("");
+            }, 300); // 动画结束后清除类名
+
+            setVideos((prevVideos) =>
+              prevVideos.map((video) =>
+                video.id === videoId
+                  ? {
+                      ...video,
+                      likes: data.likes,
+                      dislikes: data.dislikes,
+                      liked: data.liked,
+                      disliked: data.disliked,
+                    }
+                  : video
+              )
+            );
+          } else {
+            console.error(description);
+          }
+        });
       } catch (error) {
         console.error("Failed to update interaction:", error);
       }

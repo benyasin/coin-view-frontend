@@ -56,6 +56,7 @@ import {
 import { useTheme } from "next-themes";
 import toast from "react-hot-toast";
 import Head from "next/head";
+import { EventBus } from "@/helpers/events";
 // 启用插件
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -151,37 +152,44 @@ const Detail = ({ params }: { params: { id: string } }) => {
     // 设置新的防抖计时器，等待300ms后执行导出操作
     debounceTimeout = setTimeout(async () => {
       try {
-        const { status_code, description, data } = await userVideoInteract(
-          videoId,
-          user?.id || "",
-          action
-        );
-        if (status_code == 200) {
-          // 根据操作类型设置动画
-          if (action === "like") {
-            setLikeAnimation(data.liked ? "bounce-in" : "bounce-out");
-          } else if (action === "dislike") {
-            setDislikeAnimation(data.disliked ? "bounce-in" : "bounce-out");
+        getUserInfo().then(async ({ data: user }) => {
+          if (!user) {
+            EventBus.emit("showLoginDialog", true);
+            return;
           }
 
-          setTimeout(() => {
-            setLikeAnimation("");
-            setDislikeAnimation("");
-          }, 300); // 动画结束后清除类名
+          const { status_code, description, data } = await userVideoInteract(
+            videoId,
+            user?.id || "",
+            action
+          );
+          if (status_code == 200) {
+            // 根据操作类型设置动画
+            if (action === "like") {
+              setLikeAnimation(data.liked ? "bounce-in" : "bounce-out");
+            } else if (action === "dislike") {
+              setDislikeAnimation(data.disliked ? "bounce-in" : "bounce-out");
+            }
 
-          setVideo((prevVideo: Video | undefined): Video | undefined => {
-            if (!prevVideo) return prevVideo; // 如果没有 prevVideo，直接返回
-            return {
-              ...prevVideo,
-              likes: data.likes,
-              dislikes: data.dislikes,
-              liked: data.liked,
-              disliked: data.disliked,
-            };
-          });
-        } else {
-          console.error(description);
-        }
+            setTimeout(() => {
+              setLikeAnimation("");
+              setDislikeAnimation("");
+            }, 300); // 动画结束后清除类名
+
+            setVideo((prevVideo: Video | undefined): Video | undefined => {
+              if (!prevVideo) return prevVideo; // 如果没有 prevVideo，直接返回
+              return {
+                ...prevVideo,
+                likes: data.likes,
+                dislikes: data.dislikes,
+                liked: data.liked,
+                disliked: data.disliked,
+              };
+            });
+          } else {
+            console.error(description);
+          }
+        });
       } catch (error) {
         console.error("Failed to update interaction:", error);
       }
