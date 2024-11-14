@@ -363,9 +363,9 @@ const YouTubeTab = ({}) => {
                     isCompact
                     className="youtube-accordion"
                     itemClasses={{
-                      base: "py-2 w-full",
+                      base: "py-1 w-full",
                       title: "font-normal text-default-400 text-lg pt-1",
-                      trigger: "py-0 rounded-lg h-10 flex items-center",
+                      trigger: "py-0 rounded-lg h-8 flex items-center",
                       indicator: "text-medium",
                       content: "pb-2 text-default-500",
                     }}
