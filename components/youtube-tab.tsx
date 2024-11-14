@@ -418,7 +418,9 @@ const YouTubeTab = ({}) => {
                           video.liked ? "rgb(0, 111, 238)" : "currentColor"
                         }
                       />
-                      <span>{formatNumber(video.likes)}</span>
+                      <span className={likeAnimation}>
+                        {formatNumber(video.likes)}
+                      </span>
                     </div>
 
                     {/* Dislike Button */}
