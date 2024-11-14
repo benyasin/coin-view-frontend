@@ -298,8 +298,8 @@ const YouTubeTab = ({}) => {
                 key={video.video_id}
                 className={
                   locale == "zh"
-                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-32 md:mb-12 pb-12 gap-6 justify-between w-full"
-                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-24 pb-24 md:pb-0 gap-6 justify-between w-full"
+                    ? "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-32 md:mb-12 gap-6 justify-between w-full card-hover-effect"
+                    : "flex flex-wrap md:flex-nowrap md:flex-row mt-2 mb-96 md:mb-24 md:pb-0 gap-6 justify-between w-full card-hover-effect"
                 }
               >
                 <Card key={video.video_id} className="w-full sm:w-1 md:w-1/2">
@@ -407,9 +407,7 @@ const YouTubeTab = ({}) => {
                   {/* Tool Bar */}
                   <div
                     className={`absolute h-[30px] left-0 bottom-0 w-full flex justify-between items-center px-4 py-2 ${
-                      theme === "dark"
-                        ? "bg-gray-900/45 text-white"
-                        : "bg-gray-50/45 text-gray-500"
+                      theme === "dark" ? "text-white" : "text-gray-500"
                     } rounded-b-lg transition-all duration-300`}
                   >
                     {/* Like Button */}
