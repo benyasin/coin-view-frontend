@@ -330,11 +330,7 @@ const YouTubeTab = ({}) => {
                         {intl.formatMessage({ id: video.sentiment })}
                       </Chip>
                       <div className="text-small tracking-tight text-default-500">
-                        {userTimeZone}
-                        {dayjs(video.created_at)
-                          .tz(userTimeZone)
-                          .format("YYYY-MM-DD HH:mm:ss")}
-                        {dayjs(video.created_at).tz(userTimeZone).fromNow()}
+                        {dayjs.utc(video.created_at).tz(userTimeZone).fromNow()}
                       </div>
                     </div>
                   </CardHeader>
