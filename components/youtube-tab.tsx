@@ -349,7 +349,7 @@ const YouTubeTab = ({}) => {
                     />
                   </CardBody>
                 </Card>
-                <div className="sm:w-1 md:w-1/2 relative sm:pb-12">
+                <div className="sm:w-1 md:w-1/2 relative sm:pb-12 md:pb-0">
                   <Link
                     className={subtitle({
                       className: "text-default-600 line-clamp-2 pl-2 mb-0",
