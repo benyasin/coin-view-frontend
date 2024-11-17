@@ -39,7 +39,7 @@ export const Hero = () => {
           transition={{ duration: 0.5 }}
           className="flex flex-col justify-center items-center space-y-5 max-w-4xl mx-auto text-center"
         >
-          <div className="inline-block max-w-[690px] text-center justify-center">
+          <div className="inline-block max-w-[730px] text-center justify-center">
             <h2
               style={{ lineHeight: "1.6" }}
               className={title({ size: isMobile ? "xs" : "sm" })}

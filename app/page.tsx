@@ -81,13 +81,8 @@ export default function Home() {
           <Feature />
         </div>
       </section>
-      <section className="text-xl ml-2 md:ml-16 mt-10 mb-8">
-        <div className="text-default-400">
-          {intl.formatMessage({ id: "youTube_analysis_results" })}
-        </div>
-      </section>
       <section>
-        <div className="mt-8 md:px-16">
+        <div className="mt-20 md:px-16">
           <YoutubeTab />
         </div>
       </section>

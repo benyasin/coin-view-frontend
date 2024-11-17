@@ -1,14 +1,15 @@
 "use client";
 
 import { subtitle } from "@/components/primitives";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/zh"; // 导入中文语言包
 import "dayjs/locale/en"; // 导入英文语言包
-
+import clsx from "clsx";
+import { ReactTyped } from "react-typed";
 import {
   Tabs,
   Tab,
@@ -39,6 +40,7 @@ import { getCache, setCache } from "@/helpers/store";
 import {
   deleteAuthCookie,
   exportVideo,
+  getLatestSummaryPrediction,
   getUserInfo,
   getVideosByUser,
   getVideosPreset,
@@ -51,12 +53,18 @@ import { TwitterIcon, TelegramIcon } from "@/components/icons";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 import { EventBus } from "@/helpers/events";
+import { motion } from "framer-motion";
 
 // 启用插件
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 dayjs.extend(timezone);
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+interface LatestSummary {
+  prediction: string;
+  prediction_chinese: string;
+}
 
 const YouTubeTab = ({}) => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -70,6 +78,53 @@ const YouTubeTab = ({}) => {
   const [dislikeAnimation, setDislikeAnimation] = useState("");
   const [hasIncrementedViews, setHasIncrementedViews] = useState(false);
   const { theme } = useTheme();
+  const [latestSummary, setLatestSummary] = useState<LatestSummary>({
+    prediction: "",
+    prediction_chinese: "",
+  });
+
+  useEffect(() => {
+    // 判断是否在mobile下（小于640px）
+    const handleResize = () => {
+      setIsMobile(
+        window.innerWidth < 640 ||
+          /Mobi|Android|iPhone/i.test(navigator.userAgent)
+      );
+    };
+
+    // 初始化判断
+    handleResize();
+
+    // 监听窗口大小变化
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 调用 API 获取最新的摘要数据
+  useEffect(() => {
+    const fetchLatestSummary = async () => {
+      try {
+        const { data, status_code, description } =
+          await getLatestSummaryPrediction();
+        if (status_code == 200) {
+          setLatestSummary(data || ""); // 假设 API 返回的 data 包含摘要信息
+        } else {
+          console.error("Failed to fetch latest summary:", description);
+        }
+      } catch (error) {
+        console.error("Error fetching latest summary:", error);
+      }
+    };
+
+    fetchLatestSummary();
+  }, []);
+
+  const renderedSummary = useMemo(() => {
+    return intl.locale === "zh"
+      ? latestSummary.prediction_chinese
+      : latestSummary.prediction;
+  }, [intl.locale, latestSummary]);
 
   const notify = () =>
     toast.success(intl.formatMessage({ id: "copied_to_clipboard" }));
@@ -276,6 +331,42 @@ const YouTubeTab = ({}) => {
 
   return (
     <div className="flex w-full flex-col">
+      <div className="relative">
+        <div className="text-3xl mx-auto text-center font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
+          {intl.formatMessage({ id: "youTube_analysis_results" })}
+        </div>
+        <div
+          className={clsx(
+            subtitle(),
+            "text-2xl mt-12 mb-24 font-light tracking-tighter sm:text-2xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty"
+          )}
+        >
+          <ReactTyped
+            startWhenVisible
+            className={"block text-left mx-auto"}
+            strings={[renderedSummary]} // 设置打字内容
+            typeSpeed={40} // 打字速度
+            backSpeed={30} // 删除速度
+            loop={false} // 是否循环
+            showCursor={true} // 是否显示光标
+            cursorChar="|" // 光标样式
+            fadeOut={true} // 是否使用淡出
+            fadeOutClass="typed-fade-out"
+            fadeOutDelay={500} // 淡出延迟
+          />
+        </div>
+        <motion.div
+          initial={{ y: 5, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="w-full h-full absolute -top-20 flex justify-end items-center"
+        >
+          <div className="w-3/4 flex justify-center items-center">
+            <div className="w-12 h-[500px] bg-light blur-[100px] rounded-3xl max-sm:rotate-[15deg] sm:rotate-[35deg]"></div>
+          </div>
+        </motion.div>
+      </div>
+
       <Tabs
         size="lg"
         aria-label="tabs"
