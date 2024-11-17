@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { useIntl } from "react-intl";
 import { title } from "@/components/primitives";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { ReactTyped } from "react-typed";
 
 export const Hero = () => {
   const intl = useIntl();
@@ -27,6 +28,26 @@ export const Hero = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const typedStrings = [
+    `<h2 style="line-height: 1.6;" class="${title({
+      size: isMobile ? "xs" : "sm",
+    })}">${intl.formatMessage({ id: "slogan_1" })}&nbsp;</h2>`,
+    `<h2 style="line-height: 1.6;" class="${title({
+      color: "violet",
+      size: isMobile ? "xs" : "sm",
+    })}">${intl.formatMessage({ id: "slogan_2" })}&nbsp;</h2>`,
+    `<h2 style="line-height: 1.6;" class="${title({
+      size: isMobile ? "xs" : "sm",
+    })}">${intl.formatMessage({ id: "slogan_3" })}&nbsp;</h2>`,
+    `<h2 style="line-height: 1.6;" class="${title({
+      color: "violet",
+      size: isMobile ? "xs" : "sm",
+    })}">${intl.formatMessage({ id: "slogan_4" })}&nbsp;</h2>`,
+    `<h2 style="line-height: 1.6;" class="${title({
+      size: isMobile ? "xs" : "sm",
+    })}">${intl.formatMessage({ id: "slogan_5" })}</h2>`,
+  ];
+
   return (
     <div className="relative justify-center items-center">
       <section className="flex flex-col items-center justify-center gap-4 pt-0 pb-12 md:py-20">
@@ -40,7 +61,17 @@ export const Hero = () => {
           className="flex flex-col justify-center items-center space-y-5 max-w-4xl mx-auto text-center"
         >
           <div className="inline-block max-w-[730px] text-center justify-center">
-            <h2
+            <ReactTyped
+              strings={[typedStrings.join("")]} // 将所有需要打字的内容传入这里
+              typeSpeed={50} // 打字速度
+              backSpeed={30} // 删除速度
+              loop={false} // 是否循环
+              showCursor={false} // 是否显示光标
+              cursorChar="|" // 光标样式
+              smartBackspace={true} // 启用智能删除
+            />
+
+            {/*            <h2
               style={{ lineHeight: "1.6" }}
               className={title({ size: isMobile ? "xs" : "sm" })}
             >
@@ -75,7 +106,7 @@ export const Hero = () => {
               className={title({ size: isMobile ? "xs" : "sm" })}
             >
               {intl.formatMessage({ id: "slogan_5" })}
-            </h2>
+            </h2>*/}
           </div>
         </motion.div>
       </section>
