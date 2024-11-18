@@ -112,7 +112,9 @@ export const Footer = () => {
           </h3>
           <ul className="text-default-400 flex flex-row justify-between md:flex-col flex-wrap">
             <li>
-              <NextLink href="/donate?coin=USDT">USDT</NextLink>
+              <NextLink href={getLocalizedUrl("/donate?coin=USDT", locale)}>
+                USDT
+              </NextLink>
             </li>
           </ul>
         </div>
