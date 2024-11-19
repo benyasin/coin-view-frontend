@@ -93,7 +93,7 @@ export const Footer = () => {
           </h3>
           <ul className="text-default-400 flex flex-row justify-between md:flex-col flex-wrap">
             <li>
-              <NextLink href="/about">
+              <NextLink href={getLocalizedUrl("/about", locale)}>
                 {intl.formatMessage({ id: "about_us" })}
               </NextLink>
             </li>

@@ -21,6 +21,28 @@ body {
     background-color: rgb(var(--background));
 }
 
+:root {
+    --menu-bg: #f9f9f9;
+    --menu-title-color: #333;
+    --menu-item-bg: #ffffff;
+    --menu-item-text: #555;
+    --menu-hover-bg: #eeeeee;
+    --menu-hover-text: #000;
+    --menu-selected-bg: #d1e8ff;
+    --menu-selected-text: #0056b3;
+}
+
+.dark {
+    --menu-bg: #1a1a1a;
+    --menu-title-color: #fff;
+    --menu-item-bg: #2d2d2d;
+    --menu-item-text: #ccc;
+    --menu-hover-bg: #444;
+    --menu-hover-text: #fff;
+    --menu-selected-bg: #0056b3;
+    --menu-selected-text: #fff;
+}
+
 .nextui-navbar{
     border-color: rgba(255, 255, 255, 0.08);
 }

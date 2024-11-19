@@ -5,7 +5,7 @@ import { getCache, setCache } from "@/helpers/store";
 import { deleteAuthCookie, getUserInfo, whetherIsAdmin } from "@/actions/api";
 import { UserInfo } from "@/types";
 import { Customize } from "@/components/customize";
-import { Statistics } from "@/components/statistics";
+import { Viewpoint } from "@/components/viewpoint";
 
 const AdminPage = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const AdminPage = () => {
   return (
     <div className="about-container py-8 px-4 max-w-6xl mx-auto text-default-600">
       <Customize user={user as UserInfo} />
-      <Statistics user={user as UserInfo} />
+      <Viewpoint user={user as UserInfo} />
     </div>
   );
 };

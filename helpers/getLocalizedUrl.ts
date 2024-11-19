@@ -4,3 +4,7 @@ export const getLocalizedUrl = (path: string, locale: string): string => {
         (path.startsWith("/zh") ? path : `/zh${path}`)
     : process.env.DOMAIN_BASE_URL + path;
 };
+
+export const getLocalizedPathname = (fullpath: string): string => {
+  return fullpath.replace(process.env.DOMAIN_BASE_URL + "", "");
+};

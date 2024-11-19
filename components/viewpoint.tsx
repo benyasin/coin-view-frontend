@@ -62,7 +62,7 @@ type StatisticsProps = {
   user: UserInfo;
 };
 
-export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
+export const Viewpoint: React.FC<StatisticsProps> = ({ user }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -243,7 +243,7 @@ export const Statistics: React.FC<StatisticsProps> = ({ user }) => {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 mt-16">
+      <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable

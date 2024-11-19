@@ -7,6 +7,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
+  Checkbox,
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { ThemeSwitch } from "@/components/theme-switch";
@@ -32,14 +33,26 @@ import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
 import { deleteAuthCookie, getUserInfo, saveLang } from "@/actions/api";
 import { EventBus } from "@/helpers/events";
-import { MenuIcon } from "lucide-react"; // 导入MenuIcon
+import { Crown, Gem, ListOrdered, MenuIcon, Share2 } from "lucide-react"; // 导入MenuIcon
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
+import Image from "next/image";
+import basic_plan_dark from "@/public/basic_plan_dark.png";
+import basic_plan from "@/public/basic_plan.png";
+import basic_plan_dark_en from "@/public/basic_plan_dark_en.png";
+import basic_plan_en from "@/public/basic_plan_en.png";
+import { useTheme } from "next-themes";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isTrialOpen,
+    onOpen: onTrialOpen,
+    onOpenChange: onTrialOpenChange,
+  } = useDisclosure();
   const [showRegister, setShowRegister] = useState(false);
+  const [isRulesChecked, setIsRulesChecked] = useState(false);
+  const [isSupportChecked, setIsSupportChecked] = useState(false);
   const [user, setUser] = useState(null);
-  const [showLoginDialog, setShowLoginDialog] = useState("");
   const { setLocale } = useContext(LanguageContext);
   const intl = useIntl();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
@@ -47,6 +60,7 @@ export const Navbar = () => {
     new Set([intl.locale])
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme } = useTheme();
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
@@ -65,7 +79,6 @@ export const Navbar = () => {
 
     // 定义监听器函数
     const handleShowLoginDialog = (open: any) => {
-      setShowLoginDialog(open);
       open && onOpen();
     };
 
@@ -102,6 +115,24 @@ export const Navbar = () => {
 
     // 重定向到新路径
     window.location.href = getLocalizedUrl(newPath, selectedLocale as string);
+  };
+
+  const handleStartFreeTrial = async (): Promise<void> => {
+    if (!user) {
+      EventBus.emit("showLoginDialog", true);
+      return;
+    }
+    onTrialOpen();
+  };
+
+  const handleStartTrialNow = async (
+    callback: (() => void) | undefined
+  ): Promise<void> => {
+    if (callback) {
+      callback();
+    }
+    // 重定向到新路径
+    window.location.href = getLocalizedUrl("/trial", locale);
   };
 
   const toggleMenu = () => {
@@ -149,6 +180,144 @@ export const Navbar = () => {
                     </span>
                   </div>
                 )}
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        backdrop="blur"
+        size="4xl"
+        isOpen={isTrialOpen}
+        onOpenChange={onTrialOpenChange}
+        isDismissable={false}
+        placement={"center"}
+        isKeyboardDismissDisabled={true}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                {intl.formatMessage({ id: "start_7_days_free_trial_title" })}
+              </ModalHeader>
+              <ModalBody>
+                <div>
+                  <h3 className="text-lg font-bold mt-6 flex flex-row justify-start items-center">
+                    <Crown size={16} color="gold" />
+                    <span className="ml-3">
+                      {intl.formatMessage({ id: "trial_benefits_title" })}:
+                    </span>
+                  </h3>
+                  <div>
+                    <div className="text-default-500 my-2">
+                      {intl.formatMessage({ id: "trial_benefits_description" })}
+                    </div>
+                    <Image
+                      src={
+                        theme == "dark"
+                          ? locale == "zh"
+                            ? basic_plan_dark
+                            : basic_plan_dark_en
+                          : locale == "zh"
+                          ? basic_plan
+                          : basic_plan_en
+                      }
+                      alt="basic plan"
+                      className="w-[96%] rounded-lg"
+                    />
+                  </div>
+                  <h3 className="text-lg font-bold mt-5 flex flex-row justify-start items-center">
+                    <ListOrdered size={16} color="green" />
+                    <span className="ml-3">
+                      {intl.formatMessage({ id: "trial_rules_title" })}:
+                    </span>
+                  </h3>
+                  <ul className="list-decimal pl-5 py-2 text-default-500 ">
+                    <li>
+                      {intl.formatMessage({ id: "trial_duration_7_days" })}
+                    </li>
+                    <li>{intl.formatMessage({ id: "trial_end_reminder" })}</li>
+                    <li>
+                      {intl.formatMessage({
+                        id: "no_renewal_downgrade_to_free",
+                      })}
+                    </li>
+                  </ul>
+                  <h3 className="text-lg font-bold mt-5 flex flex-row justify-start items-center">
+                    <Share2 size={16} color="pink" />
+                    <span className="ml-3">
+                      {intl.formatMessage({ id: "support_sharing_title" })}:
+                    </span>
+                  </h3>
+                  <ul className="list-disc pl-5 py-2 text-default-500">
+                    <li
+                      dangerouslySetInnerHTML={{
+                        __html: intl.formatMessage(
+                          {
+                            id: "share_to_social_platforms",
+                          },
+                          {
+                            x: `<a href="https://twitter.com/share?url=${encodeURIComponent(
+                              getLocalizedUrl("/", locale)
+                            )}&text=${encodeURIComponent(
+                              intl.formatMessage({ id: "title" }) +
+                                ", " +
+                                intl.formatMessage({ id: "slogan" })
+                            )}" 
+          class="text-blue-500 underline hover:text-blue-700" 
+          target="_blank" 
+          rel="noopener noreferrer">
+          ${intl.formatMessage({ id: "x" })}
+        </a>`,
+                          }
+                        ),
+                      }}
+                    ></li>
+                    <li
+                      dangerouslySetInnerHTML={{
+                        __html: intl.formatMessage(
+                          {
+                            id: "submit_feedback",
+                          },
+                          {
+                            email: `<a class="text-blue-500 underline hover:text-blue-700" href="mailto:contact@coinview.today" target="_blank">${intl.formatMessage(
+                              { id: "email" }
+                            )}</a>`,
+                            telegram: `<a class="text-blue-500 underline hover:text-blue-700" href="https://t.me/CoinViewCS" target="_blank">${intl.formatMessage(
+                              { id: "telegram" }
+                            )}</a>`,
+                          }
+                        ),
+                      }}
+                    ></li>
+                  </ul>
+                  <div className="mt-6 flex flex-col text-default-500 ">
+                    <Checkbox
+                      isSelected={isRulesChecked}
+                      onChange={() => setIsRulesChecked(!isRulesChecked)}
+                    >
+                      {intl.formatMessage({ id: "agree_trial_rules" })}
+                    </Checkbox>
+                    <Checkbox
+                      isSelected={isSupportChecked}
+                      onChange={() => setIsSupportChecked(!isSupportChecked)}
+                    >
+                      {intl.formatMessage({ id: "agree_support_sharing" })}
+                    </Checkbox>
+                  </div>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="default" onClick={onClose} className="mr-4">
+                  {intl.formatMessage({ id: "think_again" })}
+                </Button>
+                <Button
+                  color="primary"
+                  isDisabled={!isRulesChecked}
+                  onClick={() => handleStartTrialNow(onClose)}
+                >
+                  {intl.formatMessage({ id: "start_trial_now" })}
+                </Button>
               </ModalFooter>
             </>
           )}
@@ -226,6 +395,13 @@ export const Navbar = () => {
         </NavbarContent>
 
         <NavbarContent className="flex basis-1/5 sm:basis-full" justify="end">
+          <Button
+            radius="full"
+            onClick={() => handleStartFreeTrial()}
+            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+          >
+            {intl.formatMessage({ id: "start_free_trial" })}
+          </Button>
           <Dropdown className="min-w-[100px]">
             <DropdownTrigger>
               <Button isIconOnly variant="light" className="capitalize">

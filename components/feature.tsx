@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import anime from "animejs";
+import { Button } from "@nextui-org/react";
 
 export const Feature = () => {
   const intl = useIntl();
@@ -99,6 +100,12 @@ export const Feature = () => {
                 </div>
               </motion.div>
             ))}
+            {/*<Button
+              radius="full"
+              className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+            >
+              {intl.formatMessage({ id: "apply_try" })}
+            </Button>*/}
           </div>
         </div>
       </motion.div>

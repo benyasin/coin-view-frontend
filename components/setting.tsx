@@ -20,10 +20,9 @@ import { UserInfo, Youtuber } from "@/types";
 
 type ProfileProps = {
   user: UserInfo; // Ensure that user is of type UserInfo
-  onBackdropChange: (newTopValue: string) => void; // 回调函数
 };
 
-export const Setting: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
+export const Setting: React.FC<ProfileProps> = ({ user }) => {
   const intl = useIntl();
   const {
     isOpen: isBindOpen,

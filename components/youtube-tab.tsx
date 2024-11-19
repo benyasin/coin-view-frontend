@@ -575,6 +575,10 @@ const YouTubeTab = ({}) => {
                               window.open(
                                 `https://twitter.com/share?url=${encodeURIComponent(
                                   getLocalizedUrl(`/detail/${video.id}`, locale)
+                                )}&text=${encodeURIComponent(
+                                  intl.formatMessage({ id: "title" }) +
+                                    ", " +
+                                    intl.formatMessage({ id: "slogan" })
                                 )}`,
                                 "_blank"
                               )

@@ -27,10 +27,9 @@ import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 
 type ProfileProps = {
   user: UserInfo; // Ensure that user is of type UserInfo
-  onBackdropChange: (newTopValue: string) => void; // 回调函数
 };
 
-export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
+export const Profile: React.FC<ProfileProps> = ({ user }) => {
   const intl = useIntl();
 
   const [page, setPage] = React.useState(1);
@@ -72,17 +71,6 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
     trigger: "px-0 py-0 flex justify-start",
     indicator: "text-medium hidden",
     content: "text-small px-0",
-  };
-
-  // 当展开订单时，调用回调函数
-  const handleAccordionOpen = (keys: any) => {
-    if (keys.size) {
-      onBackdropChange("53%"); // 修改backdrop的top值
-      setShowTable(true);
-    } else {
-      onBackdropChange("43%"); // 修改backdrop的top值
-      setShowTable(false);
-    }
   };
 
   return (
@@ -139,7 +127,6 @@ export const Profile: React.FC<ProfileProps> = ({ user, onBackdropChange }) => {
         <Accordion
           className="px-0 mt-2 flex flex-row justify-start"
           itemClasses={itemClasses}
-          onSelectionChange={handleAccordionOpen} // 当展开时触发修改backdrop
         >
           <AccordionItem
             key="1"
