@@ -9,12 +9,7 @@ import { usePathname } from "next/navigation";
 import { getCache, setCache } from "@/helpers/store";
 import Menu from "@/components/menu";
 
-type ProfileProps = {
-  user: UserInfo; // Ensure that user is of type UserInfo
-  onBackdropChange: (newTopValue: string) => void; // 回调函数
-};
-
-const ProfilePage: React.FC<ProfileProps> = () => {
+const ProfilePage: React.FC = () => {
   const [user, setUser] = React.useState<UserInfo | null | undefined>(
     undefined
   );

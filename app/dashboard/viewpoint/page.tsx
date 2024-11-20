@@ -10,11 +10,7 @@ import { getCache, setCache } from "@/helpers/store";
 import Menu from "@/components/menu";
 import { Viewpoint } from "@/components/viewpoint";
 
-type ProfileProps = {
-  user: UserInfo; // Ensure that user is of type UserInfo
-};
-
-const ViewpointPage: React.FC<ProfileProps> = () => {
+const ViewpointPage: React.FC = () => {
   const [user, setUser] = React.useState<UserInfo | null | undefined>(
     undefined
   );

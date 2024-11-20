@@ -10,12 +10,7 @@ import { getCache, setCache } from "@/helpers/store";
 import Menu from "@/components/menu";
 import { Setting } from "@/components/setting";
 
-type ProfileProps = {
-  user: UserInfo; // Ensure that user is of type UserInfo
-  onBackdropChange: (newTopValue: string) => void; // 回调函数
-};
-
-const SettingPage: React.FC<ProfileProps> = () => {
+const SettingPage: React.FC = () => {
   const [user, setUser] = React.useState<UserInfo | null | undefined>(
     undefined
   );
