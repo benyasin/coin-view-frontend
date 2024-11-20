@@ -24,6 +24,7 @@ import { useIsSSR } from "@react-aria/ssr";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 import { countYoutubersByUserId, getUserInfo } from "@/actions/api";
 import { EventBus } from "@/helpers/events";
+import { clearInterval } from "node:timers";
 
 // 启用插件
 dayjs.extend(utc);
@@ -52,47 +53,42 @@ const Trial = () => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      if (user["is_member"] && user["trial_count"] > 0) {
-        countYoutubersByUserId(user["id"]).then(({ data }) => {
-          if (parseInt(data) > 0 && user["telegram_username"]) {
-            setCompletedSteps(2);
-          } else if (parseInt(data) > 0 && !user["telegram_username"]) {
-            setCompletedSteps(1);
-          } else if (parseInt(data) === 0 && user["telegram_username"]) {
-            setCompletedSteps(1);
-          } else {
-            setCompletedSteps(0);
-          }
-        });
+    if (user && user["tried_at"]) {
+      countYoutubersByUserId(user["id"]).then(({ data }) => {
+        if (parseInt(data) > 0 && user["telegram_username"]) {
+          setCompletedSteps(2);
+        } else if (parseInt(data) > 0 && !user["telegram_username"]) {
+          setCompletedSteps(1);
+        } else if (parseInt(data) === 0 && user["telegram_username"]) {
+          setCompletedSteps(1);
+        } else {
+          setCompletedSteps(0);
+        }
+      });
 
-        const interval = setInterval(() => {
-          const now: Date = new Date();
-          const end: Date = new Date(user["membership_expiry"]); // 确保 trialEnd 被正确解析为 Date 类型
-          const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
+      const interval = setInterval(() => {
+        const now: Date = new Date();
+        const end: Date = new Date(user["membership_expiry"]); // 确保 trialEnd 被正确解析为 Date 类型
+        const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
 
-          if (diff > 0) {
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            setRemainingTime(
-              `${days} ${intl.formatMessage({
-                id: "days",
-              })} ${hours} ${intl.formatMessage({
-                id: "hours",
-              })} ${minutes} ${intl.formatMessage({ id: "minutes" })}`
-            );
-          } else {
-            setRemainingTime(intl.formatMessage({ id: "trial_end" }));
-            clearInterval(interval); // 停止倒计时
-          }
-        }, 1000);
-
-        return () => clearInterval(interval);
-      } else {
-        document.location.href = getLocalizedUrl("/", locale);
-      }
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diff / (1000 * 60)) % 60);
+          setRemainingTime(
+            `${days} ${intl.formatMessage({
+              id: "days",
+            })} ${hours} ${intl.formatMessage({
+              id: "hours",
+            })} ${minutes} ${intl.formatMessage({ id: "minutes" })}`
+          );
+        } else {
+          setRemainingTime(intl.formatMessage({ id: "trial_end" }));
+        }
+      }, 1000);
     }
+
+    document.location.href = getLocalizedUrl("/", locale);
   }, [user]);
 
   // 更新完成步骤数
@@ -102,7 +98,7 @@ const Trial = () => {
     }
   };
 
-  if (!user || !user["is_member"]) {
+  if (!user || !user["tried_at"]) {
     return null;
   }
 
@@ -116,15 +112,15 @@ const Trial = () => {
           {intl.formatMessage({ id: "trial_period" })}：
           <span className="text-blue-500">
             {dayjs
-              .utc(user["membership_expiry"])
-              .subtract(user["trial_days"], "days") // 减去 trial_days
+              .utc(user["tried_at"])
               .tz(userTimeZone)
               .format("YYYY-MM-DD hh:mm:ss")}
           </span>{" "}
           {" ~ "}
           <span className="text-blue-500">
             {dayjs
-              .utc(user["membership_expiry"])
+              .utc()
+              .add(user["trial_days"], "days") // 添加 trial_days
               .tz(userTimeZone)
               .format("YYYY-MM-DD hh:mm:ss")}
           </span>

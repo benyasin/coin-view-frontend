@@ -16,7 +16,6 @@ type MenuProps = {
 const Menu: React.FC<MenuProps> = ({ locale }) => {
   const intl = useIntl();
   const pathname = usePathname();
-  console.log(pathname);
 
   // 菜单项配置
   const menuItems = [

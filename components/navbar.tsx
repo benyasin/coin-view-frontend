@@ -134,7 +134,7 @@ export const Navbar = () => {
       EventBus.emit("showLoginDialog", true);
       return;
     }
-    if (user["trial_count"] > 0) {
+    if (user["tried_at"]) {
       window.location.href = getLocalizedUrl("/trial", locale);
     } else {
       onTrialOpen();
@@ -319,7 +319,7 @@ export const Navbar = () => {
                       }}
                     ></li>
                   </ul>
-                  <div className="mt-6 flex flex-col text-default-500 ">
+                  <div className="mt-6 flex flex-col text-default-500 gap-2">
                     <Checkbox
                       isSelected={isRulesChecked}
                       onChange={() => setIsRulesChecked(!isRulesChecked)}
