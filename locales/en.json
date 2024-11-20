@@ -259,7 +259,9 @@
   "minutes": "minutes",
   "feedback": "Feedback",
   "contact_us_if_you_has_suggestion": "If you have any suggestions for our products, welcome to contact us through the following ways:",
-  "already_used_trial": "You have already used the trial period"
+  "already_used_trial": "You have already used the trial period",
+  "member_cannot_trial": "You are already an official member and trial rules no longer apply.",
+  "trial_only_for_free_member": "Only for non-member users who register for the first time."
 
 
 }

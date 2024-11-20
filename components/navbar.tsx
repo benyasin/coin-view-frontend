@@ -68,8 +68,11 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme } = useTheme();
 
-  const notify = () =>
+  const usedNotify = () =>
     toast.error(intl.formatMessage({ id: "already_used_trial" }));
+
+  const memberNotify = () =>
+    toast.error(intl.formatMessage({ id: "member_cannot_trial" }));
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
@@ -142,8 +145,9 @@ export const Navbar = () => {
     callback: (() => void) | undefined
   ): Promise<void> => {
     const { data, response_type } = await startTrial(isSupportChecked);
-    if (!data && response_type == "already_used_trial") {
-      notify();
+    if (!data) {
+      response_type == "already_used_trial" && usedNotify();
+      response_type == "member_cannot_trial" && memberNotify();
     }
 
     if (callback) {
@@ -254,6 +258,9 @@ export const Navbar = () => {
                     </span>
                   </h3>
                   <ul className="list-decimal pl-5 py-2 text-default-500 ">
+                    <li>
+                      {intl.formatMessage({ id: "trial_only_for_free_member" })}
+                    </li>
                     <li>
                       {intl.formatMessage({ id: "trial_duration_7_days" })}
                     </li>

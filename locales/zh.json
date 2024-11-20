@@ -258,6 +258,8 @@
   "minutes": "分钟",
   "feedback": "意见反馈",
   "contact_us_if_you_has_suggestion": "如果您对我们的产品有任何建议，欢迎通过以下方式联系我们：",
-  "already_used_trial": "您已经试用过了"
+  "already_used_trial": "您已经试用过了",
+  "member_cannot_trial": "你已经是正式会员了，不再适用试用规则",
+  "trial_only_for_free_member": "仅限首次注册的非会员用户;"
 
 }
