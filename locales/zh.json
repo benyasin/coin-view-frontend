@@ -81,6 +81,7 @@
   "cancel": "取消",
   "youtubers_left": "( 还剩下{youtubers_left}个油管博主可以添加 ) ",
   "total_videos": "一共{video_length}条视频",
+  "total_summaries": "一共{summary_length}条预测",
   "rows_per_page": "每页行数:",
   "previous": "前一页",
   "next": "后一页",
@@ -101,7 +102,8 @@
   "status": "状态",
   "order_list": "订单列表",
   "member_plan": "会员计划",
-  "created_at": "下单时间",
+  "created_at": "创建时间",
+  "ordered_at": "下单时间",
   "expiration_time": "会员过期时间",
   "charged_annually": "按年收费",
   "checkout_url": "支付链接",
@@ -260,6 +262,9 @@
   "contact_us_if_you_has_suggestion": "如果您对我们的产品有任何建议，欢迎通过以下方式联系我们：",
   "already_used_trial": "您已经试用过了",
   "member_cannot_trial": "你已经是正式会员了，不再适用试用规则",
-  "trial_only_for_free_member": "仅限首次注册的非会员用户;"
+  "trial_only_for_free_member": "仅限首次注册的非会员用户;",
+  "trend": "趋势",
+  "viewpoint": "观点",
+  "prediction": "预测"
 
 }

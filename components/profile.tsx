@@ -40,7 +40,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
   const handleLogout = async () => {
     console.log("User logged out");
     await deleteAuthCookie();
-    location.href = "/";
+    location.href = getLocalizedUrl("/", intl.locale);
   };
 
   const findOrderByUser = async (userId: string, page: number) => {
@@ -169,7 +169,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                   {intl.formatMessage({ id: "amount" })}
                 </TableColumn>
                 <TableColumn key="created_at" className="bg-transparent">
-                  {intl.formatMessage({ id: "created_at" })}
+                  {intl.formatMessage({ id: "ordered_at" })}
                 </TableColumn>
                 <TableColumn key="expiration_time" className="bg-transparent">
                   {intl.formatMessage({ id: "expiration_time" })}

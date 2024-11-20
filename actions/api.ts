@@ -255,6 +255,31 @@ export const whetherIsAdmin = async () => {
   }
 };
 
+export const searchSummary = async (
+  created_at: string,
+  pageNumber: number,
+  pageSize: number
+) => {
+  try {
+    const response = await apiClient.post(`/summary/search`, {
+      created_at: created_at,
+      page_number: pageNumber,
+      page_size: pageSize,
+    });
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch Summary";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while fetching Summaries");
+    }
+  }
+};
+
 export const searchVideo = async (
   publishDate: string,
   opinion: string,

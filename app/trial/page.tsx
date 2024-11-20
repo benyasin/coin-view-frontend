@@ -24,7 +24,6 @@ import { useIsSSR } from "@react-aria/ssr";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 import { countYoutubersByUserId, getUserInfo } from "@/actions/api";
 import { EventBus } from "@/helpers/events";
-import { clearInterval } from "node:timers";
 
 // 启用插件
 dayjs.extend(utc);

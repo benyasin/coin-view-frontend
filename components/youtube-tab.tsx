@@ -224,23 +224,18 @@ const YouTubeTab = ({}) => {
 
   // 从后端 API 获取视频数据
   useEffect(() => {
-    const cachedUser = getCache("user");
-    if (cachedUser) {
-      setUser(cachedUser);
-    } else {
-      getUserInfo().then((data) => {
-        if (data) {
-          if (data.description == "Cookie token expired") {
-            console.log("Cookie token expired");
-            deleteAuthCookie();
-            location.href = "/";
-          }
-          setUser(data.data);
-          setCache("user", data.data); // 缓存数据
+    getUserInfo().then((data) => {
+      if (data) {
+        if (data.description == "Cookie token expired") {
+          console.log("Cookie token expired");
+          deleteAuthCookie();
+          location.href = getLocalizedUrl("/", intl.locale);
         }
-        setFetchUserDone(true);
-      });
-    }
+        setUser(data.data);
+        setCache("user", data.data); // 缓存数据
+      }
+      setFetchUserDone(true);
+    });
   }, [intl.locale]);
 
   // 批量更新 views 的函数

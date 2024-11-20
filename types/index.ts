@@ -46,6 +46,21 @@ export interface Video {
   shared?: boolean;
 }
 
+export interface Summary {
+  id: string;
+  trend: string;
+  viewpoint: string;
+  prediction: string;
+  trend_chinese: string;
+  viewpoint_chinese: string;
+  prediction_chinese: string;
+  youtuber_count: number;
+  bullish_count: number;
+  bearish_count: number;
+  neutral_count: number;
+  created_at: string;
+}
+
 // 类型定义
 export interface UserInfo {
   id: string;

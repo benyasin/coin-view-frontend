@@ -81,6 +81,7 @@
   "cancel": "Cancel",
   "youtubers_left": "( There are {youtubers_left} more Youtubers left to add )",
   "total_videos": "Total {video_length} videos",
+  "total_summaries": "Total {summary_length} summaries",
   "rows_per_page": "Rows per page:",
   "previous": "Previous",
   "next": "Next",
@@ -101,7 +102,8 @@
   "status": "Status",
   "order_list": "Order List",
   "member_plan": "Member Plan",
-  "created_at": "Ordered Time",
+  "created_at": "Created Time",
+  "ordered_at": "Ordered Time",
   "expiration_time": "Membership Expiration Time",
   "charged_annually": "charged annually",
   "checkout_url": "Payment Url",
@@ -261,7 +263,9 @@
   "contact_us_if_you_has_suggestion": "If you have any suggestions for our products, welcome to contact us through the following ways:",
   "already_used_trial": "You have already used the trial period",
   "member_cannot_trial": "You are already an official member and trial rules no longer apply.",
-  "trial_only_for_free_member": "Only for non-member users who register for the first time."
-
+  "trial_only_for_free_member": "Only for non-member users who register for the first time.",
+  "trend": "Trend",
+  "viewpoint": "Viewpoint",
+  "prediction": "Prediction"
 
 }

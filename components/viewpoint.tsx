@@ -189,57 +189,60 @@ export const Viewpoint: React.FC<StatisticsProps> = ({ user }) => {
     }, 300); // 设置300ms的防抖时间
   };
 
-  const renderCell = React.useCallback((user: any, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof typeof user];
+  const renderCell = React.useCallback(
+    (user: any, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof typeof user];
 
-    switch (columnKey) {
-      case "channel_title":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={
-              formatNumber(Number.parseInt(user.subscribers)) +
-              " " +
-              intl.formatMessage({ id: "subscribers" })
-            }
-            name={cellValue}
-          ></User>
-        );
-      case "title":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.coreView}
-            </p>
-          </div>
-        );
-      case "created_at":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">
-              {dayjs(cellValue).format("YYYY-MM-DD")}
-            </p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.coreView}
-            </p>
-          </div>
-        );
-      case "sentiment":
-        return (
-          <Chip
-            className="capitalize"
-            color={opinionColorMap[user.sentiment]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "channel_title":
+          return (
+            <User
+              avatarProps={{ radius: "lg", src: user.avatar }}
+              description={
+                formatNumber(Number.parseInt(user.subscribers)) +
+                " " +
+                intl.formatMessage({ id: "subscribers" })
+              }
+              name={cellValue}
+            ></User>
+          );
+        case "title":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">{cellValue}</p>
+              <p className="text-bold text-tiny capitalize text-default-400">
+                {user.coreView}
+              </p>
+            </div>
+          );
+        case "created_at":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">
+                {dayjs(cellValue).format("YYYY-MM-DD")}
+              </p>
+              <p className="text-bold text-tiny capitalize text-default-400">
+                {user.coreView}
+              </p>
+            </div>
+          );
+        case "sentiment":
+          return (
+            <Chip
+              className="capitalize"
+              color={opinionColorMap[user.sentiment]}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue}
+            </Chip>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [intl]
+  );
 
   const topContent = React.useMemo(() => {
     return (

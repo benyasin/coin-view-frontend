@@ -82,7 +82,7 @@ export const Navbar = () => {
           if (data.description == "Cookie token expired") {
             console.log("Cookie token expired");
             deleteAuthCookie();
-            location.href = "/";
+            location.href = getLocalizedUrl("/", intl.locale);
           }
           setUser(data.data);
         }
