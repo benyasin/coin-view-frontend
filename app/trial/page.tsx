@@ -53,41 +53,45 @@ const Trial = () => {
 
   useEffect(() => {
     if (user) {
-      countYoutubersByUserId(user["id"]).then(({ data }) => {
-        if (parseInt(data) > 0 && user["telegram_username"]) {
-          setCompletedSteps(2);
-        } else if (parseInt(data) > 0 && !user["telegram_username"]) {
-          setCompletedSteps(1);
-        } else if (parseInt(data) === 0 && user["telegram_username"]) {
-          setCompletedSteps(1);
-        } else {
-          setCompletedSteps(0);
-        }
-      });
+      if (user["is_member"]) {
+        countYoutubersByUserId(user["id"]).then(({ data }) => {
+          if (parseInt(data) > 0 && user["telegram_username"]) {
+            setCompletedSteps(2);
+          } else if (parseInt(data) > 0 && !user["telegram_username"]) {
+            setCompletedSteps(1);
+          } else if (parseInt(data) === 0 && user["telegram_username"]) {
+            setCompletedSteps(1);
+          } else {
+            setCompletedSteps(0);
+          }
+        });
 
-      const interval = setInterval(() => {
-        const now: Date = new Date();
-        const end: Date = new Date(user["membership_expiry"]); // 确保 trialEnd 被正确解析为 Date 类型
-        const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
+        const interval = setInterval(() => {
+          const now: Date = new Date();
+          const end: Date = new Date(user["membership_expiry"]); // 确保 trialEnd 被正确解析为 Date 类型
+          const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
 
-        if (diff > 0) {
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-          const minutes = Math.floor((diff / (1000 * 60)) % 60);
-          setRemainingTime(
-            `${days} ${intl.formatMessage({
-              id: "days",
-            })} ${hours} ${intl.formatMessage({
-              id: "hours",
-            })} ${minutes} ${intl.formatMessage({ id: "minutes" })}`
-          );
-        } else {
-          setRemainingTime(intl.formatMessage({ id: "trial_end" }));
-          clearInterval(interval); // 停止倒计时
-        }
-      }, 1000);
+          if (diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            setRemainingTime(
+              `${days} ${intl.formatMessage({
+                id: "days",
+              })} ${hours} ${intl.formatMessage({
+                id: "hours",
+              })} ${minutes} ${intl.formatMessage({ id: "minutes" })}`
+            );
+          } else {
+            setRemainingTime(intl.formatMessage({ id: "trial_end" }));
+            clearInterval(interval); // 停止倒计时
+          }
+        }, 1000);
 
-      return () => clearInterval(interval);
+        return () => clearInterval(interval);
+      } else {
+        document.location.href = getLocalizedUrl("/", locale);
+      }
     }
   }, [user]);
 
@@ -98,7 +102,7 @@ const Trial = () => {
     }
   };
 
-  if (!user) {
+  if (!user || !user["is_member"]) {
     return null;
   }
 
