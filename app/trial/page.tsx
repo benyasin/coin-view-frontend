@@ -53,7 +53,7 @@ const Trial = () => {
 
   useEffect(() => {
     if (user) {
-      if (user["is_member"]) {
+      if (user["is_member"] && user["trial_count"] > 0) {
         countYoutubersByUserId(user["id"]).then(({ data }) => {
           if (parseInt(data) > 0 && user["telegram_username"]) {
             setCompletedSteps(2);
