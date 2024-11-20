@@ -182,6 +182,31 @@ export const saveLang = async (lang: string) => {
   }
 };
 
+export const startTrial = async (shared: boolean) => {
+  try {
+    if (cookies().get("access_token")?.value) {
+      const response = await apiClient.post(
+        `/user/start_trail/${shared}`,
+        { access_token: cookies().get("access_token")?.value } // Pass the token here as part of the data
+      );
+      return response.data; // Return the data from the response
+    } else {
+      return false;
+    }
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to save user trial";
+      console.log(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error("An unexpected error occurred while save trial");
+    }
+  }
+};
+
 export const saveTelegramReceive = async (receive: boolean) => {
   try {
     if (cookies().get("access_token")?.value) {
@@ -385,6 +410,26 @@ export const deleteYoutuberFromDB = async (
     } else {
       // Handle other types of errors (non-Axios errors)
       throw new Error("An unexpected error occurred while fetching Youtubers");
+    }
+  }
+};
+
+export const countYoutubersByUserId = async (user_id: string) => {
+  try {
+    const response = await apiClient.get(`/user/count_youtubers/${user_id}`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail ||
+        "Failed to count user customized Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while count user customized Youtubers"
+      );
     }
   }
 };

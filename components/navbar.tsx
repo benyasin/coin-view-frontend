@@ -31,7 +31,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Register } from "@/components/register";
 import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
-import { deleteAuthCookie, getUserInfo, saveLang } from "@/actions/api";
+import {
+  deleteAuthCookie,
+  getUserInfo,
+  saveLang,
+  startTrial,
+} from "@/actions/api";
 import { EventBus } from "@/helpers/events";
 import { Crown, Gem, ListOrdered, MenuIcon, Share2 } from "lucide-react"; // 导入MenuIcon
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
@@ -41,6 +46,7 @@ import basic_plan from "@/public/basic_plan.png";
 import basic_plan_dark_en from "@/public/basic_plan_dark_en.png";
 import basic_plan_en from "@/public/basic_plan_en.png";
 import { useTheme } from "next-themes";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -61,6 +67,9 @@ export const Navbar = () => {
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme } = useTheme();
+
+  const notify = () =>
+    toast.error(intl.formatMessage({ id: "already_used_trial" }));
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
@@ -122,17 +131,29 @@ export const Navbar = () => {
       EventBus.emit("showLoginDialog", true);
       return;
     }
-    onTrialOpen();
+    if (user["trial_count"] > 0) {
+      window.location.href = getLocalizedUrl("/trial", locale);
+    } else {
+      onTrialOpen();
+    }
   };
 
   const handleStartTrialNow = async (
     callback: (() => void) | undefined
   ): Promise<void> => {
+    const { data, response_type } = await startTrial(isSupportChecked);
+    if (!data && response_type == "already_used_trial") {
+      notify();
+    }
+
     if (callback) {
       callback();
     }
+
     // 重定向到新路径
-    window.location.href = getLocalizedUrl("/trial", locale);
+    if (data) {
+      window.location.href = getLocalizedUrl("/trial", locale);
+    }
   };
 
   const toggleMenu = () => {
@@ -488,6 +509,7 @@ export const Navbar = () => {
           </NavbarMenuItem>
         </NavbarMenu>
       </NextUINavbar>
+      <Toaster />
     </>
   );
 };

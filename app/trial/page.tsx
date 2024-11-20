@@ -4,6 +4,12 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, Progress } from "@nextui-org/react";
 import { useIntl } from "react-intl";
 import { LoaderCircle, MessageSquareQuote } from "lucide-react";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/zh"; // 导入中文语言包
+import "dayjs/locale/en"; // 导入英文语言包
 import customize from "@/public/customize.png";
 import customize_en from "@/public/customize_en.png";
 import customize_dark from "@/public/customize_dark.png";
@@ -16,44 +22,74 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
+import { countYoutubersByUserId, getUserInfo } from "@/actions/api";
+import { EventBus } from "@/helpers/events";
+
+// 启用插件
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
+dayjs.extend(timezone);
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 const Trial = () => {
   const intl = useIntl();
   const isSSR = useIsSSR();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
-  const trialStart = "2024-11-19 12:00:00";
-  const trialEnd = "2024-11-26 12:00:00";
   const totalSteps = 2; // 操作总步骤数
+  const [user, setUser] = useState(null);
   const [completedSteps, setCompletedSteps] = useState(0); // 完成的步骤数
   const [remainingTime, setRemainingTime] = useState(""); // 剩余时间
   const { theme } = useTheme();
 
-  // 计算剩余时间
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now: Date = new Date();
-      const end: Date = new Date(trialEnd); // 确保 trialEnd 被正确解析为 Date 类型
-      const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
-
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        setRemainingTime(
-          `${days} ${intl.formatMessage({
-            id: "days",
-          })} ${hours} ${intl.formatMessage({
-            id: "hours",
-          })} ${minutes} ${intl.formatMessage({ id: "minutes" })}`
-        );
-      } else {
-        setRemainingTime(intl.formatMessage({ id: "trial_end" }));
-        clearInterval(interval); // 停止倒计时
+    getUserInfo().then(async ({ data: user }) => {
+      if (!user) {
+        EventBus.emit("showLoginDialog", true);
+        return;
       }
-    }, 1000);
+      setUser(user);
+    });
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [trialEnd]);
+  useEffect(() => {
+    if (user) {
+      countYoutubersByUserId(user["id"]).then(({ data }) => {
+        if (parseInt(data) > 0 && user["telegram_username"]) {
+          setCompletedSteps(2);
+        } else if (parseInt(data) > 0 && !user["telegram_username"]) {
+          setCompletedSteps(1);
+        } else if (parseInt(data) === 0 && user["telegram_username"]) {
+          setCompletedSteps(1);
+        } else {
+          setCompletedSteps(0);
+        }
+      });
+
+      const interval = setInterval(() => {
+        const now: Date = new Date();
+        const end: Date = new Date(user["membership_expiry"]); // 确保 trialEnd 被正确解析为 Date 类型
+        const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
+
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diff / (1000 * 60)) % 60);
+          setRemainingTime(
+            `${days} ${intl.formatMessage({
+              id: "days",
+            })} ${hours} ${intl.formatMessage({
+              id: "hours",
+            })} ${minutes} ${intl.formatMessage({ id: "minutes" })}`
+          );
+        } else {
+          setRemainingTime(intl.formatMessage({ id: "trial_end" }));
+          clearInterval(interval); // 停止倒计时
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [user]);
 
   // 更新完成步骤数
   const markStepCompleted = () => {
@@ -61,6 +97,10 @@ const Trial = () => {
       //setCompletedSteps(completedSteps + 1);
     }
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen">
@@ -70,8 +110,20 @@ const Trial = () => {
         </p>
         <p className="text-lg mt-4 text-default-500">
           {intl.formatMessage({ id: "trial_period" })}：
-          <span className="text-blue-500">{trialStart}</span> {" ~ "}
-          <span className="text-blue-500">{trialEnd}</span>
+          <span className="text-blue-500">
+            {dayjs
+              .utc(user["membership_expiry"])
+              .subtract(user["trial_days"], "days") // 减去 trial_days
+              .tz(userTimeZone)
+              .format("YYYY-MM-DD hh:mm:ss")}
+          </span>{" "}
+          {" ~ "}
+          <span className="text-blue-500">
+            {dayjs
+              .utc(user["membership_expiry"])
+              .tz(userTimeZone)
+              .format("YYYY-MM-DD hh:mm:ss")}
+          </span>
         </p>
         <p className="text-lg mt-1 text-default-500">
           {intl.formatMessage({ id: "remain_time" })}：

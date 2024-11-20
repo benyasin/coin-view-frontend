@@ -258,7 +258,8 @@
   "hours": "hours",
   "minutes": "minutes",
   "feedback": "Feedback",
-  "contact_us_if_you_has_suggestion": "If you have any suggestions for our products, welcome to contact us through the following ways:"
+  "contact_us_if_you_has_suggestion": "If you have any suggestions for our products, welcome to contact us through the following ways:",
+  "already_used_trial": "You have already used the trial period"
 
 
 }
