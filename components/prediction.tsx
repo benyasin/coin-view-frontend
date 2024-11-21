@@ -46,12 +46,10 @@ export const Prediction: React.FC<StatisticsProps> = ({ user }) => {
     {
       name: intl.formatMessage({ id: "trend" }),
       uid: "trend",
-      sortable: true,
     },
     {
       name: intl.formatMessage({ id: "viewpoint" }),
       uid: "viewpoint",
-      sortable: true,
     },
     { name: intl.formatMessage({ id: "prediction" }), uid: "prediction" },
     { name: intl.formatMessage({ id: "created_at" }), uid: "created_at" },
@@ -60,7 +58,6 @@ export const Prediction: React.FC<StatisticsProps> = ({ user }) => {
   const fetchSummaries = async () => {
     const dateStr = dateValue ? dateValue.toString() : "";
     const { data } = await searchSummary(dateStr, page, rowsPerPage); // 使用searchSummary查询数据
-    console.log(data);
     setSummaries(data?.summaries || []);
     setTotalItems(data.total_summaries);
     setTotalPages(data.total_pages);
@@ -173,11 +170,7 @@ export const Prediction: React.FC<StatisticsProps> = ({ user }) => {
     >
       <TableHeader columns={columns}>
         {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={"start"}
-            allowsSorting={column.sortable}
-          >
+          <TableColumn key={column.uid} align={"start"} allowsSorting={false}>
             {column.name}
           </TableColumn>
         )}
