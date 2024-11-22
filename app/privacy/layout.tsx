@@ -1,12 +1,24 @@
-import { Metadata } from "next";
+import { headers } from "next/headers";
 
-export const metadata: Metadata = {
-  title: "Privacy - CoinView Today",
-  openGraph: {
-    title: "Privacy - CoinView Today",
-    url: "https://www.coinview.today/privacy",
-  },
-};
+export async function generateMetadata() {
+  const lang = headers().get("x-locale") || "en";
+
+  return lang === "zh"
+    ? {
+        title: "隐私条款 - 今日币看",
+        openGraph: {
+          title: "隐私条款 - 今日币看",
+          url: "https://www.coinview.today/zh/privacy",
+        },
+      }
+    : {
+        title: "Privacy - CoinView Today",
+        openGraph: {
+          title: "Privacy - CoinView Today",
+          url: "https://www.coinview.today/privacy",
+        },
+      };
+}
 
 export default function PrivacyLayout({
   children,

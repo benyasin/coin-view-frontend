@@ -1,14 +1,23 @@
-import { Metadata } from "next";
+import { headers } from "next/headers";
 
-export async function generateMetadata(props: any) {
-  console.log("generateMetadata: props", props);
-  return {
-    title: "About - CoinView Today",
-    openGraph: {
-      title: "About - CoinView Today",
-      url: "https://www.coinview.today/about",
-    },
-  };
+export async function generateMetadata() {
+  const lang = headers().get("x-locale") || "en";
+
+  return lang === "zh"
+    ? {
+        title: "关于我们 - 今日币看",
+        openGraph: {
+          title: "关于我们 - 今日币看",
+          url: "https://www.coinview.today/zh/about",
+        },
+      }
+    : {
+        title: "About - CoinView Today",
+        openGraph: {
+          title: "About - CoinView Today",
+          url: "https://www.coinview.today/about",
+        },
+      };
 }
 
 export default function AboutLayout({

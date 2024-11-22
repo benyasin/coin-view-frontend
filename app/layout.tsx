@@ -16,6 +16,42 @@ export const viewport: Viewport = {
   ],
 };
 
+export async function generateMetadata() {
+  const locale = headers().get("x-locale") || "en";
+  const messages = require(`../locales/${locale}.json`); // 动态加载 messages
+  return {
+    title: messages["title"],
+    description: messages["slogan"],
+    openGraph: {
+      title: messages["title"],
+      description: messages["slogan"],
+      url: messages["net_url"],
+      siteName: messages["title"],
+      images: [
+        {
+          url:
+            locale === "zh"
+              ? "https://www.coinview.today/coinview-home-zh.png"
+              : "https://www.coinview.today/coinview-home.png",
+          width: 800,
+          height: 800,
+          alt: messages["slogan"],
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: messages["title"],
+      description: messages["slogan"],
+      images: [
+        locale === "zh"
+          ? "https://www.coinview.today/coinview-home-zh.png"
+          : "https://www.coinview.today/coinview-home.png",
+      ],
+    },
+  };
+}
+
 // @ts-ignore
 export default function RootLayout({
   children,
@@ -26,49 +62,19 @@ export default function RootLayout({
   const messages = require(`../locales/${locale}.json`); // 动态加载 messages
   return (
     <html suppressHydrationWarning lang={locale}>
-      <head>
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-VJ4FV2QGY0"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-VJ4FV2QGY0"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
             gtag('config', 'G-VJ4FV2QGY0');
           `}
-        </Script>
-        <title>{messages["title"]}</title>
-        <meta name="description" content={messages["slogan"]} />
-        <meta property="og:title" content={messages["title"]} />
-        <meta property="og:description" content={messages["slogan"]} />
-        <meta property="og:url" content={messages["net_url"]} />
-        <meta property="og:site_name" content={messages["title"]} />
-        <meta
-          property="og:image"
-          content={
-            locale == "zh"
-              ? "https://www.coinview.today/coinview-home-zh.png"
-              : "https://www.coinview.today/coinview-home.png"
-          }
-        />
-        <meta property="og:image:width" content={"800"} />
-        <meta property="og:image:height" content={"800"} />
-        <meta property="og:type" content={"website"} />
-        <meta name="twitter:card" content={"summary_large_image"} />
-        <meta name="twitter:title" content={messages["title"]} />
-        <meta name="twitter:description" content={messages["slogan"]} />
-        <meta
-          name="twitter:image"
-          content={
-            locale == "zh"
-              ? "https://www.coinview.today/coinview-home-zh.png"
-              : "https://www.coinview.today/coinview-home.png"
-          }
-        />
-      </head>
+      </Script>
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
