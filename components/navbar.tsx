@@ -450,12 +450,18 @@ export const Navbar = () => {
           </Dropdown>
           <Link
             isExternal
+            className="hidden sm:block"
             aria-label="Twitter"
             href="https://x.com/coinview_today"
           >
             <TwitterIcon size={20} className="text-default-500" />
           </Link>
-          <Link isExternal aria-label="Telegram" href="https://t.me/CoinViewCS">
+          <Link
+            isExternal
+            className="hidden sm:block"
+            aria-label="Telegram"
+            href="https://t.me/CoinViewCS"
+          >
             <TelegramIcon size={20} className="text-default-500" />
           </Link>
           <ThemeSwitch />
