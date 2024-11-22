@@ -12,11 +12,15 @@ import {
   useDisclosure,
   User,
   Avatar,
+  Card,
+  CardBody,
+  Tooltip,
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { UserInfo, Youtuber } from "@/types";
 import {
   fetchYoutubers,
+  fetchRecommendedYoutubers,
   addYoutuberToDB,
   searchYoutuber,
   deleteYoutuberFromDB,
@@ -43,6 +47,10 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
   } = useDisclosure();
   const intl = useIntl();
   const [youtubers, setYoutubers] = useState<Youtuber[]>([]);
+  const [recommendedYoutubers, setRecommendedYoutubers] = useState<Youtuber[]>(
+    []
+  );
+
   const notify = () =>
     toast.success(intl.formatMessage({ id: "add_youtuber_successfully" }));
   const deleteNotify = () =>
@@ -67,9 +75,27 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
           .catch((err) => {
             console.error("Error fetching youtubers:", err);
           });
+
+        fetchRecommendedYoutubers()
+          .then((data: { data: React.SetStateAction<Youtuber[]> }) => {
+            data.data && setRecommendedYoutubers(data.data);
+          })
+          .catch((err) => {
+            console.error("Error fetching recommend youtubers:", err);
+          });
       }
     }
   }, [user.is_member, user.is_admin]);
+
+  const changeAnotherBatch = async () => {
+    fetchRecommendedYoutubers()
+      .then((data: { data: React.SetStateAction<Youtuber[]> }) => {
+        data.data && setRecommendedYoutubers(data.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching recommend youtubers:", err);
+      });
+  };
 
   const findYoutuber = async () => {
     setSearchError("");
@@ -104,9 +130,13 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
             notify();
             // @ts-ignore
             onOpenChange(false); // 关闭 Modal
-            setTimeout(() => {
-              location.reload();
-            }, 1500);
+            fetchYoutubers(user.id)
+              .then((data) => {
+                setYoutubers(data.data); // Assuming the API returns data in a "data" field
+              })
+              .catch((err) => {
+                console.error("Error fetching youtubers:", err);
+              });
           }
         } catch (e) {
           console.error(e);
@@ -128,15 +158,37 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
           deleteNotify();
           // @ts-ignore
           onDeleteOpenChange(false); // 关闭删除确认 Modal
-          setTimeout(() => {
-            location.reload();
-          }, 1500);
+          fetchYoutubers(user.id)
+            .then((data) => {
+              setYoutubers(data.data); // Assuming the API returns data in a "data" field
+            })
+            .catch((err) => {
+              console.error("Error fetching youtubers:", err);
+            });
         } else {
           console.error("delete user_youtuber error");
         }
       } catch (e) {
         console.error(e);
       }
+    }
+  };
+
+  const handleSubscribe = async (youtuber: Youtuber) => {
+    try {
+      const result = await addYoutuberToDB(youtuber, user.id);
+      if (result.status_code === 200) {
+        notify();
+        fetchYoutubers(user.id)
+          .then((data) => {
+            setYoutubers(data.data); // Assuming the API returns data in a "data" field
+          })
+          .catch((err) => {
+            console.error("Error fetching youtubers:", err);
+          });
+      }
+    } catch (error) {
+      console.error("订阅频道时出错：", error);
     }
   };
 
@@ -272,12 +324,17 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
           </div>
           {!user.is_admin &&
             getChannelLimit(user.membership_level) - youtubers.length > 0 && (
-              <Button variant="shadow" size="md" onClick={onOpen}>
+              <Button
+                variant="shadow"
+                size="md"
+                color="success"
+                onClick={onOpen}
+              >
                 {intl.formatMessage({ id: "add_youtuber" })}
               </Button>
             )}
           {user.is_admin && (
-            <Button variant="shadow" size="md" onClick={onOpen}>
+            <Button variant="shadow" size="md" color="success" onClick={onOpen}>
               {intl.formatMessage({ id: "add_youtuber" })}
             </Button>
           )}
@@ -311,6 +368,52 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
           ))}
         </div>
       </section>
+      {!user.is_admin && (
+        <section className="mt-16">
+          <span className="text-default-500">
+            {intl.formatMessage({ id: "recommend_youtubers_desc" })}
+          </span>
+          <Card className="mt-4">
+            <CardBody>
+              <Button
+                variant="ghost"
+                color="secondary"
+                size={"md"}
+                className="w-[50px] my-4"
+                onClick={changeAnotherBatch}
+              >
+                换一批
+              </Button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {recommendedYoutubers.map((yt) => (
+                  <div
+                    key={yt.channel_id}
+                    className="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-800"
+                  >
+                    <Avatar src={yt.avatar} size="lg" />
+                    <h4 className="mt-2 text-lg font-semibold">
+                      {yt.channel_title}
+                    </h4>
+                    <p className="text-sm text-gray-500">
+                      {yt.subscribers} 订阅者
+                    </p>
+                    <Tooltip content="订阅此频道">
+                      <Button
+                        size="sm"
+                        color="success"
+                        onClick={() => handleSubscribe(yt)}
+                        className="mt-2"
+                      >
+                        订阅
+                      </Button>
+                    </Tooltip>
+                  </div>
+                ))}
+              </div>
+            </CardBody>
+          </Card>
+        </section>
+      )}
       <Toaster />
     </>
   );

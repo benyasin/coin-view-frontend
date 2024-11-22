@@ -18,7 +18,7 @@ export const Partner = () => {
           opacity: 1,
         }}
         viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.5 }}
+        transition={{ duration: 1, delay: 0.3 }}
         className="max-w-screen-xl mx-auto px-4 md:px-8"
       >
         <div className="relative max-w-xl mx-auto text-center">

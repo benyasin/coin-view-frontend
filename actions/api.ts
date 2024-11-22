@@ -115,6 +115,25 @@ export const fetchYoutubers = async (userId?: string) => {
   }
 };
 
+export const fetchRecommendedYoutubers = async () => {
+  try {
+    const response = await apiClient.get(`/youtuber/recommend/`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch recommend Youtubers";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while fetching recommend Youtubers"
+      );
+    }
+  }
+};
+
 export const searchYoutuber = async (channelId: string) => {
   try {
     const response = await apiClient.get(`/youtuber/search/${channelId}`);
