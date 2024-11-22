@@ -370,20 +370,22 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
       </section>
       {!user.is_admin && (
         <section className="mt-16">
-          <span className="text-default-500">
+          <div className="text-default-500 px-2">
             {intl.formatMessage({ id: "recommend_youtubers_desc" })}
-          </span>
+          </div>
           <Card className="mt-4">
             <CardBody>
-              <Button
-                variant="ghost"
-                color="secondary"
-                size={"md"}
-                className="w-[50px] my-4"
-                onClick={changeAnotherBatch}
-              >
-                换一批
-              </Button>
+              <div className="text-right">
+                <Button
+                  variant="ghost"
+                  color="secondary"
+                  size={"md"}
+                  className="my-4"
+                  onClick={changeAnotherBatch}
+                >
+                  {intl.formatMessage({ id: "change_another_batch" })}
+                </Button>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {recommendedYoutubers.map((yt) => (
                   <div
@@ -395,16 +397,21 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
                       {yt.channel_title}
                     </h4>
                     <p className="text-sm text-gray-500">
-                      {yt.subscribers} 订阅者
+                      {yt.subscribers}{" "}
+                      {intl.formatMessage({ id: "subscribers" })}
                     </p>
-                    <Tooltip content="订阅此频道">
+                    <Tooltip
+                      content={intl.formatMessage({
+                        id: "subscribe_the_channel",
+                      })}
+                    >
                       <Button
                         size="sm"
                         color="success"
                         onClick={() => handleSubscribe(yt)}
                         className="mt-2"
                       >
-                        订阅
+                        {intl.formatMessage({ id: "subscribe" })}
                       </Button>
                     </Tooltip>
                   </div>

@@ -20,6 +20,8 @@
   "neutral": "中性",
   "opinion": "观点",
   "subscribers": "订阅者",
+  "subscribe": "订阅",
+  "subscribe_the_channel": "订阅此频道",
   "fear_greed_index": "恐惧贪婪指数",
   "extreme_fear": "极度恐惧",
   "fear": "恐惧",
@@ -266,6 +268,7 @@
   "trend": "趋势",
   "viewpoint": "观点",
   "prediction": "预测",
-  "recommend_youtubers_desc": "如果你暂时不知道添加哪些优质的YouTube博主，以下是我们根据市场上的用户评价和好评率精心推荐的几位博主，欢迎直接添加到你的订阅列表中。"
+  "recommend_youtubers_desc": "如果你暂时不知道添加哪些优质的YouTube博主，以下是我们根据市场上的用户评价和好评率精心推荐的几位博主，欢迎直接添加到你的订阅列表中。",
+  "change_another_batch": "换一批"
 
 }
