@@ -96,6 +96,50 @@ export const searchPendingOrder = async (userId: string) => {
   }
 };
 
+export const fetchLatestAnnouncement = async (userId?: string) => {
+  try {
+    const response = await apiClient.get("/announcement/latest");
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch announcement";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while fetching announcement"
+      );
+    }
+  }
+};
+
+export const fetchAnnouncements = async (
+  pageNumber: number,
+  pageSize: number
+) => {
+  try {
+    const response = await apiClient.post(`/announcement/list`, {
+      page_number: pageNumber,
+      page_size: pageSize,
+    });
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to fetch announcements";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while fetching announcements"
+      );
+    }
+  }
+};
+
 export const fetchYoutubers = async (userId?: string) => {
   try {
     const response = await apiClient.get(
@@ -222,6 +266,61 @@ export const startTrial = async (shared: boolean) => {
     } else {
       // Handle other types of errors (non-Axios errors)
       throw new Error("An unexpected error occurred while save trial");
+    }
+  }
+};
+
+export const addAnnouncement = async (params: {
+  content: string;
+  display_from: string;
+  display_to: string;
+}): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/announcement/add`, params);
+    return response.data; // API 返回的数据
+  } catch (error) {
+    // 检查是否是 Axios 错误
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to save announcement";
+      console.error(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      throw new Error("An unexpected error occurred while saving announcement");
+    }
+  }
+};
+
+export const deleteAnnouncement = async (aid: string): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/announcement/delete/${aid}`);
+    return response.data; // API 返回的数据
+  } catch (error) {
+    // 检查是否是 Axios 错误
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to delete announcement";
+      console.error(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      throw new Error("An unexpected error occurred while delete announcement");
+    }
+  }
+};
+
+export const toggleAnnouncementStatus = async (aid: string): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/announcement/toggle/${aid}`);
+    return response.data; // API 返回的数据
+  } catch (error) {
+    // 检查是否是 Axios 错误
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail || "Failed to toggle announcement";
+      console.error(errorMessage);
+      throw new Error(errorMessage);
+    } else {
+      throw new Error("An unexpected error occurred while toggle announcement");
     }
   }
 };

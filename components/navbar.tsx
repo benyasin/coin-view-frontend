@@ -33,6 +33,7 @@ import { useIntl } from "react-intl";
 import { LanguageContext } from "@/components/language-provider";
 import {
   deleteAuthCookie,
+  fetchLatestAnnouncement,
   getUserInfo,
   saveLang,
   startTrial,
@@ -66,6 +67,7 @@ export const Navbar = () => {
     new Set([intl.locale])
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [announcement, setAnnouncement] = useState<string | null>(null);
   const { theme } = useTheme();
 
   const usedNotify = () =>
@@ -76,6 +78,13 @@ export const Navbar = () => {
 
   // 使用 useEffect 确保在客户端执行 localStorage 操作
   useEffect(() => {
+    const fetchAnnouncement = async () => {
+      const { data } = await fetchLatestAnnouncement(); // 替换为你的 API 地址
+      data && setAnnouncement(data.content);
+    };
+
+    fetchAnnouncement();
+
     const timeout = setTimeout(() => {
       getUserInfo().then((data) => {
         if (data) {
@@ -522,6 +531,18 @@ export const Navbar = () => {
           </NavbarMenuItem>
         </NavbarMenu>
       </NextUINavbar>
+      {/* 公告消息提示条 */}
+      {announcement && (
+        <div className="w-full bg-gradient-to-r from-purple-500 to-blue-400 text-white text-center py-2 opacity-80 relative">
+          <span className="text-sm">{announcement}</span>
+          <button
+            onClick={() => setAnnouncement(null)}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-lg"
+          >
+            &times;
+          </button>
+        </div>
+      )}
       <Toaster />
     </>
   );

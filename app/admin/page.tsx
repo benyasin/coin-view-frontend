@@ -8,6 +8,7 @@ import { Viewpoint } from "@/components/viewpoint";
 import { Prediction } from "@/components/prediction";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
 import { useIntl } from "react-intl";
+import { Announcement } from "@/components/announcement";
 
 const AdminPage = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -44,10 +45,11 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="about-container py-8 px-4 max-w-6xl mx-auto text-default-600">
+    <div className="about-container flex flex-col gap-12 py-8 px-4 max-w-6xl mx-auto text-default-600">
       <Customize user={user as UserInfo} />
       <Viewpoint user={user as UserInfo} />
       <Prediction user={user as UserInfo} />
+      <Announcement />
     </div>
   );
 };

@@ -269,6 +269,13 @@
   "viewpoint": "观点",
   "prediction": "预测",
   "recommend_youtubers_desc": "如果你暂时不知道添加哪些优质的YouTube博主，以下是我们根据市场上的用户评价和好评率精心推荐的几位博主，欢迎直接添加到你的订阅列表中。",
-  "change_another_batch": "换一批"
+  "change_another_batch": "换一批",
+  "announcement_content": "公告内容",
+  "display_from": "展示开始时间",
+  "display_to": "展示结束时间",
+  "no_announcements": "没有公告",
+  "add_announcement": "添加公告",
+  "revoked": "撤销的",
+  "active": "激活的"
 
 }
