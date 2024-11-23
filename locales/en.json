@@ -276,7 +276,10 @@
   "display_to": "Display To",
   "no_announcements": "No Announcements",
   "add_announcement": "Add Announcement",
-  "revoked": "revoked",
-  "active": "active"
+  "revoke": "Revoke",
+  "revoked": "Revoked",
+  "active": "Active",
+  "is_active": "Active",
+  "actions": "Actions"
 
 }

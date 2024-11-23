@@ -276,6 +276,9 @@
   "no_announcements": "没有公告",
   "add_announcement": "添加公告",
   "revoked": "撤销的",
-  "active": "激活的"
+  "is_active": "激活的",
+  "active": "激活",
+  "revoke": "撤销",
+  "actions": "操作"
 
 }

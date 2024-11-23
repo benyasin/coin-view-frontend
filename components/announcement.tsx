@@ -27,7 +27,8 @@ import {
   addAnnouncement,
   deleteAnnouncement,
   toggleAnnouncementStatus,
-} from "@/actions/api"; // 需要确保 `deleteAnnouncement` 和 `toggleAnnouncementStatus` API 已实现
+} from "@/actions/api";
+import { useIntl } from "react-intl"; // 需要确保 `deleteAnnouncement` 和 `toggleAnnouncementStatus` API 已实现
 
 type Announcement = {
   _id: string; // 添加一个唯一标识符 id
@@ -43,7 +44,7 @@ export const Announcement: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const rowsPerPage = 5;
-
+  const intl = useIntl();
   // Form state
   const [content, setContent] = useState("");
   const [displayFrom, setDisplayFrom] = useState<DateValue | null>(null);
@@ -132,65 +133,75 @@ export const Announcement: React.FC = () => {
     }
   };
 
-  const renderCell = (announcement: Announcement, columnKey: React.Key) => {
-    switch (columnKey) {
-      case "content":
-        return <p className="text-small">{announcement.content}</p>;
-      case "is_revoked":
-        return (
-          <Chip color={announcement.is_revoked ? "danger" : "success"}>
-            {announcement.is_revoked ? "Revoked" : "Active"}
-          </Chip>
-        );
-      case "created_at":
-        return (
-          <p className="text-small">
-            {dayjs(announcement.created_at).format("YYYY-MM-DD HH:mm:ss")}
-          </p>
-        );
-      case "display_from":
-        return (
-          <p className="text-small">
-            {dayjs(announcement.display_from).format("YYYY-MM-DD HH:mm:ss")}
-          </p>
-        );
-      case "display_to":
-        return (
-          <p className="text-small">
-            {dayjs(announcement.display_to).format("YYYY-MM-DD HH:mm:ss")}
-          </p>
-        );
-      case "actions":
-        return (
-          <div className="flex space-x-2">
-            <Button
-              size="sm"
-              color="danger"
-              onClick={() => handleDelete(announcement._id)}
-            >
-              Delete
-            </Button>
-            <Button
-              size="sm"
-              color="warning"
-              onClick={() => handleToggleStatus(announcement._id)}
-            >
-              {announcement.is_revoked ? "Activate" : "Revoke"}
-            </Button>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  const renderCell = React.useCallback(
+    (announcement: Announcement, columnKey: React.Key) => {
+      switch (columnKey) {
+        case "content":
+          return <p className="text-small">{announcement.content}</p>;
+        case "is_revoked":
+          return (
+            <Chip color={announcement.is_revoked ? "danger" : "success"}>
+              {announcement.is_revoked
+                ? intl.formatMessage({ id: "revoked" })
+                : intl.formatMessage({ id: "is_active" })}
+            </Chip>
+          );
+        case "created_at":
+          return (
+            <p className="text-small">
+              {dayjs(announcement.created_at).format("YYYY-MM-DD HH:mm:ss")}
+            </p>
+          );
+        case "display_from":
+          return (
+            <p className="text-small">
+              {dayjs(announcement.display_from).format("YYYY-MM-DD HH:mm:ss")}
+            </p>
+          );
+        case "display_to":
+          return (
+            <p className="text-small">
+              {dayjs(announcement.display_to).format("YYYY-MM-DD HH:mm:ss")}
+            </p>
+          );
+        case "actions":
+          return (
+            <div className="flex space-x-2">
+              <Button
+                size="sm"
+                color="danger"
+                onClick={() => handleDelete(announcement._id)}
+              >
+                {intl.formatMessage({ id: "delete" })}
+              </Button>
+              <Button
+                size="sm"
+                color="warning"
+                onClick={() => handleToggleStatus(announcement._id)}
+              >
+                {announcement.is_revoked
+                  ? intl.formatMessage({ id: "active" })
+                  : intl.formatMessage({ id: "revoke" })}
+              </Button>
+            </div>
+          );
+        default:
+          return null;
+      }
+    },
+    [intl]
+  );
 
   const columns = [
-    { name: "Content", uid: "content" },
-    { name: "Status", uid: "is_revoked" },
-    { name: "Created At", uid: "created_at" },
-    { name: "Display From", uid: "display_from" },
-    { name: "Display To", uid: "display_to" },
-    { name: "Actions", uid: "actions" },
+    {
+      name: intl.formatMessage({ id: "announcement_content" }),
+      uid: "content",
+    },
+    { name: intl.formatMessage({ id: "status" }), uid: "is_revoked" },
+    { name: intl.formatMessage({ id: "created_at" }), uid: "created_at" },
+    { name: intl.formatMessage({ id: "display_from" }), uid: "display_from" },
+    { name: intl.formatMessage({ id: "display_to" }), uid: "display_to" },
+    { name: intl.formatMessage({ id: "actions" }), uid: "actions" },
   ];
 
   return (
@@ -205,23 +216,25 @@ export const Announcement: React.FC = () => {
           {(onClose) => (
             <>
               <ModalHeader>
-                <h3>Add Announcement</h3>
+                <h3>{intl.formatMessage({ id: "add_announcement" })}</h3>
               </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col space-y-4">
                   <Textarea
-                    placeholder="Enter announcement content"
+                    placeholder={intl.formatMessage({
+                      id: "announcement_content",
+                    })}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     rows={4}
                   />
                   <DatePicker
-                    label="Display From"
+                    label={intl.formatMessage({ id: "display_from" })}
                     value={displayFrom}
                     onChange={setDisplayFrom}
                   />
                   <DatePicker
-                    label="Display To"
+                    label={intl.formatMessage({ id: "display_to" })}
                     value={displayTo}
                     onChange={setDisplayTo}
                   />
@@ -233,7 +246,7 @@ export const Announcement: React.FC = () => {
                   color="primary"
                   onClick={handleAddAnnouncement}
                 >
-                  Confirm Add
+                  {intl.formatMessage({ id: "confirm_add" })}
                 </Button>
               </ModalFooter>
             </>
@@ -242,7 +255,7 @@ export const Announcement: React.FC = () => {
       </Modal>
       <div className="text-right mb-4">
         <Button color="primary" onClick={onOpen}>
-          Add Announcement
+          {intl.formatMessage({ id: "add_announcement" })}
         </Button>
       </div>
       <Table
