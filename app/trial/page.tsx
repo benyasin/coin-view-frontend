@@ -67,9 +67,10 @@ const Trial = () => {
         });
 
         const interval = setInterval(() => {
-          const now: Date = new Date();
-          const end: Date = new Date(user["membership_expiry"]); // 确保 trialEnd 被正确解析为 Date 类型
-          const diff: number = end.getTime() - now.getTime(); // 使用 getTime() 获取时间戳（毫秒）
+          const now: dayjs.Dayjs = dayjs.utc(); // 使用 UTC 时间
+          const end: dayjs.Dayjs = dayjs.utc(user["membership_expiry"]); // 确保 `membership_expiry` 也用 UTC 时间解析
+
+          const diff: number = end.diff(now); // 计算时间差，单位为毫秒
 
           if (diff > 0) {
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
