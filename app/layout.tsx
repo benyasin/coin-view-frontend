@@ -75,6 +75,11 @@ export default function RootLayout({
             gtag('config', 'G-VJ4FV2QGY0');
           `}
       </Script>
+      <Script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="f96cb10e-aaae-4d73-8f6c-73b1c82ab2ab"
+      ></Script>
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
