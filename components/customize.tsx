@@ -130,6 +130,7 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
             notify();
             // @ts-ignore
             onOpenChange(false); // 关闭 Modal
+            setChannelId("");
             fetchYoutubers(user.id)
               .then((data) => {
                 setYoutubers(data.data); // Assuming the API returns data in a "data" field
