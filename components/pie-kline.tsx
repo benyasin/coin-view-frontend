@@ -322,17 +322,14 @@ export const PieKline = () => {
           min: 0,
           max: 100,
           splitLine: {
-            lineStyle: {
-              color: "rgba(115,112,112,0.27)",
-              type: "dashed",
-            },
+            lineStyle: false,
           },
         },
         {
           name: intl.formatMessage({ id: "bitcoin_price" }),
           type: "value",
           min: 0,
-          max: 100000,
+          max: 120000,
           position: "right",
           axisLine: {
             lineStyle: {
