@@ -14,11 +14,12 @@ const apiClient = axios.create({
 });
 
 console.log("111");
-if (cookies().get("access_token")?.value) {
+if (typeof window === "undefined") {
   console.log("222");
-  //console.log(cookies().get("access_token")?.value);
-  apiClient.defaults.headers["Authorization"] =
-    "Bearer " + cookies().get("access_token")?.value;
+  const token = cookies().get("access_token")?.value;
+  if (token) {
+    apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
+  }
 }
 
 export const registerUser = async (values: RegisterFormType) => {
