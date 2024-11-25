@@ -308,12 +308,30 @@ export const PieKline = () => {
       },
       xAxis: {
         type: "category",
-        data: data.map((item) => item.date),
-        boundaryGap: true,
-        axisLine: { onZero: false },
+        data: data.map((item) => item.date.replaceAll("-", "/")),
+        axisLabel: {
+          interval: (index: number) => {
+            // 动态显示间隔，确保首尾显示
+            const interval = Math.ceil(data.length / 10); // 每隔10%显示
+            return (
+              index === 0 || index === data.length - 1 || index % interval === 0
+            );
+          },
+          formatter: (value: string, index: number) => {
+            // 始终显示首尾
+            if (index === 0 || index === data.length - 1) {
+              return value;
+            }
+            // 返回间隔标签值
+            const interval = Math.ceil(data.length / 10);
+            return index % interval === 0 ? value : "";
+          },
+          showMaxLabel: true, // 确保显示最大标签
+          showMinLabel: true, // 确保显示最小标签
+        },
+        boundaryGap: false, // 去掉额外边距，防止间距太大
+        axisLine: { onZero: true },
         splitLine: { show: false },
-        min: "dataMin",
-        max: "dataMax",
       },
       yAxis: [
         {
@@ -348,7 +366,7 @@ export const PieKline = () => {
         {
           type: "inside",
           xAxisIndex: [0],
-          start: 10,
+          start: 0,
           end: 100,
         },
         {
@@ -357,7 +375,7 @@ export const PieKline = () => {
           type: "slider",
           bottom: 0,
           height: 45,
-          start: 10,
+          start: 0,
           end: 100,
         },
       ],
