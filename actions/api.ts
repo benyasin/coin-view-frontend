@@ -1,11 +1,10 @@
 "use server";
 
 import axios from "axios";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { LoginFormType, RegisterFormType } from "@/types";
 import { Youtuber } from "@/types";
 import { clearCache } from "@/helpers/store";
-import { bool } from "yup";
 
 // 创建 axios 实例时全局设置 withCredentials: true
 const apiClient = axios.create({
@@ -24,12 +23,14 @@ if (typeof window === "undefined") {
 
 export const registerUser = async (values: RegisterFormType) => {
   try {
+    const lang = headers().get("x-locale") || "en";
     const response = await apiClient.post(`/user/signup`, {
       username: values.username,
       email: values.email,
       password: values.password,
       captcha: values.captcha,
       captcha_id: values.captchaId,
+      lang,
     });
     return response.data;
   } catch (error) {
