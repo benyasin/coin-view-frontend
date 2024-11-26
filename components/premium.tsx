@@ -65,6 +65,7 @@ export const Premium = () => {
   const [pendingPayUrl, setPendingPayUrl] = useState(""); // 存储待支付订单的支付链接
   const router = useRouter();
   const [selectedPayWay, setSelectedPayWay] = useState("binance_pay"); // 默认值可以设置为 binance_pay 或其他值
+  const [isMobile, setIsMobile] = useState(false);
   const createPlans = () => [
     {
       type: "free_plan",
@@ -112,6 +113,24 @@ export const Premium = () => {
   const [plans, setPlans] = useState(createPlans);
 
   useEffect(() => {
+    // 判断是否在mobile下（小于640px）
+    const handleResize = () => {
+      setIsMobile(
+        window.innerWidth < 640 ||
+          /Mobi|Android|iPhone/i.test(navigator.userAgent)
+      );
+    };
+
+    // 初始化判断
+    handleResize();
+
+    // 监听窗口大小变化
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     setPlans(createPlans());
   }, [intl.locale, router]);
 
@@ -124,16 +143,18 @@ export const Premium = () => {
   };
 
   const createNewOrder = async (
-    user: { id: string; email: string },
+    user: { id: string; email: string; lang: string },
     selectedPayWay: string,
     type: string
   ): Promise<void> => {
     const { data, description } = await createOrder(
       user.id,
       user.email,
+      user.lang,
       getPaymentPlan(type) * 12 + ".0000",
       selectedPayWay,
-      type
+      type,
+      isMobile ? "WAP" : "WEB"
     );
     if (data) {
       window.open(data);

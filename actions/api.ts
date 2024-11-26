@@ -52,17 +52,21 @@ export const loginUser = async (values: LoginFormType) => {
 export const createOrder = async (
   userId: string,
   email: string,
+  lang: string,
   amount: string,
   payWay: string,
-  memberPlan: string
+  memberPlan: string,
+  terminalType: string
 ) => {
   try {
     const response = await apiClient.post(`/order/create`, {
       user_id: userId,
       email,
+      lang,
       amount,
       pay_way: payWay,
       member_plan: memberPlan,
+      terminal_type: terminalType,
     });
     return response.data;
   } catch (error) {
