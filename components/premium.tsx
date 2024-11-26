@@ -158,6 +158,7 @@ export const Premium = () => {
     );
     if (data) {
       window.open(data);
+      document.location.href = getLocalizedUrl("/dashboard", locale); // 跳转到 dashboard
     } else {
       description && toast.error(description);
     }
@@ -195,7 +196,7 @@ export const Premium = () => {
 
       // 查询是否有进行中的订单
       const pendingOrder = await checkPendingOrder(user.id);
-      console.log(pendingOrder);
+      //console.log(pendingOrder);
       if (pendingOrder) {
         setExistingOrder(pendingOrder);
         setPendingPayUrl(pendingOrder.checkout_url); // 设置支付链接

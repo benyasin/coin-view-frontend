@@ -127,6 +127,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
         <Accordion
           className="px-0 mt-2 flex flex-row justify-start"
           itemClasses={itemClasses}
+          defaultExpandedKeys={["1"]}
         >
           <AccordionItem
             key="1"
