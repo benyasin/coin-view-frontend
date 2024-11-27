@@ -5,9 +5,9 @@ export async function generateMetadata() {
 
   return lang === "zh"
     ? {
-        title: "关于我们 - 今日币看",
+        title: "关于我们 - CoinView Today",
         openGraph: {
-          title: "关于我们 - 今日币看",
+          title: "关于我们 - CoinView Today",
           url: "https://www.coinview.today/zh/about",
         },
       }

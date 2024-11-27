@@ -5,9 +5,9 @@ export async function generateMetadata() {
 
   return lang === "zh"
     ? {
-        title: "控制面板 - 今日币看",
+        title: "控制面板 - CoinView Today",
         openGraph: {
-          title: "控制面板 - 今日币看",
+          title: "控制面板 - CoinView Today",
           url: "https://www.coinview.today/zh/dashboard",
         },
       }
