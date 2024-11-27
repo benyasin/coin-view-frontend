@@ -25,7 +25,8 @@ export async function generateMetadata() {
     openGraph: {
       title: messages["title"],
       description: messages["slogan"],
-      url: messages["net_url"],
+      url: locale === "zh" ? messages["net_url"] + "/zh" : messages["net_url"],
+      type: "website",
       siteName: messages["title"],
       images: [
         {
@@ -41,6 +42,7 @@ export async function generateMetadata() {
     },
     twitter: {
       card: "summary_large_image",
+      site: "@coinview_today",
       title: messages["title"],
       description: messages["slogan"],
       images: [
