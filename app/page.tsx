@@ -81,10 +81,8 @@ export default function Home() {
           <Feature />
         </div>
       </section>
-      <section>
-        <div className="mt-20 md:px-16">
-          <YoutubeTab />
-        </div>
+      <section id="perspectives">
+        <YoutubeTab />
       </section>
       <section id="premium">
         <Premium />

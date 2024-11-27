@@ -409,8 +409,17 @@ export const Navbar = () => {
                 {intl.formatMessage({ id: "eco_partner" })}
               </Link>
             </NavbarItem>
+            <NavbarItem key="4" className="text-default-400">
+              <Link
+                color="foreground"
+                className="text-large"
+                href={getLocalizedUrl("/#perspectives", locale)}
+              >
+                {intl.formatMessage({ id: "perspectives" })}
+              </Link>
+            </NavbarItem>
             {user ? (
-              <NavbarItem key="4" className="text-default-400">
+              <NavbarItem key="5" className="text-default-400">
                 <Link
                   color="foreground"
                   className="text-large"
@@ -421,7 +430,7 @@ export const Navbar = () => {
               </NavbarItem>
             ) : (
               <NavbarItem
-                key="4"
+                key="6"
                 className="md:flex text-foreground text-large cursor-pointer"
                 onClick={onOpen}
               >
@@ -508,6 +517,16 @@ export const Navbar = () => {
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem key="4" className="text-default-400">
+            <Link
+              color="foreground"
+              className="text-large"
+              href={getLocalizedUrl("/#perspectives", locale)}
+              onPress={() => setIsMenuOpen(false)}
+            >
+              {intl.formatMessage({ id: "perspectives" })}
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem key="5" className="text-default-400">
             {user ? (
               <Link
                 color="foreground"
