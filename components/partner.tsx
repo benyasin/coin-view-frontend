@@ -4,7 +4,9 @@ import { useIntl } from "react-intl";
 import { LogoBinance } from "@/components/logo-binance";
 import { LogoYoutube } from "@/components/logo-youtube";
 import { LogoOpenai } from "@/components/logo-openai";
+import { LogoTelegram } from "@/components/logo-telegram";
 import { motion } from "framer-motion";
+import { LogoX } from "@/components/logo-x";
 
 export const Partner = () => {
   const intl = useIntl();
@@ -29,22 +31,34 @@ export const Partner = () => {
 
         <div className="gap-16 w-full flex flex-row justify-center flex-wrap items-center place-content-center mt-8">
           <motion.div
-            whileHover={{ y: -10 }} // 鼠标悬停时上移10像素
+            whileHover={{ y: -10, cursor: "pointer" }} // 鼠标悬停时上移10像素
             transition={{ type: "spring", stiffness: 300, damping: 20 }} // 悬停效果
           >
             <LogoBinance />
           </motion.div>
           <motion.div
-            whileHover={{ y: -10 }}
+            whileHover={{ y: -10, cursor: "pointer" }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <LogoYoutube />
           </motion.div>
           <motion.div
-            whileHover={{ y: -10 }}
+            whileHover={{ y: -10, cursor: "pointer" }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <LogoOpenai />
+          </motion.div>
+          <motion.div
+            whileHover={{ y: -10, cursor: "pointer" }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <LogoTelegram />
+          </motion.div>
+          <motion.div
+            whileHover={{ y: -10, cursor: "pointer" }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <LogoX />
           </motion.div>
         </div>
       </motion.div>
