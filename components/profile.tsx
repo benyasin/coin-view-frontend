@@ -24,6 +24,7 @@ import {
 import { ChevronDownIcon, ChevronRightIcon } from "@/components/icons";
 import dayjs from "dayjs";
 import { getLocalizedUrl } from "@/helpers/getLocalizedUrl";
+import { Crown } from "lucide-react";
 
 type ProfileProps = {
   user: UserInfo; // Ensure that user is of type UserInfo
@@ -79,7 +80,9 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div>
-              <div className="text-3xl text-gray-400 font-bold mb-2">
+              <div className="text-3xl text-gray-400 font-bold mb-2 inline-flex items-center">
+                {user?.is_member && <Crown color="yellow" className="mr-2" />}{" "}
+                {/* 设置一个右边距 */}
                 {user?.username}
               </div>
               <div className="text-md text-gray-600">{user?.email}</div>
