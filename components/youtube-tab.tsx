@@ -328,7 +328,7 @@ const YouTubeTab = ({}) => {
     <div className="flex w-full flex-col py-28 md:px-16">
       <div className="relative">
         <div className="text-3xl mx-auto text-center font-light tracking-tighter sm:text-3xl bg-gradient-to-b from-foreground to-foreground/70 text-transparent bg-clip-text text-pretty">
-          {intl.formatMessage({ id: "youTube_analysis_predict" })}
+          {intl.formatMessage({ id: "analyst_perspectives" })}
         </div>
         <div
           className={clsx(
