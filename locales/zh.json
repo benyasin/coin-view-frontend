@@ -280,6 +280,8 @@
   "is_active": "激活的",
   "active": "激活",
   "revoke": "撤销",
-  "actions": "操作"
+  "actions": "操作",
+  "close": "收起",
+  "open": "展开"
 
 }

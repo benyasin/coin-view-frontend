@@ -15,6 +15,25 @@ const SettingPage: React.FC = () => {
   const [isMember, setIsMember] = React.useState(true);
   const intl = useIntl();
   const [locale, setLocaleState] = useState<string>(intl.locale); // 默认从 Intl 获取语言
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // 判断是否为小屏设备
+    const handleResize = () => {
+      setIsMobile(
+        window.innerWidth < 640 ||
+          /Mobi|Android|iPhone/i.test(navigator.userAgent)
+      );
+    };
+
+    // 初始化判断
+    handleResize();
+
+    // 监听窗口大小变化
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     getUserInfo().then((result) => {
@@ -37,7 +56,7 @@ const SettingPage: React.FC = () => {
     <div className="flex min-h-screen">
       {/* 引入 Menu 组件 */}
       <Menu locale={locale} />
-      <main className="w-4/5 px-8">
+      <main className={isMobile ? "w-full -ml-8" : "w-4/5 px-8"}>
         <Setting user={user} />
       </main>
     </div>

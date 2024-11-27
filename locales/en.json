@@ -281,6 +281,8 @@
   "revoked": "Revoked",
   "active": "Active",
   "is_active": "Active",
-  "actions": "Actions"
+  "actions": "Actions",
+  "close": "Collapse",
+  "open": "Expand"
 
 }

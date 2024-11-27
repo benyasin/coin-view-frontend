@@ -485,13 +485,15 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarContent>
 
-        <NavbarMenu>
+        <NavbarMenu className="mt-4">
           <NavbarMenuItem key="1" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large"
+              className="text-large py-2"
               href={getLocalizedUrl("/#premium", locale)}
-              onPress={() => setIsMenuOpen(false)}
+              onPress={() => {
+                setIsMenuOpen(false);
+              }}
             >
               {intl.formatMessage({ id: "upgrade_to_premium" })}
             </Link>
@@ -499,7 +501,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="2" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large"
+              className="text-large py-2"
               href={getLocalizedUrl("/#faq", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
@@ -509,7 +511,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="3" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large"
+              className="text-large py-2"
               href={getLocalizedUrl("/#partner", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
@@ -519,7 +521,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="4" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large"
+              className="text-large py-2"
               href={getLocalizedUrl("/#perspectives", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
@@ -530,22 +532,22 @@ export const Navbar = () => {
             {user ? (
               <Link
                 color="foreground"
-                className="text-large"
+                className="text-large py-2"
                 href={getLocalizedUrl("/dashboard", locale)}
                 onPress={() => setIsMenuOpen(false)}
               >
                 {intl.formatMessage({ id: "dashboard" })}
               </Link>
             ) : (
-              <div
-                className="md:flex text-foreground text-large cursor-pointer"
+              <Link
+                className="md:flex py-2 text-foreground text-large cursor-pointer"
                 onClick={() => {
                   onOpen();
                   setIsMenuOpen(false);
                 }}
               >
                 {intl.formatMessage({ id: "login" })}
-              </div>
+              </Link>
             )}
           </NavbarMenuItem>
         </NavbarMenu>
