@@ -48,6 +48,7 @@ import basic_plan_dark_en from "@/public/basic_plan_dark_en.png";
 import basic_plan_en from "@/public/basic_plan_en.png";
 import { useTheme } from "next-themes";
 import toast, { Toaster } from "react-hot-toast";
+import { setTime } from "@internationalized/date/src/manipulation";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -502,7 +503,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large py-2"
-              href={getLocalizedUrl("/#faq", locale)}
+              href={getLocalizedUrl("#faq", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "faq" })}
@@ -512,7 +513,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large py-2"
-              href={getLocalizedUrl("/#partner", locale)}
+              href={getLocalizedUrl("#partner", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "eco_partner" })}
@@ -522,7 +523,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large py-2"
-              href={getLocalizedUrl("/#perspectives", locale)}
+              href={getLocalizedUrl("#perspectives", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
               {intl.formatMessage({ id: "perspectives" })}
