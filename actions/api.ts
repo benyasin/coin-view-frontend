@@ -718,7 +718,6 @@ export const getAVideoByUser = async (
 export const getLatestSummaryPrediction = async () => {
   try {
     const response = await apiClient.get(`/summary/latest/prediction`);
-    //console.log(response.data);
     return response.data; // Return the data from the response
   } catch (error) {
     // Check if the error is an Axios error
