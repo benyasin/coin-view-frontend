@@ -369,7 +369,7 @@ export const Customize: React.FC<CustomizeProps> = ({ user }) => {
           ))}
         </div>
       </section>
-      {!user.is_admin && (
+      {user.is_member && !user.is_admin && (
         <section className="mt-16">
           <div className="text-default-500 px-2">
             {intl.formatMessage({ id: "recommend_youtubers_desc" })}

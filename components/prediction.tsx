@@ -64,7 +64,7 @@ export const Prediction: React.FC<StatisticsProps> = ({ user }) => {
   };
 
   React.useEffect(() => {
-    fetchSummaries(); // 组件加载时触发查询
+    user.is_member && fetchSummaries(); // 组件加载时触发查询
   }, [dateValue, page, rowsPerPage]); // 依赖项为日期、分页和每页条数
 
   const topContent = React.useMemo(() => {
@@ -82,6 +82,7 @@ export const Prediction: React.FC<StatisticsProps> = ({ user }) => {
             <Button
               color="primary"
               size="sm"
+              disabled={!user.is_member}
               className="text-white shadow-lg w-[120px]"
               endContent={<ExportIcon />}
               onClick={fetchSummaries} // 查询按钮触发查询

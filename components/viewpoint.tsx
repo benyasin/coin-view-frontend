@@ -296,6 +296,7 @@ export const Viewpoint: React.FC<StatisticsProps> = ({ user }) => {
             <Button
               color="primary"
               size="sm"
+              disabled={!user.is_member}
               className="text-white shadow-lg w-[120px]"
               endContent={<ExportIcon />}
               onClick={handleExportButtonClick}
