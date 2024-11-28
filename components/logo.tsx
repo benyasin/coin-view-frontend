@@ -11,7 +11,7 @@ export const Logo = () => {
   const isSSR = useIsSSR();
   return (
     <Image
-      width={120}
+      width={130}
       src={theme === "dark" || isSSR ? logo : logoDark}
       alt="Logo"
       priority

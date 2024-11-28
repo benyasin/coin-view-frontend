@@ -8,6 +8,7 @@ import {
   NavbarMenuItem,
   Link,
   Checkbox,
+  NavbarMenuToggle,
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { ThemeSwitch } from "@/components/theme-switch";
@@ -167,10 +168,6 @@ export const Navbar = () => {
     if (data) {
       window.location.href = getLocalizedUrl("/trial", locale);
     }
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -360,27 +357,33 @@ export const Navbar = () => {
           )}
         </ModalContent>
       </Modal>
+
       <NextUINavbar
         classNames={{
           base: ["nextui-navbar", "lg:px-16", "border-b-1", "py-2"],
         }}
         position="sticky"
         isMenuOpen={isMenuOpen}
+        onMenuOpenChange={setIsMenuOpen}
       >
-        <div className="sm:hidden h-auto mr-2 m-auto" onClick={toggleMenu}>
-          <MenuIcon className="h-6 w-6" />
-        </div>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+
         <NavbarContent
           className="max-w-[1280px] basis-1/5 sm:basis-full"
           justify="start"
         >
-          <NextLink
-            className="flex justify-start items-center min-w-[120px]"
-            href={getLocalizedUrl("/", locale)}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <Logo />
-          </NextLink>
+          <NavbarItem key="0" className="text-default-400">
+            <NextLink
+              className="flex justify-start items-center min-w-[120px] -mt-2"
+              href={getLocalizedUrl("/", locale)}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Logo />
+            </NextLink>
+          </NavbarItem>
           <ul className="hidden md:flex gap-6 justify-start ml-12">
             <NavbarItem key="1" className="text-default-400">
               <Link
@@ -489,7 +492,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="1" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large py-2"
+              className="text-large py-1"
               href={getLocalizedUrl("#premium", locale)}
               onPress={() => {
                 setIsMenuOpen(false);
@@ -501,7 +504,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="2" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large py-2"
+              className="text-large py-1"
               href={getLocalizedUrl("#faq", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
@@ -511,7 +514,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="3" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large py-2"
+              className="text-large py-1"
               href={getLocalizedUrl("#partner", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
@@ -521,7 +524,7 @@ export const Navbar = () => {
           <NavbarMenuItem key="4" className="text-default-400">
             <Link
               color="foreground"
-              className="text-large py-2"
+              className="text-large py-1"
               href={getLocalizedUrl("#perspectives", locale)}
               onPress={() => setIsMenuOpen(false)}
             >
@@ -532,7 +535,7 @@ export const Navbar = () => {
             {user ? (
               <Link
                 color="foreground"
-                className="text-large py-2"
+                className="text-large py-1"
                 href={getLocalizedUrl("/dashboard", locale)}
                 onPress={() => setIsMenuOpen(false)}
               >
@@ -540,7 +543,7 @@ export const Navbar = () => {
               </Link>
             ) : (
               <Link
-                className="md:flex py-2 text-foreground text-large cursor-pointer"
+                className="md:flex py-1 text-foreground text-large cursor-pointer"
                 onClick={() => {
                   onOpen();
                   setIsMenuOpen(false);
