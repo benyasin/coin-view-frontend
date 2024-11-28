@@ -386,12 +386,21 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
+                href={getLocalizedUrl("/#perspectives", locale)}
+              >
+                {intl.formatMessage({ id: "perspectives" })}
+              </Link>
+            </NavbarItem>
+            <NavbarItem key="2" className="text-default-400">
+              <Link
+                color="foreground"
+                className="text-large"
                 href={getLocalizedUrl("/#premium", locale)}
               >
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
             </NavbarItem>
-            <NavbarItem key="2" className="text-default-400">
+            <NavbarItem key="3" className="text-default-400">
               <Link
                 color="foreground"
                 className="text-large"
@@ -400,7 +409,7 @@ export const Navbar = () => {
                 {intl.formatMessage({ id: "faq" })}
               </Link>
             </NavbarItem>
-            <NavbarItem key="3" className="text-default-400">
+            <NavbarItem key="4" className="text-default-400">
               <Link
                 color="foreground"
                 className="text-large"
@@ -409,15 +418,7 @@ export const Navbar = () => {
                 {intl.formatMessage({ id: "eco_partner" })}
               </Link>
             </NavbarItem>
-            <NavbarItem key="4" className="text-default-400">
-              <Link
-                color="foreground"
-                className="text-large"
-                href={getLocalizedUrl("/#perspectives", locale)}
-              >
-                {intl.formatMessage({ id: "perspectives" })}
-              </Link>
-            </NavbarItem>
+
             {user ? (
               <NavbarItem key="5" className="text-default-400">
                 <Link
@@ -490,6 +491,16 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large py-2"
+              href={getLocalizedUrl("/#perspectives", locale)}
+              onPress={() => setIsMenuOpen(false)}
+            >
+              {intl.formatMessage({ id: "perspectives" })}
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem key="2" className="text-default-400">
+            <Link
+              color="foreground"
+              className="text-large py-2"
               href={getLocalizedUrl("/#premium", locale)}
               onPress={() => {
                 setIsMenuOpen(false);
@@ -498,7 +509,7 @@ export const Navbar = () => {
               {intl.formatMessage({ id: "upgrade_to_premium" })}
             </Link>
           </NavbarMenuItem>
-          <NavbarMenuItem key="2" className="text-default-400">
+          <NavbarMenuItem key="3" className="text-default-400">
             <Link
               color="foreground"
               className="text-large py-2"
@@ -508,7 +519,7 @@ export const Navbar = () => {
               {intl.formatMessage({ id: "faq" })}
             </Link>
           </NavbarMenuItem>
-          <NavbarMenuItem key="3" className="text-default-400">
+          <NavbarMenuItem key="4" className="text-default-400">
             <Link
               color="foreground"
               className="text-large py-2"
@@ -518,16 +529,7 @@ export const Navbar = () => {
               {intl.formatMessage({ id: "eco_partner" })}
             </Link>
           </NavbarMenuItem>
-          <NavbarMenuItem key="4" className="text-default-400">
-            <Link
-              color="foreground"
-              className="text-large py-2"
-              href={getLocalizedUrl("/#perspectives", locale)}
-              onPress={() => setIsMenuOpen(false)}
-            >
-              {intl.formatMessage({ id: "perspectives" })}
-            </Link>
-          </NavbarMenuItem>
+
           <NavbarMenuItem key="5" className="text-default-400">
             {user ? (
               <Link

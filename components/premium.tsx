@@ -142,6 +142,29 @@ export const Premium = () => {
     setPlans(updatedPlans);
   };
 
+  const openLink = (url: string) => {
+    // 创建一个 <a> 标签
+    const a = document.createElement("a");
+
+    // 设置 href 属性为目标链接
+    a.href = url;
+
+    // 设置 target="_blank" 打开新窗口
+    a.target = "_blank";
+
+    // 可选：设置 download 属性（如果需要下载文件）
+    // a.download = 'filename';
+
+    // 将 <a> 标签暂时添加到文档中
+    document.body.appendChild(a);
+
+    // 触发点击事件
+    a.click();
+
+    // 点击后移除 <a> 标签
+    document.body.removeChild(a);
+  };
+
   const createNewOrder = async (
     user: { id: string; email: string; lang: string },
     selectedPayWay: string,
@@ -157,7 +180,7 @@ export const Premium = () => {
       isMobile ? "WAP" : "WEB"
     );
     if (data) {
-      window.open(data);
+      openLink(data);
       document.location.href = getLocalizedUrl("/dashboard", locale); // 跳转到 dashboard
     } else {
       description && toast.error(description);
@@ -166,7 +189,7 @@ export const Premium = () => {
 
   // 点击确认支付时的处理函数
   const handleConfirmPayment = (callback: any) => {
-    window.open(pendingPayUrl); // 打开支付链接
+    openLink(pendingPayUrl);
     callback();
     document.location.href = getLocalizedUrl("/dashboard", locale);
   };
@@ -219,7 +242,7 @@ export const Premium = () => {
   };
 
   const handleContinuePayment = (callback: any) => {
-    window.open(pendingPayUrl); // 打开支付链接
+    openLink(pendingPayUrl);
     callback();
     document.location.href = getLocalizedUrl("/dashboard", locale); // 跳转到 dashboard
   };
