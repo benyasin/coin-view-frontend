@@ -386,7 +386,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={getLocalizedUrl("/#perspectives", locale)}
+                href={getLocalizedUrl("#perspectives", locale)}
               >
                 {intl.formatMessage({ id: "perspectives" })}
               </Link>
@@ -395,7 +395,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={getLocalizedUrl("/#premium", locale)}
+                href={getLocalizedUrl("#premium", locale)}
               >
                 {intl.formatMessage({ id: "upgrade_to_premium" })}
               </Link>
@@ -404,7 +404,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={getLocalizedUrl("/#faq", locale)}
+                href={getLocalizedUrl("#faq", locale)}
               >
                 {intl.formatMessage({ id: "faq" })}
               </Link>
@@ -413,7 +413,7 @@ export const Navbar = () => {
               <Link
                 color="foreground"
                 className="text-large"
-                href={getLocalizedUrl("/#partner", locale)}
+                href={getLocalizedUrl("#partner", locale)}
               >
                 {intl.formatMessage({ id: "eco_partner" })}
               </Link>
@@ -501,7 +501,7 @@ export const Navbar = () => {
             <Link
               color="foreground"
               className="text-large py-2"
-              href={getLocalizedUrl("/#premium", locale)}
+              href={getLocalizedUrl("#premium", locale)}
               onPress={() => {
                 setIsMenuOpen(false);
               }}

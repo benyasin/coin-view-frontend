@@ -63,7 +63,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
   }, [user.id, page, intl]); // 依赖项为这些值
 
   const handleUpgrade = async () => {
-    location.href = getLocalizedUrl("/#premium", intl.locale);
+    location.href = getLocalizedUrl("#premium", intl.locale);
   };
 
   const itemClasses = {
