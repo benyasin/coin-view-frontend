@@ -48,7 +48,6 @@ import basic_plan_dark_en from "@/public/basic_plan_dark_en.png";
 import basic_plan_en from "@/public/basic_plan_en.png";
 import { useTheme } from "next-themes";
 import toast, { Toaster } from "react-hot-toast";
-import { setTime } from "@internationalized/date/src/manipulation";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
