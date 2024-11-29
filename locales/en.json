@@ -283,6 +283,17 @@
   "is_active": "Active",
   "actions": "Actions",
   "close": "Collapse",
-  "open": "Expand"
-
+  "open": "Expand",
+  "invalid_code": "Invalid verification code",
+  "password_too_short": "Password must be at least 6 characters long",
+  "password_mismatch": "New password and confirmation password do not match",
+  "password_same_as_old": "New password cannot be the same as the old password",
+  "password_updated": "Password updated successfully",
+  "verification_code_sent": "A verification code has been sent to your email",
+  "send_verification_code": "Send Email Verification Code",
+  "enter_verification_code": "Enter Verification Code",
+  "new_password": "Enter New Password",
+  "confirm_new_password": "Confirm New Password",
+  "verification_code_already_sent": "Verification code already sent. Please try again later.",
+  "sending_code": "Sending..."
 }

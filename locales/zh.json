@@ -267,7 +267,7 @@
   "trial_only_for_free_member": "仅限首次注册的非会员用户;",
   "trend": "趋势",
   "viewpoint": "观点",
-  "perspectives": "观点",
+  "perspectives": "实时观点",
   "prediction": "预测",
   "recommend_youtubers_desc": "如果你暂时不知道添加哪些优质的YouTube博主，以下是我们根据市场上的用户评价和好评率精心推荐的几位博主，欢迎直接添加到你的订阅列表中。",
   "change_another_batch": "换一批",
@@ -282,6 +282,18 @@
   "revoke": "撤销",
   "actions": "操作",
   "close": "收起",
-  "open": "展开"
+  "open": "展开",
+  "invalid_code": "验证码无效",
+  "password_too_short": "密码长度必须至少为6个字符",
+  "password_mismatch": "新密码和确认密码不匹配",
+  "password_same_as_old": "新密码不能与旧密码相同",
+  "password_updated": "密码已成功更新",
+  "verification_code_sent": "验证码已发送至您的邮箱",
+  "send_verification_code": "发送邮箱验证码",
+  "enter_verification_code": "输入验证码",
+  "new_password": "输入新密码",
+  "confirm_new_password": "确认新密码",
+  "verification_code_already_sent": "验证码已发送。请稍后再试。",
+  "sending_code": "发送中..."
 
 }

@@ -563,6 +563,75 @@ export const deleteYoutuberFromDB = async (
   }
 };
 
+export const sendEmailVerifyCodeToUser = async (user_id: string) => {
+  try {
+    const response = await apiClient.post(`/user/send_email_code/${user_id}`);
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail ||
+        "Failed to send email verify code to user";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while sending email verify code to user"
+      );
+    }
+  }
+};
+
+export const verifyEmailCode = async (user_id: string, email_code: string) => {
+  try {
+    const response = await apiClient.post(
+      `/user/verify_email_code/${user_id}/${email_code}`
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail ||
+        "Failed to send email verify code to user";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while sending email verify code to user"
+      );
+    }
+  }
+};
+
+export const updatePassword = async (
+  user_id: string,
+  email_code: string,
+  password: string
+) => {
+  try {
+    const response = await apiClient.post(
+      `/user/update_password/${user_id}/${email_code}`,
+      password
+    );
+    return response.data; // Return the data from the response
+  } catch (error) {
+    // Check if the error is an Axios error
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.detail ||
+        "Failed to send email verify code to user";
+      throw new Error(errorMessage);
+    } else {
+      // Handle other types of errors (non-Axios errors)
+      throw new Error(
+        "An unexpected error occurred while sending email verify code to user"
+      );
+    }
+  }
+};
+
 export const countYoutubersByUserId = async (user_id: string) => {
   try {
     const response = await apiClient.get(`/user/count_youtubers/${user_id}`);

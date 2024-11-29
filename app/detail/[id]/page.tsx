@@ -303,7 +303,11 @@ const Detail = ({ params }: { params: { id: string } }) => {
                   {intl.formatMessage({ id: video.sentiment })}
                 </Chip>
                 <div className="text-small tracking-tight text-default-500">
-                  {dayjs.utc(video.created_at).tz(userTimeZone).fromNow()}
+                  {dayjs
+                    .utc(video.created_at)
+                    .locale(intl.locale)
+                    .tz(userTimeZone)
+                    .fromNow()}
                 </div>
               </div>
             </CardHeader>

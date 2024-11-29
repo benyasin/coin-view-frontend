@@ -66,11 +66,13 @@ export interface UserInfo {
   id: string;
   username: string;
   email: string;
+  password?: string;
   is_member: boolean;
   is_admin?: boolean;
   telegram_username?: string;
   membership_level: string;
   membership_expiry: string;
+  updated_at: string;
 }
 
 // 类型定义
