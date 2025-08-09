@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://coinview.today
+
+# Sitemaps
+Sitemap: https://coinview.today/sitemap.xml

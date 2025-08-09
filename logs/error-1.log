@@ -1,0 +1,30 @@
+2025-08-09 11:35:22 +08:00: Browserslist: caniuse-lite is outdated. Please run:
+2025-08-09 11:35:22 +08:00:   npx update-browserslist-db@latest
+2025-08-09 11:35:22 +08:00:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-08-09 15:53:58 +08:00: Browserslist: caniuse-lite is outdated. Please run:
+2025-08-09 15:53:58 +08:00:   npx update-browserslist-db@latest
+2025-08-09 15:53:58 +08:00:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-08-09 15:55:05 +08:00:  ⨯ Error: Failed to fetch announcement
+2025-08-09 15:55:05 +08:00:     at $$ACTION_5 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:651:19)
+2025-08-09 15:55:05 +08:00: digest: "148035813"
+2025-08-09 15:55:06 +08:00:  ⨯ Error: Failed to fetch Youtubers
+2025-08-09 15:55:06 +08:00:     at $$ACTION_30 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:1120:19)
+2025-08-09 15:55:06 +08:00: digest: "101603651"
+2025-08-09 15:55:06 +08:00:  ⨯ Error: Failed to fetch Youtubers
+2025-08-09 15:55:06 +08:00:     at $$ACTION_32 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:1152:19)
+2025-08-09 15:55:06 +08:00: digest: "977413700"
+2025-08-09 15:55:07 +08:00:  ⨯ Error: Failed to fetch Youtubers
+2025-08-09 15:55:07 +08:00:     at $$ACTION_31 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:1136:19)
+2025-08-09 15:55:07 +08:00: digest: "660618469"
+2025-08-09 15:55:07 +08:00:  ⨯ Error: Failed to fetch Youtubers
+2025-08-09 15:55:07 +08:00:     at $$ACTION_36 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:1219:19)
+2025-08-09 15:55:07 +08:00: digest: "2206516748"
+2025-08-09 15:55:07 +08:00:  ⨯ Error: Failed to fetch Youtubers
+2025-08-09 15:55:07 +08:00:     at $$ACTION_37 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:1235:19)
+2025-08-09 15:55:07 +08:00: digest: "1085023459"
+2025-08-09 16:25:11 +08:00:  ⨯ Error: Failed to fetch announcement
+2025-08-09 16:25:11 +08:00:     at $$ACTION_5 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:651:19)
+2025-08-09 16:25:11 +08:00: digest: "148035813"
+2025-08-09 16:26:44 +08:00:  ⨯ Error: Failed to fetch announcement
+2025-08-09 16:26:44 +08:00:     at $$ACTION_5 (/Users/ben/Trae/coin-view-frontend/.next/server/chunks/ssr/_fa3cbb._.js:651:19)
+2025-08-09 16:26:44 +08:00: digest: "148035813"
