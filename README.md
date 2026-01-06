@@ -2,6 +2,12 @@
 
 基于 Next.js 14 与 NextUI 的加密资讯前台应用。聚合后端提供的“视频→摘要/情感→个性化推荐”数据，为用户提供高效的信息摄入体验。
 
+
+<img width="1228" height="1229" alt="coinview-home" src="https://github.com/user-attachments/assets/57df304f-a466-4757-84a6-36f46460ff84" />
+
+<img width="1214" height="1120" alt="features_dark" src="https://github.com/user-attachments/assets/117c3bc6-477c-4c75-be35-4fa92fd059ed" />
+
+
 ## 技术栈
 - Next.js 14（`app` 目录，SSR/CSR 混合渲染）
 - TypeScript、TailwindCSS、NextUI v2
